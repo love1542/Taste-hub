@@ -1,4 +1,4 @@
-export const Palette = {
+export const PaletteColors = {
   // Brand
   appFFF4ED: '#FFF4ED',
   appFFE4D5: '#FFE4D5',
@@ -27,3 +27,5 @@ export const Palette = {
   appEF4444: '#EF4444',
   appF59E0B: '#F59E0B',
 } as const;
+
+export type palleteColorsType = typeof PaletteColors

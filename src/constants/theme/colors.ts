@@ -1,46 +1,45 @@
-import { Palette } from './palette';
-
+import { PaletteColors } from "./paletteColors";
 
 export const LightColors = {
   // Brand
-  primary: Palette.appFF6B35,
-  primaryDark: Palette.appF35B24,
-  primaryLight: Palette.appFFB88A,
+  primary: PaletteColors.appFF6B35,
+  primaryDark: PaletteColors.appF35B24,
+  primaryLight: PaletteColors.appFFB88A,
 
   // Background
-  background: Palette.white,
-  surface: Palette.appFAFAFA,
-  card: Palette.white,
+  background: PaletteColors.white,
+  surface: PaletteColors.appFAFAFA,
+  card: PaletteColors.white,
 
   // Text
-  textPrimary: Palette.app171717,
-  textSecondary: Palette.app525252,
-  textMuted: Palette.app737373,
-  textInverse: Palette.white,
+  textPrimary: PaletteColors.app171717,
+  textSecondary: PaletteColors.app525252,
+  textMuted: PaletteColors.app737373,
+  textInverse: PaletteColors.white,
 
   // Borders
-  border: Palette.appE5E5E5,
-  divider: Palette.appF5F5F5,
+  border: PaletteColors.appE5E5E5,
+  divider: PaletteColors.appF5F5F5,
 
   // Components
-  searchBackground: Palette.appFAFAFA,
-  categoryBackground: Palette.appFFF4ED,
-  promoBanner: Palette.appFFE4D5,
+  searchBackground: PaletteColors.appFAFAFA,
+  categoryBackground: PaletteColors.appFFF4ED,
+  promoBanner: PaletteColors.appFFE4D5,
 
   // Buttons
-  buttonPrimary: Palette.appFF6B35,
-  buttonSecondary: Palette.appFFF4ED,
-  buttonDisabled: Palette.appD4D4D4,
+  buttonPrimary: PaletteColors.appFF6B35,
+  buttonSecondary: PaletteColors.appFFF4ED,
+  buttonDisabled: PaletteColors.appD4D4D4,
 
   // Status
-  success: Palette.app22C55E,
-  error: Palette.appEF4444,
-  warning: Palette.appF59E0B,
+  success: PaletteColors.app22C55E,
+  error: PaletteColors.appEF4444,
+  warning: PaletteColors.appF59E0B,
 
   // Food App UI
-  ratingStar: Palette.appF59E0B,
-  favoriteHeart: Palette.appEF4444,
-  priceTag: Palette.app22C55E,
+  ratingStar: PaletteColors.appF59E0B,
+  favoriteHeart: PaletteColors.appEF4444,
+  priceTag: PaletteColors.app22C55E,
 
   overlay: 'rgba(0,0,0,0.4)',
 } as const;
@@ -48,44 +47,44 @@ export const LightColors = {
 
 export const DarkColors = {
   // Brand
-  primary: Palette.appFF6B35,
-  primaryDark: Palette.appF35B24,
-  primaryLight: Palette.appFFB88A,
+  primary: PaletteColors.appFF6B35,
+  primaryDark: PaletteColors.appF35B24,
+  primaryLight: PaletteColors.appFFB88A,
 
   // Background
-  background: Palette.app171717,
-  surface: Palette.app262626,
-  card: Palette.app404040,
+  background: PaletteColors.app171717,
+  surface: PaletteColors.app262626,
+  card: PaletteColors.app404040,
 
   // Text
-  textPrimary: Palette.white,
-  textSecondary: Palette.appD4D4D4,
-  textMuted: Palette.appA3A3A3,
-  textInverse: Palette.black,
+  textPrimary: PaletteColors.white,
+  textSecondary: PaletteColors.appD4D4D4,
+  textMuted: PaletteColors.appA3A3A3,
+  textInverse: PaletteColors.black,
 
   // Borders
-  border: Palette.app404040,
-  divider: Palette.app262626,
+  border: PaletteColors.app404040,
+  divider: PaletteColors.app262626,
 
   // Components
-  searchBackground: Palette.app262626,
-  categoryBackground: Palette.app404040,
-  promoBanner: Palette.app262626,
+  searchBackground: PaletteColors.app262626,
+  categoryBackground: PaletteColors.app404040,
+  promoBanner: PaletteColors.app262626,
 
   // Buttons
-  buttonPrimary: Palette.appFF6B35,
-  buttonSecondary: Palette.app404040,
-  buttonDisabled: Palette.app525252,
+  buttonPrimary: PaletteColors.appFF6B35,
+  buttonSecondary: PaletteColors.app404040,
+  buttonDisabled: PaletteColors.app525252,
 
   // Status
-  success: Palette.app22C55E,
-  error: Palette.appEF4444,
-  warning: Palette.appF59E0B,
+  success: PaletteColors.app22C55E,
+  error: PaletteColors.appEF4444,
+  warning: PaletteColors.appF59E0B,
 
   // Food App UI
-  ratingStar: Palette.appF59E0B,
-  favoriteHeart: Palette.appEF4444,
-  priceTag: Palette.app22C55E,
+  ratingStar: PaletteColors.appF59E0B,
+  favoriteHeart: PaletteColors.appEF4444,
+  priceTag: PaletteColors.app22C55E,
 
   overlay: 'rgba(255,255,255,0.1)',
 } as const;

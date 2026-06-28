@@ -1,17 +1,13 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
+import { authRoutes, rootRoutes } from '../constants/appConstants';
 
 export type AuthStackParamList = {
-  login: undefined;
+  [authRoutes.login]: undefined;
 };
 
 export type RootStackParamList = {
-  splash: undefined;
-  auth: NavigatorScreenParams<AuthStackParamList>;
+  [rootRoutes.splash]: undefined;
+  [rootRoutes.auth]: NavigatorScreenParams<AuthStackParamList>;
 };
 
-// This registers your root types globally with React Navigation
-declare global {
-  namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
-  }
-}
+

@@ -1,28 +1,28 @@
 import { LightColors, DarkColors } from './colors';
-import { Sizes } from './sizes';
-import { Spacing } from './spacing';
+import { LayoutScale, LayoutScaleType } from './layoutScales';
+import { PaletteColors, palleteColorsType } from './paletteColors';
 
 
 export interface ThemeType {
+  paletteColors: palleteColorsType,
   readonly colors: {
     readonly [key in keyof typeof LightColors]: string;
   };
-  readonly Spacing: typeof Spacing;
-  readonly Sizes: typeof Sizes;
+  scale: LayoutScaleType;
 }
 
 
 export const Themes = {
   light: {
+    paletteColors: PaletteColors,
     colors: LightColors,
-    Spacing: Spacing,
-    Sizes: Sizes
+    scale: LayoutScale,
   }as ThemeType,
 
   dark: {
+    paletteColors: PaletteColors,
     colors: DarkColors,
-    Spacing: Spacing,
-    Sizes: Sizes
+    scale: LayoutScale
   }as ThemeType,
 };
 
