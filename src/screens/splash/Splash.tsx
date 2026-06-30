@@ -22,7 +22,7 @@ const Splash = () => {
 
     const bootApp = async () => {
       const showOnboarding = await storageService.get(STORAGE_KEYS.showOnboarding)
-      
+
       timer = setTimeout(()=>{
         if (showOnboarding == true || showOnboarding == null) {
           navigation.replace(rootRoutes.onBoarding)

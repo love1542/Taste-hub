@@ -7,15 +7,24 @@ import OnBoardingForground from './components/OnBoardingForground'
 import { onBoardingData } from './onBoardingdata'
 import { width } from '../../constants/theme'
 import PagingIndicator from '../../components/pagingIndicator/PagingIndicator'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { RootStackParamList } from '../../navigation/type'
+import { STORAGE_KEYS, storageService } from '../../services/storageService'
 
+type OnBoardingNavagationProps = NativeStackNavigationProp<
+  RootStackParamList,
+  'onBoarding'
+>
 
 const OnBoarding = () => {
+  const navigation = useNavigation<OnBoardingNavagationProps>()
   const [currentIndex, setCurrentIndex] = useState(0);
   const styles = useOnBoardingStyles()
 
   const flatListRef = useRef<FlatList<any> | null>(null);
 
-  const nextTap = () => {
+  const nextTap = async () => {
     if (currentIndex < onBoardingData.length - 1) {
       const nextIndex = currentIndex + 1
       setCurrentIndex(nextIndex)
@@ -25,7 +34,11 @@ const OnBoarding = () => {
         animated: true
       })
     } else {
-      console.log("last screen")
+      storageService.set(STORAGE_KEYS.showOnboarding, false)
+
+      navigation.replace('auth', {
+        screen: 'login'
+      })
     }
   }
 
@@ -42,7 +55,7 @@ const OnBoarding = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.flatListContent}
         renderItem={({ item }) => (
-          <View style={[styles.page, { width }]}>            
+          <View style={[styles.page, { width }]}>
             <View style={styles.bg}>
               <OnBoardingBackground image={item.bgImage} />
             </View>
