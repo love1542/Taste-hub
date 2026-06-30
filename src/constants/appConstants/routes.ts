@@ -1,6 +1,9 @@
+import onBoarding from "../../screens/onboarding/OnBoarding"
+
 export const rootRoutes = {
     splash: 'splash',
-    auth: 'auth'
+    auth: 'auth',
+    onBoarding: 'onBoarding'
 } as const
 
 export const authRoutes = {

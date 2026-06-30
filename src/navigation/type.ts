@@ -1,4 +1,4 @@
-import { NavigatorScreenParams } from '@react-navigation/native';
+import { NavigatorScreenParams, TabRouter } from '@react-navigation/native';
 import { authRoutes, rootRoutes } from '../constants/appConstants';
 
 export type AuthStackParamList = {
@@ -7,6 +7,7 @@ export type AuthStackParamList = {
 
 export type RootStackParamList = {
   [rootRoutes.splash]: undefined;
+  [rootRoutes.onBoarding]: undefined
   [rootRoutes.auth]: NavigatorScreenParams<AuthStackParamList>;
 };
 

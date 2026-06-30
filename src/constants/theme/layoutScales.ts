@@ -1,3 +1,5 @@
+import { Dimensions } from "react-native";
+
 export const LayoutScale = {
   // --- MICRO SPACING (Tight element gaps, borders, badges) ---
   /** 2px - Micro padding, small borders, tight dividers */
@@ -18,6 +20,9 @@ export const LayoutScale = {
   ml_20: 20,
   /** 24px - Large outer container layout margins, main header spacing */
   lg_24: 24,
+
+   /** 18px - extra Large outer container layout margins, main header spacing, radius */
+  xl_18: 18,
 
   // --- MACRO SPACING (Sections, layout grids, screen gaps) ---
   /** 32px - Large structural component gaps, section headers */
@@ -56,8 +61,10 @@ export const LayoutScale = {
   avatarMD_56: 56,
   /** 96px - High-focus edit profile view display avatars */
   avatarLG_96: 96,
-  /** 120px - High-focus splash imagery banner configurations */
-  bannerSM_120: 120,
+  /** 100px - High-focus splash imagery banner configurations */
+  bannerSM_100: 100,
 } as const;
 
 export type LayoutScaleType = typeof LayoutScale;
+
+export const { width, height } = Dimensions.get('window');
