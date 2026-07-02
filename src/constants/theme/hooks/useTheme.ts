@@ -8,6 +8,7 @@ export const useTheme =()=> {
         palletteColors: context.theme.paletteColors,
         color: context.theme.colors,
         scale: context.theme.scale,
+        typography: context.theme.typography,
         mode: context.mode,
         toggleTheme: context.toggleTheme,
     }), [context]);

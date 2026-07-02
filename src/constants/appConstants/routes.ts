@@ -8,7 +8,10 @@ export const rootRoutes = {
 
 export const authRoutes = {
     home: 'home',
-    login: 'login'
+    login: 'login',
+    signup: 'signup',
+    welcome: 'welcome',
+    forgotPassword: 'forgotPassword'
 } as const
 
 export const appRoutes = {

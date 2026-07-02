@@ -1,16 +1,41 @@
+import { TextStyle } from 'react-native';
+import { PaletteColors } from './paletteColors';
+import { width } from './layoutScales';
+
 export const Typography = {
-  display: 36,
 
-  h1: 30,
-  h2: 24,
-  h3: 20,
+  heading: {
+    fontSize: 32,
+    lineHeight: 40,
+    fontWeight: '700',
+  },
 
-  title: 18,
+  subHeading: {
+    fontSize: 24,
+    lineHeight: 32,
+    fontWeight: '600',
+  },
 
-  body: 16,
-  bodySmall: 14,
+  title: {
+    fontSize: 18,
+    lineHeight: 26,
+    fontWeight: '600',
+    textAlign: 'center'
+  },
 
-  caption: 12,
+  subtitle: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '500',
+    textAlign: 'center'
+  },
 
-  button: 16,
-};
+  borderLine: {
+   height: 1,
+   width: width - 48,
+  backgroundColor: PaletteColors.app737373,
+  }
+
+} as const ;
+
+export type TypographyType = typeof Typography;

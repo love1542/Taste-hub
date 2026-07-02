@@ -1,12 +1,12 @@
 import { View, Text, Image } from 'react-native'
 import React, { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import CenterIcon from './components/CenterIcon'
 import { useSplashStyles } from './splash.style'
 import { authRoutes, rootRoutes } from '../../constants/appConstants'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../navigation/type'
 import { STORAGE_KEYS, storageService } from '../../services/storageService'
+import AppIcon from '../../components/AppIcon'
 
 type SplashNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -28,7 +28,7 @@ const Splash = () => {
           navigation.replace(rootRoutes.onBoarding)
         }else {
           navigation.replace(rootRoutes.auth,{
-            screen: authRoutes.login
+            screen: authRoutes.welcome
           })
         }
       },2000)
@@ -43,7 +43,7 @@ const Splash = () => {
     return (
         <View style={styles.container}>
             <Image source={require('../../../assets/splash/splash_bg.png')} style={styles.bg} />
-            <CenterIcon/>
+            <AppIcon/>
             <Text style={styles.heading}>TasteHub</Text>
             <Text style={styles.title}>Food that finds you</Text>
         </View>

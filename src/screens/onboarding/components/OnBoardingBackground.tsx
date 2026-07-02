@@ -1,17 +1,19 @@
 import { View, ImageSourcePropType, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import LinearGradient from 'react-native-linear-gradient'
+import { useTheme } from '../../../constants/theme'
 
 export type OnBoardingBackgroundType = {
   image: ImageSourcePropType
 }
 
 const OnBoardingBackground = ({ image }: OnBoardingBackgroundType) => {
+  const {palletteColors} = useTheme()
   return (
     <View style={styles.container}>
       <Image source={image} style={styles.absoluteFill} />
       <LinearGradient 
-        colors={['transparent', 'rgba(0,0,0,0.8)']} 
+        colors={['transparent', palletteColors.black]} 
         style={styles.absoluteFill} 
       />
     </View>

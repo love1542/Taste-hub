@@ -1,88 +1,137 @@
-import { Text, ImageSourcePropType, TouchableOpacity, Image, StyleSheet, StyleProp, ImageStyle, TextStyle, ViewStyle } from 'react-native'
 import React from 'react'
+import {
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  StyleProp,
+  TextStyle,
+  ViewStyle,
+  ImageSourcePropType,
+  View,
+} from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
 import { useTheme } from '../constants/theme'
-import { LinearGradient } from 'react-native-linear-gradient'
 
 export type LeftIconWithTextButtonProps = {
-    icon?: ImageSourcePropType
-    text?: string
-    onPress?: () => void
-    disabled?: boolean
-    colors?: string[]
+  leftIcon?: React.ReactNode
 
-    style?: StyleProp<ViewStyle>
-    textStyle?: StyleProp<TextStyle>
-    iconStyle?: StyleProp<ImageStyle>
+  imageIcon?: ImageSourcePropType
+
+  text?: string
+  onPress?: () => void
+  disabled?: boolean
+  colors?: string[]
+
+  style?: StyleProp<ViewStyle>
+  textStyle?: StyleProp<TextStyle>
 }
 
 const LeftIconWithTextButton = ({
-    icon,
-    text,
-    onPress,
-    disabled = false,
-    style,
-    textStyle,
-    iconStyle,
-    colors = ['#ffffff', '#ffffff'],
+  leftIcon,
+  imageIcon,
+  text,
+  onPress,
+  disabled = false,
+  style,
+  textStyle,
+  colors = ['#ffffff', '#ffffff'],
 }: LeftIconWithTextButtonProps) => {
+  const styles = useButtonStyles()
 
-    const styles = useButtonStyles()
-    
-    return (
-        <TouchableOpacity 
-            onPress={onPress} 
-            style={[styles.container, style, disabled ? styles.disabled : null]} 
-            disabled={disabled}
-        >
-            <LinearGradient
-                colors={colors}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}  
-                style={[StyleSheet.absoluteFill, styles.gradientRadius]}
-            />
+  return (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={onPress}
+      disabled={disabled}
+      style={[
+        styles.container,
+        style,
+        disabled && styles.disabled,
+      ]}
+    >
+      <LinearGradient
+        colors={colors}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={[StyleSheet.absoluteFill, styles.gradient]}
+      />
 
-            {icon && <Image source={icon} style={[styles.icon, iconStyle]} />}
-            {text && <Text style={[styles.text, textStyle]}>{text}</Text>}
-        </TouchableOpacity>
-    )
+      {leftIcon && (
+        <View style={styles.iconWrapper}>
+          {leftIcon}
+        </View>
+      )}
+
+      {!leftIcon && imageIcon && (
+        <Image
+          source={imageIcon}
+          style={styles.imageIcon}
+        />
+      )}
+
+      {text && (
+        <Text style={[styles.text, textStyle]}>
+          {text}
+        </Text>
+      )}
+    </TouchableOpacity>
+  )
 }
 
 export default LeftIconWithTextButton
 
 const useButtonStyles = () => {
-    const { color, scale } = useTheme()
-    return StyleSheet.create({
-        container: {
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: scale.iconSM_16,
-            padding: scale.iconSM_16,
-            alignSelf: 'flex-start',
-            shadowColor: '#000000',
-            shadowOpacity: 0.25,
-            shadowOffset: {
-                width: 0,
-                height: 8,
-            },
-            shadowRadius: 8,
-            elevation: 5,
-        },
-        gradientRadius: {
-            borderRadius: scale.iconSM_16, 
-        },
-        icon: {
-            width: 20,
-            height: 20,
-            zIndex: 1, 
-        },
-        text: {
-            color: color.textPrimary,
-            fontSize: scale.lg_24,
-            zIndex: 1, 
-        },
-        disabled: {
-            opacity: 0.5,
-        },
-    })
+  const { color, scale } = useTheme()
+
+  return StyleSheet.create({
+    container: {
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+
+      paddingVertical: scale.ms_12,
+      paddingHorizontal: scale.xl_18,
+
+      borderRadius: scale.iconSM_16,
+
+      shadowColor: '#000',
+      shadowOpacity: 0.2,
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowRadius: 6,
+      elevation: 4,
+    },
+
+    gradient: {
+      borderRadius: scale.iconSM_16,
+    },
+
+    iconWrapper: {
+      marginRight: scale.sm_8,
+      zIndex: 1,
+    },
+
+    imageIcon: {
+      width: 20,
+      height: 20,
+      marginRight: scale.sm_8,
+      zIndex: 1,
+      resizeMode: 'contain',
+    },
+
+    text: {
+      color: color.textPrimary,
+      fontSize: scale.md_16,
+      fontWeight: '600',
+      zIndex: 1,
+    },
+
+    disabled: {
+      opacity: 0.5,
+    },
+  })
 }

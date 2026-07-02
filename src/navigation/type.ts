@@ -3,6 +3,9 @@ import { authRoutes, rootRoutes } from '../constants/appConstants';
 
 export type AuthStackParamList = {
   [authRoutes.login]: undefined;
+  [authRoutes.welcome]: undefined;
+  [authRoutes.signup]: undefined;
+  [authRoutes.forgotPassword]: undefined;
 };
 
 export type RootStackParamList = {

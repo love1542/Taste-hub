@@ -1,6 +1,7 @@
 import { LightColors, DarkColors } from './colors';
 import { LayoutScale, LayoutScaleType } from './layoutScales';
 import { PaletteColors, palleteColorsType } from './paletteColors';
+import { Typography, TypographyType } from './typography';
 
 
 export interface ThemeType {
@@ -9,6 +10,7 @@ export interface ThemeType {
     readonly [key in keyof typeof LightColors]: string;
   };
   scale: LayoutScaleType;
+  typography: TypographyType;
 }
 
 
@@ -17,12 +19,14 @@ export const Themes = {
     paletteColors: PaletteColors,
     colors: LightColors,
     scale: LayoutScale,
+    typography: Typography
   }as ThemeType,
 
   dark: {
     paletteColors: PaletteColors,
     colors: DarkColors,
-    scale: LayoutScale
+    scale: LayoutScale,
+    typography: Typography
   }as ThemeType,
 };
 

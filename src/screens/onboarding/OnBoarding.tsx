@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, FlatList } from 'react-native'
 import React, { useRef, useState } from 'react'
 import OnBoardingBackground from './components/OnBoardingBackground'
 import { useOnBoardingStyles } from './onBoarding.styles'
@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../navigation/type'
 import { STORAGE_KEYS, storageService } from '../../services/storageService'
+import { authRoutes } from '../../constants/appConstants'
 
 type OnBoardingNavagationProps = NativeStackNavigationProp<
   RootStackParamList,
@@ -37,7 +38,7 @@ const OnBoarding = () => {
       storageService.set(STORAGE_KEYS.showOnboarding, false)
 
       navigation.replace('auth', {
-        screen: 'login'
+        screen: authRoutes.welcome
       })
     }
   }
