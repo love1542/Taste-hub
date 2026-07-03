@@ -57,6 +57,7 @@ const LeftIconWithTextButton = ({
         style={[StyleSheet.absoluteFill, styles.gradient]}
       />
 
+      
       {leftIcon && (
         <View style={styles.iconWrapper}>
           {leftIcon}
@@ -86,10 +87,9 @@ const useButtonStyles = () => {
 
   return StyleSheet.create({
     container: {
-      width: '100%',
       flexDirection: 'row',
-      alignItems: 'center',
       justifyContent: 'center',
+      alignItems: 'center',
 
       paddingVertical: scale.ms_12,
       paddingHorizontal: scale.xl_18,
@@ -100,7 +100,7 @@ const useButtonStyles = () => {
       shadowOpacity: 0.2,
       shadowOffset: {
         width: 0,
-        height: 4,
+        height: 2,
       },
       shadowRadius: 6,
       elevation: 4,

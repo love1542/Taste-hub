@@ -2,19 +2,33 @@ import { View, StyleSheet } from 'react-native'
 import React from 'react'
 import LeftIconWithTextButton from '../../../components/LeftIconWithTextButton'
 import { Phone, Mail } from 'lucide-react-native'
+import { LayoutScaleType, palleteColorsType, TypographyType, useTheme } from '../../../constants/theme'
 
-const EmailPhoneLoginBtn = () => {
+
+type EmailPhoneLoginBtnProps = {
+  phoneOnPress?: () => void
+  emailOnPress?: () => void
+}
+const EmailPhoneLoginBtn = ({ phoneOnPress, emailOnPress }: EmailPhoneLoginBtnProps) => {
+  const { palletteColors, scale, typography } = useTheme()
+  const styles = emailPhoneLoginBtnStyles(palletteColors, scale, typography)
   return (
     <View style={styles.container}>
       <LeftIconWithTextButton
-        leftIcon={<Phone size={20} color="#000" />}
+        leftIcon={<Phone size={20} color={palletteColors.white} />}
         text="Continue with Phone"
         style={styles.button}
+        colors={[palletteColors.appEF4444, palletteColors.appFF6B35]}
+        textStyle={styles.phoneText}
+        onPress={phoneOnPress}
       />
       <LeftIconWithTextButton
-        leftIcon={<Mail size={20} color="#000" />}
+        leftIcon={<Mail size={20} color={palletteColors.black} />}
         text="Continue with Email"
         style={styles.button}
+        colors={[palletteColors.white, palletteColors.appD4D4D4]}
+        textStyle={styles.emailText}
+        onPress={emailOnPress}
       />
     </View>
   )
@@ -22,12 +36,24 @@ const EmailPhoneLoginBtn = () => {
 
 export default EmailPhoneLoginBtn
 
-const styles = StyleSheet.create({
+const emailPhoneLoginBtnStyles =  ( colors: palleteColorsType, scale: LayoutScaleType, typography: TypographyType) => {
+  return StyleSheet.create({
   container: {
-    gap: 12,
-    width: '100%',
+    gap: scale.ms_12,
+    width: '90%',
   },
   button: {
-    marginBottom: 12,
+    width: '100%',
+    marginBottom: scale.ms_12,
   },
+  phoneText:{
+    ...typography.title,
+    color: colors.white,
+  }, 
+  emailText:{
+    ...typography.subtitle,
+    color: colors.black
+  }
 })
+
+}

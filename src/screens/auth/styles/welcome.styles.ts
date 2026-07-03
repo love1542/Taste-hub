@@ -4,7 +4,7 @@ import { LayoutScaleType, palleteColorsType, TypographyType } from "../../../con
 export const useWelcomeStyles = (scale: LayoutScaleType, palette: palleteColorsType, typography: TypographyType) => {
     return (
         StyleSheet.create({
-            container:{
+            container: {
                 flex: 1,
                 alignItems: 'center',
                 padding: scale.lg_24,
@@ -12,19 +12,75 @@ export const useWelcomeStyles = (scale: LayoutScaleType, palette: palleteColorsT
             },
             logoContainer:{
                 alignItems: 'center',
-                gap: scale.ms_12
+                gap: scale.iconLG_32,
             },
-            centerWrapper:{
-            alignItems: 'center',
-            gap: scale.ml_20,
+            titles: {
+                alignItems: 'center',
+                gap: scale.ms_12,
+                width: '100%'
             },
-            loginView:{
+            subtitleText: {
+                paddingHorizontal: scale.lg_24,
+                color: palette.app404040,
+            },
+            centerWrapper: {
                 flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: scale.ml_20,
+                width: '100%',
+            },
+            socialLoginsWrapper: {
+                gap: scale.ml_20,
+                alignItems: 'center',
+                width: '100%',
+                paddingTop: scale.lg_24,
+            },
+            orText: {
+                fontSize: 14,
+                lineHeight: 20,
+                color: palette.app737373,
+                textAlign: 'center',
+                marginBottom: scale.sm_8,
+            },
+            divider: {
+                marginBottom: scale.ms_12,
+            },
+            loginRow: {
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: scale.sm_8,
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+            },
+            loginText: {
+                fontSize: 15,
+                lineHeight: 22,
+                color: palette.app404040,
+            },
+            loginLink: {
+                fontWeight: '600',
+                color: palette.appF35B24,
+            },
+            footerText: {
+                fontSize: 13,
+                lineHeight: 20,
+                color: palette.app525252,
+                textAlign: 'center',
+                paddingHorizontal: scale.lg_24,
+                letterSpacing: 0.2,
+
+            },
+            linkText: {
+                color: palette.appF35B24,
+                fontWeight: '500'
+            },
+            loginView: {
                 justifyContent: 'flex-end',
                 gap: scale.ms_12,
                 alignItems: 'center',
             },
-            
+
         })
     )
 }
