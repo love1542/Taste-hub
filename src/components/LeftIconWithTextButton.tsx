@@ -15,6 +15,7 @@ import { useTheme } from '../constants/theme'
 
 export type LeftIconWithTextButtonProps = {
   leftIcon?: React.ReactNode
+  rightIcon?: React.ReactNode
 
   imageIcon?: ImageSourcePropType
 
@@ -29,6 +30,7 @@ export type LeftIconWithTextButtonProps = {
 
 const LeftIconWithTextButton = ({
   leftIcon,
+  rightIcon,
   imageIcon,
   text,
   onPress,
@@ -76,6 +78,13 @@ const LeftIconWithTextButton = ({
           {text}
         </Text>
       )}
+
+      {rightIcon && (
+        <View style={styles.iconWrapper}>
+          {rightIcon}
+        </View>
+      )
+      }
     </TouchableOpacity>
   )
 }

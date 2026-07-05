@@ -2,8 +2,8 @@ import { PaletteColors } from "./paletteColors";
 
 export const LightColors = {
   // Brand
-  primary: PaletteColors.appFF6B35,
-  primaryDark: PaletteColors.appF35B24,
+  primary: PaletteColors.appPrimary,
+  primaryDark: PaletteColors.appPrimary2,
   primaryLight: PaletteColors.appFFB88A,
 
   // Background
@@ -27,7 +27,7 @@ export const LightColors = {
   promoBanner: PaletteColors.appFFE4D5,
 
   // Buttons
-  buttonPrimary: PaletteColors.appFF6B35,
+  buttonPrimary: PaletteColors.appPrimary,
   buttonSecondary: PaletteColors.appFFF4ED,
   buttonDisabled: PaletteColors.appD4D4D4,
 
@@ -47,8 +47,8 @@ export const LightColors = {
 
 export const DarkColors = {
   // Brand
-  primary: PaletteColors.appFF6B35,
-  primaryDark: PaletteColors.appF35B24,
+  primary: PaletteColors.appPrimary,
+  primaryDark: PaletteColors.appPrimary2,
   primaryLight: PaletteColors.appFFB88A,
 
   // Background
@@ -72,7 +72,7 @@ export const DarkColors = {
   promoBanner: PaletteColors.app262626,
 
   // Buttons
-  buttonPrimary: PaletteColors.appFF6B35,
+  buttonPrimary: PaletteColors.appPrimary,
   buttonSecondary: PaletteColors.app404040,
   buttonDisabled: PaletteColors.app525252,
 

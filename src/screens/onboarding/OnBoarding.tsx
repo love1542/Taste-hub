@@ -78,7 +78,7 @@ const OnBoarding = () => {
 
         <LeftIconWithTextButton
           onPress={nextTap}
-          icon={require('../../../assets/icons/rightArrow.png')}
+          leftIcon={require('../../../assets/icons/rightArrow.png')}
           style={styles.nextButtonStyle}
         />
       </View>

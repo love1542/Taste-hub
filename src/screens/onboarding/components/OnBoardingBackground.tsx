@@ -5,15 +5,16 @@ import { useTheme } from '../../../constants/theme'
 
 export type OnBoardingBackgroundType = {
   image: ImageSourcePropType
+  overlayColor?: string
 }
 
-const OnBoardingBackground = ({ image }: OnBoardingBackgroundType) => {
+const OnBoardingBackground = ({ image, overlayColor }: OnBoardingBackgroundType) => {
   const {palletteColors} = useTheme()
   return (
     <View style={styles.container}>
       <Image source={image} style={styles.absoluteFill} />
       <LinearGradient 
-        colors={['transparent', palletteColors.black]} 
+        colors={['transparent', overlayColor || palletteColors.black]} 
         style={styles.absoluteFill} 
       />
     </View>

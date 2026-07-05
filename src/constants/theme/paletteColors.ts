@@ -3,9 +3,8 @@ export const PaletteColors = {
   appFFF4ED: '#FFF4ED',
   appFFE4D5: '#FFE4D5',
   appFFB88A: '#FFB88A',
-  appFF6B35: '#FF6B35',
-  appF35B24: '#F35B24',
-  appD9480F: '#D9480F',
+  appPrimary2: '#D9480F',
+  appPrimary: '#FF6B35',
 
   // Neutrals
   white: '#FFFFFF',

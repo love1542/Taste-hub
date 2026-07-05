@@ -10,18 +10,31 @@ export const useWelcomeStyles = (scale: LayoutScaleType, palette: palleteColorsT
                 padding: scale.lg_24,
                 gap: scale.ml_20
             },
-            logoContainer:{
+            bg: {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0
+            },
+            logoContainer: {
                 alignItems: 'center',
-                gap: scale.iconLG_32,
+                gap: scale.xsm_6,
+                marginTop: scale.massive_64,
+            },
+            name: {
+                flexDirection: 'row',
+                alignSelf: 'center',
+                gap: scale.sm_8,
             },
             titles: {
                 alignItems: 'center',
-                gap: scale.ms_12,
                 width: '100%'
             },
             subtitleText: {
-                paddingHorizontal: scale.lg_24,
-                color: palette.app404040,
+                paddingHorizontal: scale.ml_20,
+                color: palette.black,
+                textAlign: 'center'
             },
             centerWrapper: {
                 flex: 1,
@@ -39,7 +52,7 @@ export const useWelcomeStyles = (scale: LayoutScaleType, palette: palleteColorsT
             orText: {
                 fontSize: 14,
                 lineHeight: 20,
-                color: palette.app737373,
+                color: palette.black,
                 textAlign: 'center',
                 marginBottom: scale.sm_8,
             },
@@ -60,19 +73,19 @@ export const useWelcomeStyles = (scale: LayoutScaleType, palette: palleteColorsT
             },
             loginLink: {
                 fontWeight: '600',
-                color: palette.appF35B24,
+                color: palette.appPrimary,
             },
             footerText: {
                 fontSize: 13,
                 lineHeight: 20,
-                color: palette.app525252,
+                color: palette.black,
                 textAlign: 'center',
                 paddingHorizontal: scale.lg_24,
                 letterSpacing: 0.2,
 
             },
             linkText: {
-                color: palette.appF35B24,
+                color: palette.appPrimary,
                 fontWeight: '500'
             },
             loginView: {

@@ -1,7 +1,7 @@
 import { View, StyleSheet } from 'react-native'
 import React from 'react'
 import LeftIconWithTextButton from '../../../components/LeftIconWithTextButton'
-import { Phone, Mail } from 'lucide-react-native'
+import { Phone, Mail, ChevronRight } from 'lucide-react-native'
 import { LayoutScaleType, palleteColorsType, TypographyType, useTheme } from '../../../constants/theme'
 
 
@@ -16,14 +16,16 @@ const EmailPhoneLoginBtn = ({ phoneOnPress, emailOnPress }: EmailPhoneLoginBtnPr
     <View style={styles.container}>
       <LeftIconWithTextButton
         leftIcon={<Phone size={20} color={palletteColors.white} />}
+        rightIcon={<ChevronRight size={20} color={palletteColors.white} />}
         text="Continue with Phone"
         style={styles.button}
-        colors={[palletteColors.appEF4444, palletteColors.appFF6B35]}
+        colors={[palletteColors.appEF4444, palletteColors.appPrimary]}
         textStyle={styles.phoneText}
         onPress={phoneOnPress}
       />
       <LeftIconWithTextButton
         leftIcon={<Mail size={20} color={palletteColors.black} />}
+        rightIcon={<ChevronRight size={20} color={palletteColors.black} />}
         text="Continue with Email"
         style={styles.button}
         colors={[palletteColors.white, palletteColors.appD4D4D4]}
@@ -43,8 +45,10 @@ const emailPhoneLoginBtnStyles =  ( colors: palleteColorsType, scale: LayoutScal
     width: '90%',
   },
   button: {
-    width: '100%',
+    width: '90%',
     marginBottom: scale.ms_12,
+    justifyContent: 'space-between',
+    paddingRight: scale.sm_8,
   },
   phoneText:{
     ...typography.title,

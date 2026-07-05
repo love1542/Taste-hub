@@ -8,32 +8,47 @@ export const Typography = {
     fontSize: 32,
     lineHeight: 40,
     fontWeight: '700',
+    fontFamily: 'Inter-Bold',
   },
 
   subHeading: {
     fontSize: 24,
     lineHeight: 32,
     fontWeight: '600',
+    fontFamily: 'Inter-SemiBold',
   },
 
   title: {
     fontSize: 18,
     lineHeight: 26,
     fontWeight: '600',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Inter-SemiBold',
   },
 
   subtitle: {
     fontSize: 16,
     lineHeight: 24,
     fontWeight: '500',
-    textAlign: 'center'
+    fontFamily: 'Inter-Medium',
   },
 
   borderLine: {
    height: 1,
-   width: width - 48,
+   width: '100%',
   backgroundColor: PaletteColors.app737373,
+  },
+
+  textField:{
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '500',
+  },
+
+  focusFiledBorder: {
+    height: 3,
+    width: '100%',
+    backgroundColor: PaletteColors.appPrimary,
   }
 
 } as const ;
