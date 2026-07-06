@@ -61,7 +61,7 @@ const LeftIconWithTextButton = ({
 
       
       {leftIcon && (
-        <View style={styles.iconWrapper}>
+        <View style={[styles.iconWrapper, !(text || rightIcon) && styles.iconOnly]}>
           {leftIcon}
         </View>
       )}
@@ -120,8 +120,12 @@ const useButtonStyles = () => {
     },
 
     iconWrapper: {
-      marginRight: scale.sm_8,
+      marginRight: scale.sm_8, 
       zIndex: 1,
+    },
+
+    iconOnly: {
+      marginRight: 0,
     },
 
     imageIcon: {

@@ -25,8 +25,8 @@ const BorderLineTextField = ({
     errorMessage
 }: BorderLineTextFieldsProps) => {
     const { palletteColors, typography, scale } = useTheme()
-    const [secure, setSecure] = useState<boolean>()
-    const [isFocused, setIsFocused] = useState<boolean>(isSecureField)
+    const [secure, setSecure] = useState<boolean>(isSecureField)
+    const [isFocused, setIsFocused] = useState<boolean>()
     const styles = BorderLineTextFieldStyles(palletteColors, scale)
 
     const onSecureTap = () => {

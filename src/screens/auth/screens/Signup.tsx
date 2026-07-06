@@ -6,89 +6,109 @@ import LeftIconWithTextButton from '../../../components/LeftIconWithTextButton';
 import { ArrowLeft, Lock, Mail } from 'lucide-react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { AuthStackParamList } from '../../../navigation/type';
-import BorderLineTextField from '../../../components/fields/BorderLineTextField';
+import SignupWithEmail from '../components/SignupWithEmail';
+import VerifyOtp from '../components/VerifyOtp';
+import SignupWithPhone from '../components/SignupWithPhone';
+import { FormProvider, useForm } from 'react-hook-form';
+import { SignupForm } from '../types/auth.types';
+import { signupStyles } from '../styles';
+import { useTheme } from '../../../constants/theme';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { emailStepSchema, phoneSchema, otpSchema } from '../../../utilites/validation/authSchema';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, 'signup'>;
 
 const Signup = () => {
   const route = useRoute<SignupRouteProp>();
   const signupType = route.params?.signupType;
-  const [email, setEmail] = useState('')
-  const [password, serPassword] = useState('')
-  const [phone, setPhone] = useState('')
+  const { palletteColors, scale } = useTheme()
+  const [step, setStep] = useState<number>(0)
+  const styles = signupStyles(palletteColors, scale)
 
+  const methods = useForm<SignupForm>({
+    defaultValues: {
+      email: "",
+      password: "",
+      phone: "",
+      otp: "",
+    },
+  });
+
+  const { trigger } = methods
+
+  
 
   const renderContent = () => {
     switch (signupType) {
       case 'email':
-        return (
-          <View style={{ width: '100%', gap: 20 }}>
-            <Text>
-              Sign up with email
-            </Text>
-
-            <Text>Enter your details. New users are created automatically.</Text>
-          <View style={{gap:25}}>
-     <BorderLineTextField
-              title='email'
-              value={email}
-              onChangeText={(text) => setEmail(text)}
-              leftIcon={<Mail />}
-            />
-            <BorderLineTextField
-              title='password'
-              value={password}
-              onChangeText={(text) => serPassword(text)}
-              leftIcon={<Lock />}
-              isSecureField={true}
-            />
-          </View>
-           
-            <View>
-              <TouchableOpacity>
-                <Text>ForgetPassword</Text>
-              </TouchableOpacity>
-            </View>
-          </View>)
+        return <SignupWithEmail />
 
       case 'phone':
-        return (
-          <View style={{ width: '100%', gap: 6 }}>
-            <Text>
-              Sign up with Phone
-            </Text>
-
-            <Text>Enter your details. New users are created automatically.</Text>
-            <BorderLineTextField
-              title='phone'
-              value={phone}
-              onChangeText={(text) => setPhone(text)} />
-          </View>
-        )
+        return <SignupWithPhone />
 
       default:
-        return <Text style={{ color: 'white', fontSize: 18 }}>signupType: {signupType}</Text>;
+        return <></>
     }
   };
 
+  const continuePress = async () => {
+    let valid = false;
+
+    if (step === 0) {
+      valid =
+        signupType === "email"
+          ? await trigger(["email", "password"])
+          : await trigger(["phone"]);
+    }
+    console.log(valid)
+
+    if (step === 1) {
+      valid = await trigger(["otp"]);
+    }
+
+    console.log(valid)
+
+    if (!valid) return;
+
+    setStep(step + 1);
+  };
+
+  const onBackPress = () => {
+    if (step > 0) {
+      setStep(step - 1)
+    }
+  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
-      <SafeAreaView style={{ flex: 1, alignItems: 'flex-start', padding: 24, gap: 15 }}>
-        <LeftIconWithTextButton leftIcon={<ArrowLeft size={20} />} />
+      <SafeAreaView style={styles.container}>
+        <LeftIconWithTextButton
+          leftIcon={<ArrowLeft size={20} color={palletteColors.black} />}
+          onPress={onBackPress}
+          style={styles.backButton}
+          colors={[palletteColors.white, palletteColors.white]}
+        />
 
         <PagingIndicator
           totalPages={3}
-          currentPageIndex={0}
+          currentPageIndex={step}
           long={true}
         />
 
-        {renderContent()}
-    <View style={{flex:1, justifyContent:'flex-end', width:'100%'}}>
-      <LeftIconWithTextButton 
-        text='Continue'
-        colors={['#FF6B35', '#FF6B35']}/>
-    </View>
-        
+        <FormProvider {...methods}>
+          {(step === 0) && renderContent()}
+          {(step === 1) && <VerifyOtp />}
+        </FormProvider>
+
+
+        <View style={{ flex: 1, justifyContent: 'flex-end', width: '100%' }}>
+          <LeftIconWithTextButton
+            text='Continue'
+            colors={['#FF6B35', '#FF6B35']}
+            onPress={continuePress}
+          />
+        </View>
+
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
