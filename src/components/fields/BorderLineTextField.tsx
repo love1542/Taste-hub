@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Touchable, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Touchable, TouchableOpacity, StyleProp, TextStyle } from 'react-native'
 import React, { useState } from 'react'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme'
 import { Apple } from 'lucide-react-native'
@@ -11,7 +11,8 @@ export type BorderLineTextFieldsProps = {
     isSecureField?: boolean,
     onFocus?: () => void,
     onBlur?: () => void,
-    errorMessage?: string
+    errorMessage?: string,
+    textStyles?: StyleProp<TextStyle>
 }
 
 const BorderLineTextField = ({
@@ -22,7 +23,8 @@ const BorderLineTextField = ({
     isSecureField = false,
     onBlur,
     onFocus,
-    errorMessage
+    errorMessage,
+    textStyles
 }: BorderLineTextFieldsProps) => {
     const { palletteColors, typography, scale } = useTheme()
     const [secure, setSecure] = useState<boolean>(isSecureField)
@@ -47,7 +49,7 @@ const BorderLineTextField = ({
                 )}
                 <TextInput
                     value={value}
-                    style={[styles.textField, typography.textField]}
+                    style={[styles.textField,  typography.textField, textStyles]}
                     secureTextEntry={secure}
                     onChangeText={onChangeText}
                     onFocus={() => {

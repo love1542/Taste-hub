@@ -97,7 +97,7 @@ const Signup = () => {
 
         <FormProvider {...methods}>
           {(step === 0) && renderContent()}
-          {(step === 1) && <VerifyOtp />}
+          {(step === 1) && <VerifyOtp destination={signupType === 'email' ? "sdf@gmail.com"  : "9888722"}/>}
         </FormProvider>
 
 
