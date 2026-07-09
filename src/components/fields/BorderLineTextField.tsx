@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, TextInput, Touchable, TouchableOpacity, StyleProp, TextStyle } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, StyleSheet, TextInput, Touchable, TouchableOpacity, StyleProp, TextStyle, KeyboardTypeOptions, TextInputKeyPressEvent, ViewStyle } from 'react-native'
+import React, { forwardRef, useState } from 'react'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme'
 import { Apple } from 'lucide-react-native'
 
@@ -13,9 +13,13 @@ export type BorderLineTextFieldsProps = {
     onBlur?: () => void,
     errorMessage?: string,
     textStyles?: StyleProp<TextStyle>
+    borderSyles?: StyleProp<ViewStyle>
+    fixedLength?: number | undefined
+    keyboardType?: KeyboardTypeOptions | undefined
+    onKeyPress?: (e: TextInputKeyPressEvent) => void
 }
 
-const BorderLineTextField = ({
+const BorderLineTextField = forwardRef<TextInput, BorderLineTextFieldsProps>(({
     value,
     title,
     onChangeText,
@@ -24,8 +28,12 @@ const BorderLineTextField = ({
     onBlur,
     onFocus,
     errorMessage,
-    textStyles
-}: BorderLineTextFieldsProps) => {
+    textStyles,
+    borderSyles,
+    fixedLength = undefined,
+    keyboardType = 'default',
+    onKeyPress
+}, ref) => {
     const { palletteColors, typography, scale } = useTheme()
     const [secure, setSecure] = useState<boolean>(isSecureField)
     const [isFocused, setIsFocused] = useState<boolean>()
@@ -48,6 +56,7 @@ const BorderLineTextField = ({
                     </>
                 )}
                 <TextInput
+                    ref={ref}
                     value={value}
                     style={[styles.textField,  typography.textField, textStyles]}
                     secureTextEntry={secure}
@@ -60,6 +69,9 @@ const BorderLineTextField = ({
                         setIsFocused(false);
                         if (onBlur) onBlur();
                     }}
+                    maxLength={fixedLength}
+                    onKeyPress={onKeyPress}
+                    keyboardType={keyboardType}
                 />
 
                 {isSecureField && (
@@ -71,12 +83,12 @@ const BorderLineTextField = ({
                 )}
             </View>
 
-            <View style={isFocused ? typography.focusFiledBorder : typography.borderLine} />
+            <View style={[isFocused ? typography.focusFiledBorder : typography.borderLine, borderSyles]} />
 
             {errorMessage && <Text style={styles.error}>Error</Text>}
         </View>
     )
-}
+})
 
 export default BorderLineTextField
 
@@ -96,7 +108,7 @@ const BorderLineTextFieldStyles = (color: palleteColorsType, scale: LayoutScaleT
         textField: {
             flex: 1,
             paddingHorizontal: scale.ms_12,
-            paddingVertical: scale.sm_8
+            paddingVertical: scale.xl_18    
         },
         error: {
             paddingTop: scale.sm_8,

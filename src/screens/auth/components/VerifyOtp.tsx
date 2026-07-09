@@ -9,8 +9,9 @@ type VerifyOtpProps = {
 const VerifyOtp = ({destination}:VerifyOtpProps) => {
   const {scale, typography} = useTheme()
   const [value, setValue] = useState("")
+  
   return (
-    <View style={{width: '100%', gap: scale.xxl_40}}>
+    <View style={{flex:1, gap: scale.xxl_40}}>
       <View style={{gap:scale.md_16}}>
           <Text style={typography.heading}>Enter Verification Code</Text>
       <Text style={typography.textField}>Please enter the 6-digit code sent to {destination}.</Text>

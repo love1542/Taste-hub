@@ -40,8 +40,7 @@ export const Typography = {
   },
 
   textField:{
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: 18,
     fontWeight: '500',
   },
 
