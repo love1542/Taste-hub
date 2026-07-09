@@ -15,6 +15,7 @@ import { signupStyles } from '../styles';
 import { useTheme } from '../../../constants/theme';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { emailStepSchema, phoneSchema, otpSchema } from '../../../utilites/validation/authSchema';
+import SignupProfile from '../components/SignupProfile';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, 'signup'>;
 
@@ -98,6 +99,7 @@ const Signup = () => {
         <FormProvider {...methods}>
           {(step === 0) && renderContent()}
           {(step === 1) && <VerifyOtp destination={signupType === 'email' ? "sdf@gmail.com"  : "9888722"}/>}
+          {(step == 2) && <SignupProfile />}
         </FormProvider>
 
 
