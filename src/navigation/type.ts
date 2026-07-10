@@ -1,10 +1,11 @@
 import { NavigatorScreenParams, TabRouter } from '@react-navigation/native';
 import { authRoutes, rootRoutes } from '../constants/appConstants';
+import { SignUpType } from '../screens/auth/types/auth.types';
 
 export type AuthStackParamList = {
   [authRoutes.login]: undefined;
   [authRoutes.welcome]: undefined;
-  [authRoutes.signup]: {signupType: 'email' | 'phone' | 'social'};
+  [authRoutes.signup]: { signupType: SignUpType };
   [authRoutes.forgotPassword]: undefined;
 };
 

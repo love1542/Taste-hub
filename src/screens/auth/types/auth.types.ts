@@ -6,3 +6,4 @@ export interface SignupForm {
   otp: string;
 }
 
+export type SignUpType = 'email' | 'phone' | 'social'

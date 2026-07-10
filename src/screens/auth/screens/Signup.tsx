@@ -1,4 +1,4 @@
-import { View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PagingIndicator from '../../../components/pagingIndicator/PagingIndicator';
@@ -13,9 +13,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { SignupForm } from '../types/auth.types';
 import { signupStyles } from '../styles';
 import { useTheme } from '../../../constants/theme';
-import { zodResolver } from "@hookform/resolvers/zod";
-import { emailStepSchema, phoneSchema, otpSchema } from '../../../utilites/validation/authSchema';
 import SignupProfile from '../components/SignupProfile';
+import { SIGNUP_SCREENS, SignupStep } from '../constants/signupConstants';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, 'signup'>;
 
@@ -25,6 +24,9 @@ const Signup = () => {
   const { palletteColors, scale } = useTheme()
   const [step, setStep] = useState<number>(0)
   const styles = signupStyles(palletteColors, scale)
+
+  const flow = SIGNUP_SCREENS[signupType]
+  const currentStep = flow[step]
 
   const methods = useForm<SignupForm>({
     defaultValues: {
@@ -37,20 +39,18 @@ const Signup = () => {
 
   const { trigger } = methods
 
-  
+  const renderScreen = () => {
+    switch (currentStep) {
+      case SignupStep.Credential:
+        return signupType === 'email' ? <SignupWithEmail /> : <SignupWithPhone />
 
-  const renderContent = () => {
-    switch (signupType) {
-      case 'email':
-        return <SignupWithEmail />
+      case SignupStep.Verification:
+        return <VerifyOtp destination={signupType === 'email' ? 'dummy@gmail.com' : '9384389238'} />
 
-      case 'phone':
-        return <SignupWithPhone />
-
-      default:
-        return <></>
+      case SignupStep.UserInfo:
+        return <SignupProfile />
     }
-  };
+  }
 
   const continuePress = async () => {
     let valid = false;
@@ -97,9 +97,7 @@ const Signup = () => {
         />
 
         <FormProvider {...methods}>
-          {(step === 0) && renderContent()}
-          {(step === 1) && <VerifyOtp destination={signupType === 'email' ? "sdf@gmail.com"  : "9888722"}/>}
-          {(step == 2) && <SignupProfile />}
+          {renderScreen()}
         </FormProvider>
 
 
