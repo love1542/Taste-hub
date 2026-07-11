@@ -1,4 +1,4 @@
-import { LightColors, DarkColors } from './colors';
+import { LightColors, DarkColors, ThemeColors } from './colors';
 import { LayoutScale, LayoutScaleType } from './layoutScales';
 import { PaletteColors, palleteColorsType } from './paletteColors';
 import { Typography, TypographyType } from './typography';
@@ -6,9 +6,7 @@ import { Typography, TypographyType } from './typography';
 
 export interface ThemeType {
   paletteColors: palleteColorsType,
-  readonly colors: {
-    readonly [key in keyof typeof LightColors]: string;
-  };
+  colors: ThemeColors;
   scale: LayoutScaleType;
   typography: TypographyType;
 }

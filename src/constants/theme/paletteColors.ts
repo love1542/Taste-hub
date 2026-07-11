@@ -19,7 +19,6 @@ export const PaletteColors = {
   app525252: '#525252',
   app404040: '#404040',
   app262626: '#262626',
-  app171717: '#171717',
 
   // Status
   app22C55E: '#22C55E',

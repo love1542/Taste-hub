@@ -12,7 +12,7 @@ export const LightColors = {
   card: PaletteColors.white,
 
   // Text
-  textPrimary: PaletteColors.app171717,
+  textPrimary: PaletteColors.black,
   textSecondary: PaletteColors.app525252,
   textMuted: PaletteColors.app737373,
   textInverse: PaletteColors.white,
@@ -52,7 +52,7 @@ export const DarkColors = {
   primaryLight: PaletteColors.appFFB88A,
 
   // Background
-  background: PaletteColors.app171717,
+  background: PaletteColors.black,
   surface: PaletteColors.app262626,
   card: PaletteColors.app404040,
 
@@ -87,4 +87,8 @@ export const DarkColors = {
   priceTag: PaletteColors.app22C55E,
 
   overlay: 'rgba(255,255,255,0.1)',
-} as const;
+}  satisfies ThemeColors;
+
+export type ThemeColors = {
+  [K in keyof typeof LightColors]: string;
+};

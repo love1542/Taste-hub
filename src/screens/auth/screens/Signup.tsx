@@ -1,9 +1,9 @@
-import { View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PagingIndicator from '../../../components/pagingIndicator/PagingIndicator';
 import LeftIconWithTextButton from '../../../components/LeftIconWithTextButton';
-import { ArrowLeft, Lock, Mail } from 'lucide-react-native';
+import { ArrowLeft } from 'lucide-react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { AuthStackParamList } from '../../../navigation/type';
 import SignupWithEmail from '../components/SignupWithEmail';
@@ -13,9 +13,10 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { SignupForm } from '../types/auth.types';
 import { signupStyles } from '../styles';
 import { useTheme } from '../../../constants/theme';
-import { zodResolver } from "@hookform/resolvers/zod";
-import { emailStepSchema, phoneSchema, otpSchema } from '../../../utilites/validation/authSchema';
 import SignupProfile from '../components/SignupProfile';
+import { useAppBottomSheet } from '../../../components/bottomSheet/hooks/useAppBottomSheet';
+import ImagePickerSheet from '../../../components/imagePicker/ImagePickerSheet';
+import { ImagePickerType, useImagePicker } from '../../../components/imagePicker/useImagePicker';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, 'signup'>;
 
@@ -25,6 +26,26 @@ const Signup = () => {
   const { palletteColors, scale } = useTheme()
   const [step, setStep] = useState<number>(0)
   const styles = signupStyles(palletteColors, scale)
+  const { open, close } = useAppBottomSheet()
+  const {pickImage} = useImagePicker()
+
+  const onCameraPress = () => {
+    open({
+      title: 'Select Image',
+      content: <ImagePickerSheet
+        onCameraPress={ async() => {
+          let image = await pickImage(ImagePickerType.Camera)
+          console.log(image)
+          close()
+        }}
+        onGalleryPress={async() => {
+          let image = await pickImage(ImagePickerType.Gallery)
+          console.log(image)
+          close()
+        }}
+      />
+    })
+  }
 
   const methods = useForm<SignupForm>({
     defaultValues: {
@@ -36,8 +57,6 @@ const Signup = () => {
   });
 
   const { trigger } = methods
-
-  
 
   const renderContent = () => {
     switch (signupType) {
@@ -83,6 +102,7 @@ const Signup = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
       <SafeAreaView style={styles.container}>
+
         <LeftIconWithTextButton
           leftIcon={<ArrowLeft size={20} color={palletteColors.black} />}
           onPress={onBackPress}
@@ -98,8 +118,8 @@ const Signup = () => {
 
         <FormProvider {...methods}>
           {(step === 0) && renderContent()}
-          {(step === 1) && <VerifyOtp destination={signupType === 'email' ? "sdf@gmail.com"  : "9888722"}/>}
-          {(step == 2) && <SignupProfile />}
+          {(step === 1) && <VerifyOtp destination={signupType === 'email' ? "sdf@gmail.com" : "9888722"} />}
+          {(step == 2) && <SignupProfile onCameraPress={onCameraPress} />}
         </FormProvider>
 
 
@@ -110,7 +130,6 @@ const Signup = () => {
             onPress={continuePress}
           />
         </View>
-
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
