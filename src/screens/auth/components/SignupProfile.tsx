@@ -1,13 +1,15 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ImageSourcePropType } from 'react-native'
 import React from 'react'
 import { LayoutScaleType, useTheme } from '../../../constants/theme'
 import ImagePicker from '../../../components/imagePicker/ImagePicker'
 
 
 type SignupProfileType = {
+    img?: string | ImageSourcePropType
     onCameraPress: () => void
 }
 const SignupProfile = ({
+    img,
     onCameraPress
 }:SignupProfileType) => {
     const { typography, scale } = useTheme()
@@ -25,6 +27,7 @@ const SignupProfile = ({
 
             <View>
                 <ImagePicker 
+                uri={img}
                 onCameraPress={onCameraPress}/>
             </View>
         </View>

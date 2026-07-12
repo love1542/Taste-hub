@@ -59,6 +59,8 @@ export const LayoutScale = {
   avatarSM_40: 40,
   /** 56px - Settings screen profile user avatar graphics */
   avatarMD_56: 56,
+
+  avtarBorder_60: 60,
   /** 96px - High-focus edit profile view display avatars */
   avatarLG_96: 96,
   /** 100px - High-focus splash imagery banner configurations */

@@ -1,4 +1,4 @@
-import { View, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { View, Keyboard, TouchableWithoutFeedback, ImageSourcePropType } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PagingIndicator from '../../../components/pagingIndicator/PagingIndicator';
@@ -17,6 +17,7 @@ import SignupProfile from '../components/SignupProfile';
 import { useAppBottomSheet } from '../../../components/bottomSheet/hooks/useAppBottomSheet';
 import ImagePickerSheet from '../../../components/imagePicker/ImagePickerSheet';
 import { ImagePickerType, useImagePicker } from '../../../components/imagePicker/useImagePicker';
+import { ImagePickerSheetItem } from '../../../components/imagePicker/types/imagePicker.types';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, 'signup'>;
 
@@ -25,24 +26,33 @@ const Signup = () => {
   const signupType = route.params?.signupType;
   const { palletteColors, scale } = useTheme()
   const [step, setStep] = useState<number>(0)
+  const [image, setImage] = useState<string | ImageSourcePropType | undefined>(undefined)
   const styles = signupStyles(palletteColors, scale)
   const { open, close } = useAppBottomSheet()
-  const {pickImage} = useImagePicker()
+  const { pickImage } = useImagePicker()
+
+  const handleDefaultImagePress = (item: ImagePickerSheetItem) => {
+    if (item.type === 'default') {
+      setImage(item.image)
+    }
+    close()
+  }
 
   const onCameraPress = () => {
     open({
       title: 'Select Image',
       content: <ImagePickerSheet
-        onCameraPress={ async() => {
+        onCameraPress={async () => {
           let image = await pickImage(ImagePickerType.Camera)
-          console.log(image)
+          setImage(image?.path)
           close()
         }}
-        onGalleryPress={async() => {
+        onGalleryPress={async () => {
           let image = await pickImage(ImagePickerType.Gallery)
-          console.log(image)
+          setImage(image?.path)
           close()
         }}
+        defaultIconPress={handleDefaultImagePress}
       />
     })
   }
@@ -119,7 +129,7 @@ const Signup = () => {
         <FormProvider {...methods}>
           {(step === 0) && renderContent()}
           {(step === 1) && <VerifyOtp destination={signupType === 'email' ? "sdf@gmail.com" : "9888722"} />}
-          {(step == 2) && <SignupProfile onCameraPress={onCameraPress} />}
+          {(step == 2) && <SignupProfile img={image} onCameraPress={onCameraPress} />}
         </FormProvider>
 
 

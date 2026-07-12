@@ -1,29 +1,33 @@
-import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
+import { TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import { IMAGE_PICKER_SHEET_BTNS } from './data/imagePickerSheet.data'
-import { height, LayoutScaleType, useTheme } from '../../constants/theme'
+import { LayoutScale, LayoutScaleType, useTheme } from '../../constants/theme'
 import { ImagePickerSheetItem } from './types/imagePicker.types'
 
 type ImagePickerSheetProps = {
     onCameraPress: () => void
     onGalleryPress: () => void
+    defaultIconPress: (item: ImagePickerSheetItem) => void
 }
 
 const ImagePickerSheet = ({
     onCameraPress,
-    onGalleryPress
+    onGalleryPress,
+    defaultIconPress
 }: ImagePickerSheetProps) => {
 
-    const {scale} = useTheme()
-    const styles = imagePickerSheetStyles(scale)
+    const { scale } = useTheme()
+    const styles = imagePickerSheetStyles(scale ?? LayoutScale)
 
     const onIconPress = (item: ImagePickerSheetItem) => {
         if (item.id === 'camera') {
             onCameraPress()
         } else if (item.id === 'gallery') {
             onGalleryPress()
+        } else if (item.type === 'default') {
+            defaultIconPress(item)
         } else {
-            console.log('default click')
+            defaultIconPress(item)
         }
     }
 
@@ -32,14 +36,14 @@ const ImagePickerSheet = ({
             data={IMAGE_PICKER_SHEET_BTNS}
             numColumns={4}
             renderItem={({ item, index }) => (
-                    <TouchableOpacity 
+                <TouchableOpacity
                     key={index}
-                    onPress={() => onIconPress(item)} 
+                    onPress={() => onIconPress(item)}
                     style={styles.button}>
-                        {item.type === 'action' && <item.icon size={40} />}
-                        {item.type === 'default' && <Image source={item.image}
-                            style={styles.image} />}
-                    </TouchableOpacity>
+                    {item.type === 'action' && <item.icon size={40} />}
+                    {item.type === 'default' && <Image source={item.image}
+                        style={styles.image} />}
+                </TouchableOpacity>
 
             )} />
     )
@@ -49,18 +53,19 @@ export default ImagePickerSheet
 
 const imagePickerSheetStyles = (scale: LayoutScaleType) => {
     return StyleSheet.create({
-        button:{
-            height: 70,
-            width:70,
-            justifyContent:'center',
+        button: {
+            height: scale.avtarBorder_60,
+            width: scale.avtarBorder_60,
+            justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 50,
             borderWidth: 2,
-            borderBlockColor: 'black',
+            borderColor: 'black',
+            margin: scale.sm_8
         },
-        image:{
-            width: 68,
-            height: 68,
+        image: {
+            width: scale.avatarMD_56,
+            height: scale.avatarMD_56,
             borderRadius: 50
         }
     })
