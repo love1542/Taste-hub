@@ -32,7 +32,7 @@ const Welcome = () => {
       {/* Background image with overlay color */}
       <View style={styles.bg}>
       <OnBoardingBackground
-        image={require('../../../../assets/images/welcomeBg.png')} 
+        image={require('../../../../assets/images/welcomebg.png')} 
         overlayColor={palletteColors.white}
       />
         </View>

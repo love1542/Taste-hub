@@ -4,8 +4,10 @@ export const pagingIndicatorStyles = StyleSheet.create({
     container:{
         flexDirection: 'row',
         gap: 7,
-        width: '100%',
         height: 7
+    },
+    longContainer:{
+        width: '100%'
     },
     activeIndicator: {
         height: 7,

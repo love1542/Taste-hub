@@ -19,9 +19,11 @@ const OnBoardingForground = ({
     const styles = useOnBoardingStyles()
     return (
         <View style={styles.uperRapper}>
-            <View>
-                <LeftIconWithTextButton text={chipText} 
-                textStyle={styles.topChipText} style={styles.topChip} 
+            <View style={styles.topView}>
+                <LeftIconWithTextButton 
+                text={chipText} 
+                textStyle={styles.topChipText} 
+                style={styles.topChip} 
                 colors={chipColors} />
             </View>
             <View style={styles.bottomView}>

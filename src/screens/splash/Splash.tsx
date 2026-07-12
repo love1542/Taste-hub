@@ -24,13 +24,13 @@ const Splash = () => {
       const showOnboarding = await storageService.get(STORAGE_KEYS.showOnboarding)
 
       timer = setTimeout(()=>{
-        if (showOnboarding == true || showOnboarding == null) {
+        // if (showOnboarding == true || showOnboarding == null) {
           navigation.replace(rootRoutes.onBoarding)
-        }else {
-          navigation.replace(rootRoutes.auth,{
-            screen: authRoutes.welcome
-          })
-        }
+        // }else {
+        //   navigation.replace(rootRoutes.auth,{
+        //     screen: authRoutes.welcome
+        //   })
+        // }
       },2000)
 
       }

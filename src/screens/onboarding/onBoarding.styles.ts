@@ -25,7 +25,7 @@ export const useOnBoardingStyles = () => {
             paddingTop: scale.massive_64
         },
         topView: {
-            height: 20
+            width: '50%'
         },
         topChipText: {
             color: palletteColors.white,
@@ -78,8 +78,12 @@ export const useOnBoardingStyles = () => {
             fontWeight: 'regular'
         },
         nextButtonStyle: {
-            backgroundColor: palletteColors.white,
-            borderRadius: scale.xl_18
+            width: scale.huge_48,
+            height: scale.huge_48,
+            paddingVertical: 0,
+            paddingHorizontal: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
         }
     })
 }

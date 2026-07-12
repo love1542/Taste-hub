@@ -12,6 +12,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../navigation/type'
 import { STORAGE_KEYS, storageService } from '../../services/storageService'
 import { authRoutes } from '../../constants/appConstants'
+import { ArrowRight } from 'lucide-react-native'
 
 type OnBoardingNavagationProps = NativeStackNavigationProp<
   RootStackParamList,
@@ -74,12 +75,18 @@ const OnBoarding = () => {
       />
 
       <View style={[styles.bottomButtonContainer, styles.bottomOverlay]}>
-        <PagingIndicator currentPageIndex={currentIndex} totalPages={onBoardingData.length} />
+          <PagingIndicator
+          currentPageIndex={currentIndex}
+          totalPages={onBoardingData.length}
+          style={{ alignSelf: 'flex-start', height:'100%', alignItems:'center' }}
+        />
+        
 
         <LeftIconWithTextButton
+          leftIcon={<ArrowRight size={20} color={'black'} />}
           onPress={nextTap}
-          leftIcon={require('../../../assets/icons/rightArrow.png')}
           style={styles.nextButtonStyle}
+          colors={['white', 'white']}
         />
       </View>
     </View>
