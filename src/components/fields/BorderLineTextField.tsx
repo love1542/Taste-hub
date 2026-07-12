@@ -6,6 +6,7 @@ import { Apple } from 'lucide-react-native'
 export type BorderLineTextFieldsProps = {
     value: string,
     title: string,
+    placeholder: string,
     onChangeText: (text: string) => void,
     leftIcon?: React.ReactNode,
     isSecureField?: boolean,
@@ -22,6 +23,7 @@ export type BorderLineTextFieldsProps = {
 const BorderLineTextField = forwardRef<TextInput, BorderLineTextFieldsProps>(({
     value,
     title,
+    placeholder,
     onChangeText,
     leftIcon,
     isSecureField = false,
@@ -45,7 +47,7 @@ const BorderLineTextField = forwardRef<TextInput, BorderLineTextFieldsProps>(({
 
     return (
         <View style={styles.container}>
-            <Text style={[typography.subtitle, styles.title, isFocused ? { color: palletteColors.appPrimary } : { color: palletteColors.app737373 }]}>
+            <Text style={[typography.subtitle, styles.title ]}>
                 {title}
             </Text>
             <View style={styles.textFieldContiner}>
@@ -58,6 +60,7 @@ const BorderLineTextField = forwardRef<TextInput, BorderLineTextFieldsProps>(({
                 <TextInput
                     ref={ref}
                     value={value}
+                    placeholder={placeholder}
                     style={[styles.textField,  typography.textField, textStyles]}
                     secureTextEntry={secure}
                     onChangeText={onChangeText}
@@ -99,7 +102,8 @@ const BorderLineTextFieldStyles = (color: palleteColorsType, scale: LayoutScaleT
         },
         title: {
             fontWeight: '400',
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
+            color: color.appPrimary
         },
         textFieldContiner: {
             flexDirection: 'row',

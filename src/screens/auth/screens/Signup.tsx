@@ -1,4 +1,4 @@
-import { View, Keyboard, TouchableWithoutFeedback, ImageSourcePropType } from 'react-native';
+import { View, Keyboard, TouchableWithoutFeedback, ImageSourcePropType, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PagingIndicator from '../../../components/pagingIndicator/PagingIndicator';
@@ -110,7 +110,7 @@ const Signup = () => {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
 
         <LeftIconWithTextButton
@@ -126,14 +126,21 @@ const Signup = () => {
           long={true}
         />
 
-        <FormProvider {...methods}>
-          {(step === 0) && renderContent()}
-          {(step === 1) && <VerifyOtp destination={signupType === 'email' ? "sdf@gmail.com" : "9888722"} />}
-          {(step == 2) && <SignupProfile img={image} onCameraPress={onCameraPress} />}
-        </FormProvider>
+        <View style={styles.contentWrapper}>
+          <ScrollView
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps='handled'
+            showsVerticalScrollIndicator={false}
+          >
+            <FormProvider {...methods}>
+              {(step === 0) && renderContent()}
+              {(step === 1) && <VerifyOtp destination={signupType === 'email' ? "sdf@gmail.com" : "9888722"} />}
+              {(step == 2) && <SignupProfile img={image} onCameraPress={onCameraPress} />}
+            </FormProvider>
+          </ScrollView>
+        </View>
 
-
-        <View style={{ flex: 1, justifyContent: 'flex-end', width: '100%' }}>
+        <View style={styles.continueButtonWrapper}>
           <LeftIconWithTextButton
             text='Continue'
             colors={['#FF6B35', '#FF6B35']}
