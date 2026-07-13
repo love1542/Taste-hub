@@ -18,6 +18,7 @@ import { useAppBottomSheet } from '../../../components/bottomSheet/hooks/useAppB
 import ImagePickerSheet from '../../../components/imagePicker/ImagePickerSheet';
 import { ImagePickerType, useImagePicker } from '../../../components/imagePicker/useImagePicker';
 import { ImagePickerSheetItem } from '../../../components/imagePicker/types/imagePicker.types';
+import { SIGNUP_SCREENS, SignupStep } from '../constants/signupConstants';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, 'signup'>;
 
@@ -57,6 +58,9 @@ const Signup = () => {
     })
   }
 
+  const flow = SIGNUP_SCREENS[signupType]
+  const currentStep = flow[step]
+
   const methods = useForm<SignupForm>({
     defaultValues: {
       email: "",
@@ -68,18 +72,18 @@ const Signup = () => {
 
   const { trigger } = methods
 
-  const renderContent = () => {
-    switch (signupType) {
-      case 'email':
-        return <SignupWithEmail />
+  const renderScreen = () => {
+    switch (currentStep) {
+      case SignupStep.Credential:
+        return signupType === 'email' ? <SignupWithEmail /> : <SignupWithPhone />
 
-      case 'phone':
-        return <SignupWithPhone />
+      case SignupStep.Verification:
+        return <VerifyOtp destination={signupType === 'email' ? "sdf@gmail.com" : "9888722"} resendPress={() => { }} />
 
-      default:
-        return <></>
+      case SignupStep.UserInfo:
+        return <SignupProfile img={image} onCameraPress={onCameraPress} />
     }
-  };
+  }
 
   const continuePress = async () => {
     let valid = false;
@@ -133,9 +137,7 @@ const Signup = () => {
             showsVerticalScrollIndicator={false}
           >
             <FormProvider {...methods}>
-              {(step === 0) && renderContent()}
-              {(step === 1) && <VerifyOtp destination={signupType === 'email' ? "sdf@gmail.com" : "9888722"} resendPress={() => {}}/>}
-              {(step == 2) && <SignupProfile img={image} onCameraPress={onCameraPress} />}
+              {renderScreen()}
             </FormProvider>
           </ScrollView>
         </View>
