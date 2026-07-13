@@ -14,11 +14,13 @@ export interface SelectionItem {
 interface SingleSelectionChipsProps {
     configs: SelectionItem[];
     defaultSelectedId?: string;
+    title?: string
 }
 
 const SingleSelectionChips = ({
     configs,
-    defaultSelectedId
+    defaultSelectedId,
+    title
 }: SingleSelectionChipsProps) => {
     const [selected, setSelected] = useState<string | undefined>(defaultSelectedId)
 
@@ -40,9 +42,9 @@ const SingleSelectionChips = ({
 
     return (
         <View style={styles.contianer}>
-            <Text style={[typography.subtitle, styles.title]}>
-                Date Of Birth
-            </Text>
+            { title && <Text style={[typography.subtitle, styles.title]}>
+                {title}
+            </Text>}
             <FlatList
                 data={configs}
                 horizontal
@@ -56,7 +58,7 @@ const SingleSelectionChips = ({
                         >
                             <View style={{ flexDirection: 'row', gap: 8 }}>
                                 {item.icon && <item.icon size={20} color={slectedChip ? palletteColors.appPrimary : palletteColors.black}/>}
-                                <Text style={[typography.textField, { fontWeight: '400' }]}>{item.label}</Text>
+                                <Text style={[typography.subtitle, { fontWeight: '400' }]}>{item.label}</Text>
                             </View>
 
                         </TouchableOpacity>
@@ -77,8 +79,8 @@ const signleSelectionChipsStyles = (color: palleteColorsType, scale: LayoutScale
         },
         title: {
             fontWeight: '400',
-            textTransform: 'uppercase',
-            color: color.appPrimary,
+            textTransform: 'capitalize',
+            color: color.appPrimary
         },
         chip: {
             borderWidth: 1,

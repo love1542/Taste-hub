@@ -8,3 +8,5 @@ export const GENDER_SELECTIONS: SelectionItem[] = [
         {id: '2', label: 'Female', icon: Venus},
         {id: '3', label: 'Others', icon: VenusAndMars}
     ]
+
+export const RESEND_TIME = 30;

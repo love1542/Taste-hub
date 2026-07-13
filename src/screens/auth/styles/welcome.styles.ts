@@ -34,7 +34,8 @@ export const useWelcomeStyles = (scale: LayoutScaleType, palette: palleteColorsT
             subtitleText: {
                 paddingHorizontal: scale.ml_20,
                 color: palette.black,
-                textAlign: 'center'
+                textAlign: 'center',
+                fontWeight: '500',
             },
             centerWrapper: {
                 flex: 1,

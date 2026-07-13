@@ -46,8 +46,8 @@ const Welcome = () => {
          
             <Text style={[typography.subtitle, { color: palletteColors.appPrimary }]}>{WECOME_DATA.welcome}</Text>
              <View style={styles.name}>
-              <Text style={[typography.heading, { color: palletteColors.black }]}>Taste</Text>
-              <Text style={[typography.heading, { color: palletteColors.appPrimary }]}>Hub</Text>
+              <Text style={[typography.largeheading, { color: palletteColors.black }]}>Taste</Text>
+              <Text style={[typography.largeheading, { color: palletteColors.appPrimary }]}>Hub</Text>
             </View>
             
             <Text style={[typography.subtitle, styles.subtitleText]}>{WECOME_DATA.subtitle}</Text>

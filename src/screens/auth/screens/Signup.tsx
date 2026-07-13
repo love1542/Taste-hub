@@ -134,7 +134,7 @@ const Signup = () => {
           >
             <FormProvider {...methods}>
               {(step === 0) && renderContent()}
-              {(step === 1) && <VerifyOtp destination={signupType === 'email' ? "sdf@gmail.com" : "9888722"} />}
+              {(step === 1) && <VerifyOtp destination={signupType === 'email' ? "sdf@gmail.com" : "9888722"} resendPress={() => {}}/>}
               {(step == 2) && <SignupProfile img={image} onCameraPress={onCameraPress} />}
             </FormProvider>
           </ScrollView>

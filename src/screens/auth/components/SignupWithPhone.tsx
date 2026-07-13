@@ -12,7 +12,7 @@ const SignupWithPhone = () => {
     const styles = signupStyles(palletteColors, scale)
   return (
     <View style={{ width: '100%', gap: 6 }}>
-      <Text style={typography.heading}>
+      <Text style={typography.subHeading}>
         Sign up with Phone
       </Text>
 
@@ -23,6 +23,7 @@ const SignupWithPhone = () => {
       control={control}
       render={({field: {value, onChange}}) =>(
         <BorderLineTextField
+        placeholder='Enter Phone Number'
         title='phone'
         value={value}
         onChangeText={onChange} 

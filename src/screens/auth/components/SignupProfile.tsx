@@ -26,10 +26,10 @@ const SignupProfile = ({
     return (
         <>
             <View style={styles.titlesWrapper}>
-                <Text style={typography.heading}>
+                <Text style={typography.subHeading}>
                     Complete Your Profile
                 </Text>
-                <Text style={typography.textField}>Let's finish setting up your account.</Text>
+                <Text style={typography.subtitle}>Let's finish setting up your account.</Text>
             </View>
 
             <View style={styles.contentWrapper}>
@@ -50,7 +50,10 @@ const SignupProfile = ({
                     value={name}
                 />
 
-                <SingleSelectionChips configs={GENDER_SELECTIONS} defaultSelectedId={GENDER_SELECTIONS[0].id}/>
+                <SingleSelectionChips 
+                title='Gender'
+                configs={GENDER_SELECTIONS} 
+                defaultSelectedId={GENDER_SELECTIONS[0].id}/>
 
                 <View style={styles.location}>
                     <BorderLineTextField
@@ -83,7 +86,7 @@ export default SignupProfile
 const signupProfileSyles = (scale: LayoutScaleType) => {
     return StyleSheet.create({
         titlesWrapper: {
-            gap: scale.lg_24
+            gap: scale. iconSM_16
         },
         contentWrapper: {
             width: '100%',

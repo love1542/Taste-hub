@@ -47,7 +47,7 @@ const BorderLineTextField = forwardRef<TextInput, BorderLineTextFieldsProps>(({
 
     return (
         <View style={styles.container}>
-            <Text style={[typography.subtitle, styles.title ]}>
+            <Text style={[typography.subtitle, styles.title]}>
                 {title}
             </Text>
             <View style={styles.textFieldContiner}>
@@ -61,7 +61,7 @@ const BorderLineTextField = forwardRef<TextInput, BorderLineTextFieldsProps>(({
                     ref={ref}
                     value={value}
                     placeholder={placeholder}
-                    style={[styles.textField,  typography.textField, textStyles]}
+                    style={[styles.textField, textStyles]}
                     secureTextEntry={secure}
                     onChangeText={onChangeText}
                     onFocus={() => {
@@ -102,7 +102,7 @@ const BorderLineTextFieldStyles = (color: palleteColorsType, scale: LayoutScaleT
         },
         title: {
             fontWeight: '400',
-            textTransform: 'uppercase',
+            textTransform: 'capitalize',
             color: color.appPrimary
         },
         textFieldContiner: {
@@ -112,7 +112,9 @@ const BorderLineTextFieldStyles = (color: palleteColorsType, scale: LayoutScaleT
         textField: {
             flex: 1,
             paddingHorizontal: scale.ms_12,
-            paddingVertical: scale.xl_18    
+            paddingVertical: scale.xl_18,
+            fontSize: scale.md_16,
+            fontWeight: '400'
         },
         error: {
             paddingTop: scale.sm_8,
@@ -121,7 +123,7 @@ const BorderLineTextFieldStyles = (color: palleteColorsType, scale: LayoutScaleT
         },
         rightText: {
             color: color.appPrimary,
-            fontWeight: '600'
+            fontWeight: '500'
         }
     })
 }

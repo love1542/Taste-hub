@@ -4,7 +4,7 @@ import { width } from './layoutScales';
 
 export const Typography = {
 
-  heading: {
+  largeheading: {
     fontSize: 32,
     lineHeight: 40,
     fontWeight: '700',
@@ -19,29 +19,20 @@ export const Typography = {
   },
 
   title: {
-    fontSize: 18,
-    lineHeight: 26,
+    fontSize: 16,
     fontWeight: '600',
-    textAlign: 'center',
     fontFamily: 'Inter-SemiBold',
   },
 
   subtitle: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: '500',
+    fontSize: 14,
     fontFamily: 'Inter-Medium',
   },
 
   borderLine: {
-   height: 1,
-   width: '100%',
-  backgroundColor: PaletteColors.app737373,
-  },
-
-  textField:{
-    fontSize: 18,
-    fontWeight: '500',
+    height: 1,
+    width: '100%',
+    backgroundColor: PaletteColors.app737373,
   },
 
   focusFiledBorder: {
@@ -50,6 +41,6 @@ export const Typography = {
     backgroundColor: PaletteColors.appPrimary,
   }
 
-} as const ;
+} as const;
 
 export type TypographyType = typeof Typography;
