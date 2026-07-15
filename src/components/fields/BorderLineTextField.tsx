@@ -88,7 +88,7 @@ const BorderLineTextField = forwardRef<TextInput, BorderLineTextFieldsProps>(({
 
             <View style={[isFocused ? typography.focusFiledBorder : typography.borderLine, borderSyles]} />
 
-            {errorMessage && <Text style={styles.error}>Error</Text>}
+            {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
         </View>
     )
 })

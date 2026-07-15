@@ -1,5 +1,5 @@
 import { View, Keyboard, TouchableWithoutFeedback, ImageSourcePropType, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PagingIndicator from '../../../components/pagingIndicator/PagingIndicator';
 import LeftIconWithTextButton from '../../../components/LeftIconWithTextButton';
@@ -9,8 +9,7 @@ import { AuthStackParamList } from '../../../navigation/type';
 import SignupWithEmail from '../components/SignupWithEmail';
 import VerifyOtp from '../components/VerifyOtp';
 import SignupWithPhone from '../components/SignupWithPhone';
-import { FormProvider, useForm } from 'react-hook-form';
-import { SignupForm } from '../types/auth.types';
+import { SignupForm, StepHandle } from '../types/auth.types';
 import { signupStyles } from '../styles';
 import { useTheme } from '../../../constants/theme';
 import SignupProfile from '../components/SignupProfile';
@@ -31,6 +30,9 @@ const Signup = () => {
   const styles = signupStyles(palletteColors, scale)
   const { open, close } = useAppBottomSheet()
   const { pickImage } = useImagePicker()
+
+  const [signupData, setSignupData] = useState<Partial<SignupForm>>({})
+  const stepRef = useRef<StepHandle<any>>(null)
 
   const handleDefaultImagePress = (item: ImagePickerSheetItem) => {
     if (item.type === 'default') {
@@ -58,51 +60,10 @@ const Signup = () => {
     })
   }
 
-  const flow = SIGNUP_SCREENS[signupType]
-  const currentStep = flow[step]
-
-  const methods = useForm<SignupForm>({
-    defaultValues: {
-      email: "",
-      password: "",
-      phone: "",
-      otp: "",
-    },
-  });
-
-  const { trigger } = methods
-
-  const renderScreen = () => {
-    switch (currentStep) {
-      case SignupStep.Credential:
-        return signupType === 'email' ? <SignupWithEmail /> : <SignupWithPhone />
-
-      case SignupStep.Verification:
-        return <VerifyOtp destination={signupType === 'email' ? "sdf@gmail.com" : "9888722"} resendPress={() => { }} />
-
-      case SignupStep.UserInfo:
-        return <SignupProfile img={image} onCameraPress={onCameraPress} />
-    }
-  }
-
   const continuePress = async () => {
-    let valid = false;
+  const result = await stepRef.current?.validate()
+    if (!result) return
 
-    if (step === 0) {
-      valid =
-        signupType === "email"
-          ? await trigger(["email", "password"])
-          : await trigger(["phone"]);
-    }
-    console.log(valid)
-
-    if (step === 1) {
-      valid = await trigger(["otp"]);
-    }
-
-    console.log(valid)
-
-    if (!valid) return;
 
     setStep(step + 1);
   };
@@ -112,6 +73,25 @@ const Signup = () => {
       setStep(step - 1)
     }
   }
+
+  const flow = SIGNUP_SCREENS[signupType]
+  const currentStep = flow[step]
+
+
+  const renderScreen = () => {
+    switch (currentStep) {
+      case SignupStep.Credential:
+        return signupType === 'email' ? <SignupWithEmail ref={stepRef}/> : <SignupWithPhone />
+
+      case SignupStep.Verification:
+        return <VerifyOtp destination={signupType === 'email' ? "sdf@gmail.com" : "9888722"} resendPress={() => { }} />
+
+      case SignupStep.UserInfo:
+        return <SignupProfile img={image} onCameraPress={onCameraPress} />
+    }
+  }
+
+  
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -136,9 +116,7 @@ const Signup = () => {
             keyboardShouldPersistTaps='handled'
             showsVerticalScrollIndicator={false}
           >
-            <FormProvider {...methods}>
               {renderScreen()}
-            </FormProvider>
           </ScrollView>
         </View>
 

@@ -10,13 +10,21 @@ export const phoneSchema = z.object({
 
 export const emailStepSchema = z.object({
     email: z.string()
-        .regex(
-            EMAIL_REGEX, ("Enter Valid Email")
-        ),
+        .min(1, "Email is required")
+        .regex(EMAIL_REGEX, "Enter Valid Email"),
         
-        password: z.string()
-        .min(6,("Min. 6 digits"))
+    password: z.string()
+        .min(1, "Password is required")
+        .min(6, "Min. 6 digits"),
+        
+    confirmPassword: z.string()
+        .min(1, "Confirm password is required")
 })
+.refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"], 
+});
+
 
 export const otpSchema = z.object({
     otp: z.string()
