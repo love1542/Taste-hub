@@ -1,20 +1,32 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import OtpFields from '../../../components/fields/OtpFields'
 import { LayoutScaleType, useTheme } from '../../../constants/theme'
 import { RESEND_TIME } from '../../../constants/appConstants'
+import { OtpForm, StepHandle } from '../types/auth.types'
+import { otpSchema } from '../../../utilites/validation/authSchema'
 
 type VerifyOtpProps = {
-  destination: String
+  destination: string
   resendPress: () => void
 }
 
-const VerifyOtp = ({ destination, resendPress }: VerifyOtpProps) => {
-  const [value, setValue] = useState("");
+const VerifyOtp = forwardRef<StepHandle<OtpForm>, VerifyOtpProps>((
+  { destination, resendPress }, ref
+) => {
   const [seconds, setSeconds] = useState(0);
 
   const { scale, typography, palletteColors } = useTheme();
   const styles = verifyOtpStyles(scale);
+
+  const { control, formState, handleSubmit } = useForm<OtpForm>({
+    resolver: zodResolver(otpSchema),
+    defaultValues: {
+      otp: ""
+    }
+  })
 
   useEffect(() => {
     if (seconds === 0) return;
@@ -25,6 +37,16 @@ const VerifyOtp = ({ destination, resendPress }: VerifyOtpProps) => {
 
     return () => clearInterval(interval);
   }, [seconds]);
+
+  useImperativeHandle(ref, () => ({
+    validate: () =>
+      new Promise((resolve) => {
+        handleSubmit(
+          (data) => resolve(data),  
+          () => resolve(null)      
+        )()
+      })
+  }))
 
   const onResend = () => {
     resendPress();
@@ -50,20 +72,22 @@ const VerifyOtp = ({ destination, resendPress }: VerifyOtpProps) => {
           Please enter the 6-digit code sent to
         </Text>
 
-        <Text
-          style={[
-            typography.subtitle,
-            { color: palletteColors.appPrimary },
-          ]}>
+        <Text style={[typography.subtitle, { color: palletteColors.appPrimary }]}>
           {destination}
         </Text>
       </View>
 
       <View style={styles.otpfields}>
-        <OtpFields
-          value={value}
-          onChange={setValue}
-        />
+        <Controller
+          control={control}
+          name='otp'
+          render={({ field: { value, onChange } }) => (
+            <OtpFields
+              value={value}
+              onChange={onChange}
+            />
+          )} />
+
       </View>
 
       <View style={styles.resendOtpWrapper}>
@@ -72,20 +96,12 @@ const VerifyOtp = ({ destination, resendPress }: VerifyOtpProps) => {
         </Text>
 
         {seconds > 0 ? (
-          <Text
-            style={[
-              typography.subtitle,
-              { color: palletteColors.appPrimary },
-            ]}>
+          <Text style={[typography.subtitle, { color: palletteColors.appPrimary }]}>
             Resend in {formatTime(seconds)}
           </Text>
         ) : (
           <TouchableOpacity onPress={onResend}>
-            <Text
-              style={[
-                typography.subtitle,
-                { color: palletteColors.appPrimary },
-              ]}>
+            <Text style={[typography.subtitle, { color: palletteColors.appPrimary }]}>
               Resend OTP
             </Text>
           </TouchableOpacity>
@@ -93,7 +109,7 @@ const VerifyOtp = ({ destination, resendPress }: VerifyOtpProps) => {
       </View>
     </View>
   );
-};
+});
 
 export default VerifyOtp
 
@@ -101,7 +117,6 @@ const verifyOtpStyles = (scale: LayoutScaleType) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-
     },
     icon: {
       height: 150,

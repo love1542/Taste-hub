@@ -84,7 +84,7 @@ const Signup = () => {
         return signupType === 'email' ? <SignupWithEmail ref={stepRef}/> : <SignupWithPhone />
 
       case SignupStep.Verification:
-        return <VerifyOtp destination={signupType === 'email' ? "sdf@gmail.com" : "9888722"} resendPress={() => { }} />
+        return <VerifyOtp ref={stepRef} destination={signupType === 'email' ? "sdf@gmail.com" : "9888722"} resendPress={() => { }} />
 
       case SignupStep.UserInfo:
         return <SignupProfile img={image} onCameraPress={onCameraPress} />

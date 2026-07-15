@@ -12,6 +12,10 @@ export interface EmailStepForm {
   confirmPassword: string;
 }
 
+export interface OtpForm {
+  otp: string
+}
+
 export type StepHandle<T> = {
   validate: () => Promise<T | null>
 }

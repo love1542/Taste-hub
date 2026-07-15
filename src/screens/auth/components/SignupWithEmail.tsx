@@ -30,7 +30,8 @@ const SignupWithEmail = forwardRef<StepHandle<EmailStepForm>>((
     validate: () =>
       new Promise((resolve) => {
         handleSubmit(
-          (data) => resolve(data)     
+          (data) => resolve(data),
+          () => resolve(null)  
         )()
       })
   }))

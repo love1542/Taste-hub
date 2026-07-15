@@ -19,7 +19,7 @@ const EmailPhoneLoginBtn = ({ phoneOnPress, emailOnPress }: EmailPhoneLoginBtnPr
         rightIcon={<ChevronRight size={20} color={palletteColors.white} />}
         text="Continue with Phone"
         style={styles.button}
-        colors={[palletteColors.appEF4444, palletteColors.appPrimary]}
+        colors={[palletteColors.appFFB88A, palletteColors.appPrimary]}
         textStyle={styles.phoneText}
         onPress={phoneOnPress}
       />
