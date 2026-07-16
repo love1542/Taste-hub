@@ -48,7 +48,7 @@ const SignupWithEmail = forwardRef<StepHandle<EmailStepForm>>((
           <Text style={typography.subHeading}>
             Sign up with email
           </Text>
-          <Text style={typography.subtitle}>Enter your details. New users are created automatically.</Text>
+          <Text style={typography.subtitle}>Create your account to discover premium restaurants and food</Text>
         </View>
       </View>
 
@@ -126,7 +126,7 @@ const viewStyles = (color: palleteColorsType, scale: LayoutScaleType) => {
     },
 
     filedsRapper: {
-      gap: scale.lg_24,
+      gap: scale.xl_32,
     },
 
     titlesWrapper: {

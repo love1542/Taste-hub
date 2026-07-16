@@ -1,13 +1,14 @@
 import { StyleSheet } from "react-native";
 import { LayoutScaleType, palleteColorsType } from "../../../constants/theme";
 
-export const signupStyles = (colors: palleteColorsType, scale: LayoutScaleType) =>{
+export const signupStyles = (colors: palleteColorsType, scale: LayoutScaleType) => {
     return StyleSheet.create({
-        container:{ 
-            flex: 1, 
-            alignItems: 'flex-start', 
-            padding: scale.lg_24, 
-            gap: scale.md_16 
+        container: {
+            flex: 1,
+            alignItems: 'flex-start',
+            padding: scale.lg_24,
+            gap: scale.xl_32,
+            backgroundColor: colors.dullwhite
         },
         contentWrapper: {
             flex: 1,
@@ -19,16 +20,23 @@ export const signupStyles = (colors: palleteColorsType, scale: LayoutScaleType) 
         continueButtonWrapper: {
             width: '100%',
             paddingTop: scale.sm_8,
+            gap: scale.ml_20
         },
-        backButton: {
-            alignSelf: 'flex-start',
-            width: scale.huge_48,
-            height: scale.huge_48,
-            paddingVertical: 0,
-            paddingHorizontal: 0,
-            borderRadius: scale.huge_48 / 2,
-            justifyContent: 'center',
+        loginRow: {
+            flexDirection: 'row',
             alignItems: 'center',
-        }
+            gap: scale.sm_8,
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+        },
+        loginText: {
+            fontSize: 15,
+            lineHeight: 22,
+            color: colors.app404040,
+        },
+        loginLink: {
+            fontWeight: '600',
+            color: colors.appPrimary,
+        },
     })
 }

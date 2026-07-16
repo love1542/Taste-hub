@@ -1,10 +1,9 @@
-import { View, Keyboard, TouchableWithoutFeedback, ImageSourcePropType, ScrollView } from 'react-native';
+import { View, Keyboard, TouchableWithoutFeedback, ImageSourcePropType, ScrollView, Text } from 'react-native';
 import React, { useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PagingIndicator from '../../../components/pagingIndicator/PagingIndicator';
 import LeftIconWithTextButton from '../../../components/LeftIconWithTextButton';
-import { ArrowLeft } from 'lucide-react-native';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { AuthStackParamList } from '../../../navigation/type';
 import SignupWithEmail from '../components/SignupWithEmail';
 import VerifyOtp from '../components/VerifyOtp';
@@ -18,10 +17,13 @@ import ImagePickerSheet from '../../../components/imagePicker/ImagePickerSheet';
 import { ImagePickerType, useImagePicker } from '../../../components/imagePicker/useImagePicker';
 import { ImagePickerSheetItem } from '../../../components/imagePicker/types/imagePicker.types';
 import { SIGNUP_SCREENS, SignupStep } from '../constants/signupConstants';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, 'signup'>;
+type SignupStackNavigationprops = NativeStackNavigationProp<AuthStackParamList, 'signup'>
 
 const Signup = () => {
+  const navigation = useNavigation<SignupStackNavigationprops>()
   const route = useRoute<SignupRouteProp>();
   const signupType = route.params?.signupType;
   const { palletteColors, scale } = useTheme()
@@ -68,10 +70,8 @@ const Signup = () => {
     setStep(step + 1);
   };
 
-  const onBackPress = () => {
-    if (step > 0) {
-      setStep(step - 1)
-    }
+  const onLoginPress = () =>{
+    navigation.replace("login")
   }
 
   const flow = SIGNUP_SCREENS[signupType]
@@ -97,13 +97,6 @@ const Signup = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
 
-        <LeftIconWithTextButton
-          leftIcon={<ArrowLeft size={20} color={palletteColors.black} />}
-          onPress={onBackPress}
-          style={styles.backButton}
-          colors={[palletteColors.white, palletteColors.white]}
-        />
-
         <PagingIndicator
           totalPages={3}
           currentPageIndex={step}
@@ -121,6 +114,12 @@ const Signup = () => {
         </View>
 
         <View style={styles.continueButtonWrapper}>
+          { step === 0 && <View style={styles.loginRow}>
+            <Text style={styles.loginText}>Aleardy have an account</Text>
+            <TouchableWithoutFeedback onPress={onLoginPress}>
+              <Text style={styles.loginLink}>Log In</Text>
+            </TouchableWithoutFeedback>
+          </View>}
           <LeftIconWithTextButton
             text='Continue'
             colors={['#FF6B35', '#FF6B35']}

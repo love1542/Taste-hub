@@ -103,7 +103,7 @@ const BorderLineTextFieldStyles = (color: palleteColorsType, scale: LayoutScaleT
         title: {
             fontWeight: '400',
             textTransform: 'capitalize',
-            color: color.appPrimary
+            color: color.black
         },
         textFieldContiner: {
             flexDirection: 'row',

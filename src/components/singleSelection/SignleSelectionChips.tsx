@@ -94,7 +94,7 @@ const signleSelectionChipsStyles = (color: palleteColorsType, scale: LayoutScale
         title: {
             fontWeight: '400',
             textTransform: 'capitalize',
-            color: color.appPrimary
+            color: color.black
         },
         chip: {
             borderWidth: 1,

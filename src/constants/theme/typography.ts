@@ -26,6 +26,7 @@ export const Typography = {
 
   subtitle: {
     fontSize: 14,
+    color: PaletteColors.app737373,
     fontFamily: 'Inter-Medium',
   },
 
