@@ -16,14 +16,13 @@ const SignupWithEmail = forwardRef<StepHandle<EmailStepForm>>((
   const { palletteColors, scale, typography } = useTheme()
   const styles = viewStyles(palletteColors, scale)
 
-  const { control, formState, handleSubmit } = useForm<EmailStepForm>({
+  const { control, formState, handleSubmit, clearErrors } = useForm<EmailStepForm>({
     resolver: zodResolver(emailStepSchema),
     defaultValues: {
       email: "",
       password: "",
       confirmPassword: ""
     },
-    reValidateMode: 'onBlur'
   })
 
   useImperativeHandle(ref, () => ({
@@ -66,6 +65,9 @@ const SignupWithEmail = forwardRef<StepHandle<EmailStepForm>>((
               onChangeText={onChange}
               leftIcon={<Mail size={20} />}
               errorMessage={formState.errors.email?.message}
+              onFocus={()=>{
+                clearErrors('email')
+              }}
             />
 
           )} />
@@ -82,6 +84,9 @@ const SignupWithEmail = forwardRef<StepHandle<EmailStepForm>>((
               leftIcon={<Lock size={20} />}
               isSecureField={true}
               errorMessage={formState.errors.password?.message}
+              onFocus={()=>{
+                clearErrors('password')
+              }}
             />
 
           )} />
@@ -98,6 +103,9 @@ const SignupWithEmail = forwardRef<StepHandle<EmailStepForm>>((
               leftIcon={<Lock size={20} />}
               isSecureField={true}
               errorMessage={formState.errors.confirmPassword?.message}
+              onFocus={()=>{
+                clearErrors('confirmPassword')
+              }}
             />
 
           )} />

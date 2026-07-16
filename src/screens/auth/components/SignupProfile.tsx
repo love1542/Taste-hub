@@ -1,27 +1,49 @@
 import { View, Text, StyleSheet, ImageSourcePropType, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { forwardRef, useImperativeHandle } from 'react'
 import { LayoutScaleType, useTheme } from '../../../constants/theme'
 import ImagePicker from '../../../components/imagePicker/ImagePicker'
 import BorderLineTextField from '../../../components/fields/BorderLineTextField'
 import SingleSelectionChips from '../../../components/singleSelection/SignleSelectionChips'
-import { ChevronRight, Container, LocateFixed } from 'lucide-react-native'
+import { ChevronRight, LocateFixed } from 'lucide-react-native'
 import { GENDER_SELECTIONS } from '../../../constants/appConstants'
+import { profileStepForm, StepHandle } from '../types/auth.types'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { profileStepSchema } from '../../../utilites/validation/authSchema'
 
 
-type SignupProfileType = {
-    img?: string | ImageSourcePropType
+type SignupProfileProps = {
+    img: string | ImageSourcePropType | undefined
     onCameraPress: () => void
 }
-const SignupProfile = ({
-    img,
-    onCameraPress
-}: SignupProfileType) => {
+const SignupProfile = forwardRef<StepHandle<profileStepForm>, SignupProfileProps>(({ img, onCameraPress }, ref) => {
     const { typography, scale } = useTheme()
     const styles = signupProfileSyles(scale)
-    const [name, setname] = useState('')
     const onCurrentlocationTap = () => {
         console.log("open curret location")
     }
+
+    const { control, handleSubmit, formState, clearErrors } = useForm<profileStepForm>({
+        resolver: zodResolver(profileStepSchema),
+        defaultValues: {
+            image: img ?? undefined,
+            dateOfBirth: "",
+            fullName: '',
+            gender: '',
+            location: ''
+        },
+    })
+
+    useImperativeHandle(ref, () => ({
+        validate: async () => {
+            return await new Promise<profileStepForm | null>((resolve) => {
+                handleSubmit(
+                    (data) => resolve(data),
+                    () => resolve(null)
+                )()
+            })
+        }
+    }))
 
     return (
         <>
@@ -37,31 +59,71 @@ const SignupProfile = ({
                     uri={img}
                     onCameraPress={onCameraPress} />
 
-                <BorderLineTextField
-                    placeholder='Enter your Name'
-                    onChangeText={(name) => setname(name)}
-                    title='Full Name'
-                    value={name}
-                />
-                <BorderLineTextField
-                    placeholder='DD/MM/YYYY'
-                    onChangeText={(name) => setname(name)}
-                    title='Date Of Birth'
-                    value={name}
-                />
+                <Controller
+                    control={control}
+                    name='fullName'
+                    render={({ field: { onChange, value } }) => (
+                        <BorderLineTextField
+                            placeholder='Enter your Name'
+                            onChangeText={onChange}
+                            title='Full Name'
+                            value={value}
+                            errorMessage={formState.errors.fullName?.message}
+                            onFocus={() => {
+                                clearErrors('fullName')
+                            }}
+                        />
+                    )} />
 
-                <SingleSelectionChips 
-                title='Gender'
-                configs={GENDER_SELECTIONS} 
-                defaultSelectedId={GENDER_SELECTIONS[0].id}/>
+                <Controller
+                    control={control}
+                    name='dateOfBirth'
+                    render={({ field: { onChange, value } }) => (
+                        <BorderLineTextField
+                            placeholder='DD/MM/YYYY'
+                            onChangeText={onChange}
+                            title='Date Of Birth'
+                            value={value}
+                            errorMessage={formState.errors.dateOfBirth?.message}
+                            onFocus={() => {
+                                clearErrors('dateOfBirth')
+                            }}
+                        />
+                    )} />
+
+
+
+
+                <Controller
+                    control={control}
+                    name='gender'
+                    render={({ field: { onChange, value } }) => (
+                        <SingleSelectionChips
+                            title='Gender'
+                            configs={GENDER_SELECTIONS}
+                            selectedValue={value}
+                            onSelectionChange={onChange}
+                            errorMessage={formState.errors.gender?.message}
+
+                        />
+                    )} />
 
                 <View style={styles.location}>
-                    <BorderLineTextField
-                        placeholder='Enter Your Location'
-                        onChangeText={(name) => setname(name)}
-                        title='Location'
-                        value={name}
-                    />
+                    <Controller
+                        control={control}
+                        name='location'
+                        render={({ field: { onChange, value } }) => (
+                            <BorderLineTextField
+                                placeholder='Enter Your Location'
+                                onChangeText={onChange}
+                                title='Location'
+                                value={value}
+                                errorMessage={formState.errors.location?.message}
+                                onFocus={() => {
+                                    clearErrors('location')
+                                }}
+                            />
+                        )} />
 
                     <TouchableOpacity
                         style={styles.currentLocationWrapper}
@@ -79,14 +141,14 @@ const SignupProfile = ({
             </View>
         </>
     )
-}
+})
 
 export default SignupProfile
 
 const signupProfileSyles = (scale: LayoutScaleType) => {
     return StyleSheet.create({
         titlesWrapper: {
-            gap: scale. iconSM_16
+            gap: scale.iconSM_16
         },
         contentWrapper: {
             width: '100%',

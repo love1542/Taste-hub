@@ -30,3 +30,20 @@ export const otpSchema = z.object({
     otp: z.string()
     .min(6, ("Fill otp"))
 })
+
+export const profileStepSchema = z.object({
+    image: z.any().optional(),
+
+    fullName: z.string()
+    .min(3,{message: 'Enter valid name'})
+    .min(1,{message: 'Name is Requied'}),
+
+    dateOfBirth: z.string()
+        .min(1,{message: 'Date of Birth is required'}),
+
+    gender: z.string()
+    .min(1, {message: " Gender is required"}),
+
+    location: z.string()
+    .min(1, {message: "location is required"})
+})

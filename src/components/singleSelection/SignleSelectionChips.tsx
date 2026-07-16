@@ -1,8 +1,7 @@
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme'
-import { set } from 'zod'
-import { LucideIcon, Mars, Venus, VenusAndMars } from 'lucide-react-native'
+import { LucideIcon } from 'lucide-react-native'
 
 export interface SelectionItem {
     id: string,
@@ -14,31 +13,45 @@ export interface SelectionItem {
 interface SingleSelectionChipsProps {
     configs: SelectionItem[];
     defaultSelectedId?: string;
-    title?: string
+    title?: string;
+    selectedValue?: string;
+    onSelectionChange?: (value: string | undefined) => void;
+    errorMessage?: string;
 }
 
 const SingleSelectionChips = ({
     configs,
     defaultSelectedId,
-    title
+    title,
+    selectedValue,
+    onSelectionChange,
+    errorMessage
 }: SingleSelectionChipsProps) => {
-    const [selected, setSelected] = useState<string | undefined>(defaultSelectedId)
+    const [internalSelected, setInternalSelected] = useState<string | undefined>(defaultSelectedId)
 
     const { typography, palletteColors, scale } = useTheme()
     const styles = signleSelectionChipsStyles(palletteColors, scale)
+    const selected = selectedValue ?? internalSelected
+
+    useEffect(() => {
+        if (selectedValue !== undefined) {
+            setInternalSelected(selectedValue)
+        }
+    }, [selectedValue])
 
     const onPressChip = (item: SelectionItem) => {
-        console.log('run')
-        if (item.id == selected) {
-            setSelected(undefined)
-        } else {
-            setSelected(item.id)
-            if (item.onSelect) {
-                item.onSelect()
-            }
+        const nextValue = item.id === selected ? undefined : item.id
+
+        if (selectedValue === undefined) {
+            setInternalSelected(nextValue)
+        }
+
+        onSelectionChange?.(nextValue)
+
+        if (item.onSelect) {
+            item.onSelect()
         }
     }
-
 
     return (
         <View style={styles.contianer}>
@@ -65,6 +78,7 @@ const SingleSelectionChips = ({
                     )
                 }} />
 
+            {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
         </View>
     )
 }
@@ -92,7 +106,12 @@ const signleSelectionChipsStyles = (color: palleteColorsType, scale: LayoutScale
         },
         SelectedChip: {
             borderColor: color.appPrimary,
-            backgroundColor: color.appFFF4ED
+            backgroundColor: color.appFFE4D5
+        },
+        errorText: {
+            paddingTop: scale.sm_8,
+            color: color.appPrimary,
+            fontWeight: '500'
         }
     })
 }

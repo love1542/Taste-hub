@@ -1,3 +1,4 @@
+import { ImageSourcePropType } from "react-native";
 
 export interface SignupForm {
   email: string;
@@ -14,6 +15,14 @@ export interface EmailStepForm {
 
 export interface OtpForm {
   otp: string
+}
+
+export interface profileStepForm {
+  image?: string | ImageSourcePropType
+  fullName: string
+  dateOfBirth: string
+  gender: string
+  location: string
 }
 
 export type StepHandle<T> = {
