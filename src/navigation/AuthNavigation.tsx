@@ -6,7 +6,7 @@ import { AuthStackParamList } from './type'
 import ForgetPassword from '../screens/auth/screens/ForgetPassword'
 import Signup from '../screens/auth/screens/Signup'
 import Welcome from '../screens/auth/screens/Welcome'
-
+import Home from '../screens/home/Home'
 
 const stack = createNativeStackNavigator<AuthStackParamList>()
 const AuthNavigation = () => {
@@ -16,6 +16,7 @@ const AuthNavigation = () => {
       <stack.Screen name={authRoutes.login} component={Login}/>
       <stack.Screen name={authRoutes.signup} component={Signup}/>
       <stack.Screen name={authRoutes.forgotPassword} component={ForgetPassword}/>
+      <stack.Screen name={authRoutes.home} component={Home}/>
     </stack.Navigator>
   )
 }

@@ -63,14 +63,26 @@ const Signup = () => {
   }
 
   const continuePress = async () => {
-  const result = await stepRef.current?.validate()
+    const result = await stepRef.current?.validate()
     if (!result) return
 
+    const updatedData = {
+      ...signupData,
+      ...result,
+    };
 
-    setStep(step + 1);
+    setSignupData(updatedData);
+
+    console.log(updatedData);
+    if (step < 2) {
+      setStep(step + 1);
+    } else {
+      navigation.replace('home')
+    }
+    
   };
 
-  const onLoginPress = () =>{
+  const onLoginPress = () => {
     navigation.replace("login")
   }
 
@@ -81,7 +93,7 @@ const Signup = () => {
   const renderScreen = () => {
     switch (currentStep) {
       case SignupStep.Credential:
-        return signupType === 'email' ? <SignupWithEmail ref={stepRef}/> : <SignupWithPhone />
+        return signupType === 'email' ? <SignupWithEmail ref={stepRef} /> : <SignupWithPhone />
 
       case SignupStep.Verification:
         return <VerifyOtp ref={stepRef} destination={signupType === 'email' ? "sdf@gmail.com" : "9888722"} resendPress={() => { }} />
@@ -91,7 +103,7 @@ const Signup = () => {
     }
   }
 
-  
+
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -109,12 +121,12 @@ const Signup = () => {
             keyboardShouldPersistTaps='handled'
             showsVerticalScrollIndicator={false}
           >
-              {renderScreen()}
+            {renderScreen()}
           </ScrollView>
         </View>
 
         <View style={styles.continueButtonWrapper}>
-          { step === 0 && <View style={styles.loginRow}>
+          {step === 0 && <View style={styles.loginRow}>
             <Text style={styles.loginText}>Aleardy have an account</Text>
             <TouchableWithoutFeedback onPress={onLoginPress}>
               <Text style={styles.loginLink}>Log In</Text>

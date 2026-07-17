@@ -7,6 +7,7 @@ export type AuthStackParamList = {
   [authRoutes.welcome]: undefined;
   [authRoutes.signup]: { signupType: SignUpType };
   [authRoutes.forgotPassword]: undefined;
+  [authRoutes.home]: undefined;
 };
 
 export type RootStackParamList = {
