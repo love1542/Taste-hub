@@ -4,7 +4,11 @@ export interface SignupForm {
   email: string;
   password: string;
   phone: string;
-  otp: string;
+  image?: string | ImageSourcePropType
+  fullName: string
+  dateOfBirth: string
+  gender: string
+  location: string
 }
 
 export interface EmailStepForm {
