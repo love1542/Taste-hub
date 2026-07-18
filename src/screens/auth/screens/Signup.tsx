@@ -19,6 +19,7 @@ import { ImagePickerSheetItem } from '../../../components/imagePicker/types/imag
 import { SIGNUP_SCREENS, SignupStep } from '../constants/signupConstants';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useCreateAccount, useSignupCredentials, useVerifyOtp } from '../hooks';
+import { useToast } from '../../../components/toast';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, 'signup'>;
 type SignupStackNavigationprops = NativeStackNavigationProp<AuthStackParamList, 'signup'>
@@ -33,6 +34,7 @@ const Signup = () => {
   const styles = signupStyles(palletteColors, scale)
   const { open, close } = useAppBottomSheet()
   const { pickImage } = useImagePicker()
+  const {showToast} = useToast()
 
   const [signupData, setSignupData] = useState<Partial<SignupForm>>({})
   const stepRef = useRef<StepHandle<any>>(null)
@@ -58,8 +60,6 @@ const Signup = () => {
   } = useCreateAccount();
 
   const isLoading = isRegisterLoading || isVerifyOtpLoading || isCreateAccountLoading
-
-
 
   const handleDefaultImagePress = (item: ImagePickerSheetItem) => {
     if (item.type === 'default') {
@@ -106,10 +106,10 @@ const Signup = () => {
               setSignupData(updated)
               setStep(step + 1);
             }
-            break
           } else {
             // phone mutation here when available
           }
+          break
 
         case SignupStep.Verification:
           response = await verifyOtpMutation(result)
@@ -131,6 +131,17 @@ const Signup = () => {
           break
       }
 
+      if (response?.success){
+        showToast({
+          message: response.message,
+          type:"success"
+        })
+      } else {
+        showToast({
+          message: response?.message,
+          type:"error"
+        })
+      }
 
     } catch {
       console.log("signup error")
