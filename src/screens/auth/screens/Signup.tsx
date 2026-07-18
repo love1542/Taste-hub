@@ -18,6 +18,7 @@ import { ImagePickerType, useImagePicker } from '../../../components/imagePicker
 import { ImagePickerSheetItem } from '../../../components/imagePicker/types/imagePicker.types';
 import { SIGNUP_SCREENS, SignupStep } from '../constants/signupConstants';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useCreateAccount, useSignupCredentials, useVerifyOtp } from '../hooks';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, 'signup'>;
 type SignupStackNavigationprops = NativeStackNavigationProp<AuthStackParamList, 'signup'>
@@ -35,6 +36,30 @@ const Signup = () => {
 
   const [signupData, setSignupData] = useState<Partial<SignupForm>>({})
   const stepRef = useRef<StepHandle<any>>(null)
+  const flow = SIGNUP_SCREENS[signupType]
+  const currentStep = flow[step]
+
+  const {
+    mutateAsync: registerMutation,
+    isPending: isRegisterLoading,
+    error: registerError,
+  } = useSignupCredentials();
+
+  const {
+    mutateAsync: verifyOtpMutation,
+    isPending: isVerifyOtpLoading,
+    error: verifyOtpError,
+  } = useVerifyOtp();
+
+  const {
+    mutateAsync: createAccountMutation,
+    isPending: isCreateAccountLoading,
+    error: createAccountError,
+  } = useCreateAccount();
+
+  const isLoading = isRegisterLoading || isVerifyOtpLoading || isCreateAccountLoading
+
+
 
   const handleDefaultImagePress = (item: ImagePickerSheetItem) => {
     if (item.type === 'default') {
@@ -66,29 +91,56 @@ const Signup = () => {
     const result = await stepRef.current?.validate()
     if (!result) return
 
-    const updatedData = {
-      ...signupData,
-      ...result,
-    };
+    try {
+      let response
 
-    setSignupData(updatedData);
+      switch (currentStep) {
+        case SignupStep.Credential:
+          if (signupType === 'email') {
+            response = await registerMutation(result);
+            if (response.success) {
+              const updated = {
+                ...signupData,
+                ...response.data
+              }
+              setSignupData(updated)
+              setStep(step + 1);
+            }
+            break
+          } else {
+            // phone mutation here when available
+          }
 
-    console.log(updatedData);
-    if (step < 2) {
-      setStep(step + 1);
-    } else {
-      navigation.replace('home')
+        case SignupStep.Verification:
+          response = await verifyOtpMutation(result)
+          if (response.success) {
+            setStep(step + 1);
+          }
+          break
+
+        case SignupStep.UserInfo:
+          response = await createAccountMutation(result)
+          if (response.success) {
+            const updated = {
+              ...signupData,
+              ...response.data?.profileData
+            }
+            setSignupData(updated)
+            navigation.replace('home')
+          }
+          break
+      }
+
+
+    } catch {
+      console.log("signup error")
     }
-    
+
   };
 
   const onLoginPress = () => {
     navigation.replace("login")
   }
-
-  const flow = SIGNUP_SCREENS[signupType]
-  const currentStep = flow[step]
-
 
   const renderScreen = () => {
     switch (currentStep) {
@@ -133,9 +185,10 @@ const Signup = () => {
             </TouchableWithoutFeedback>
           </View>}
           <LeftIconWithTextButton
-            text='Continue'
+            text={isLoading ? 'Loading...' : "countinue"}
             colors={['#FF6B35', '#FF6B35']}
             onPress={continuePress}
+            disabled= {isLoading}
           />
         </View>
       </SafeAreaView>

@@ -1,8 +1,8 @@
-import { uuid } from "zod/v4-mini";
 import { mockApi } from "../../../utilites/apis/mockApi";
 import { EmailStepForm, OtpForm, profileStepForm } from "../types/auth.types";
+import uuid from 'react-native-uuid';
 
-export const registerCardential = async (data: EmailStepForm) =>{
+export const registerCredentials = async (data: EmailStepForm) =>{
    return mockApi({
     data,
     message: "cadentials saved",
@@ -26,10 +26,10 @@ export const verifyOtp = async (otp: OtpForm) => {
     })
 }
 
-export const verifyProfile = async (profileData: profileStepForm) =>{
+export const createAccount = async (profileData: profileStepForm) =>{
     return mockApi({
         data:{
-            token: uuid.toString(),
+            token: uuid.v4(),
             profileData: profileData
         },
         message: 'Account Created Succussfully',
