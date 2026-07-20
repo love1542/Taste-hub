@@ -4,7 +4,7 @@ import { LayoutScaleType, useTheme } from '../../../constants/theme'
 import ImagePicker from '../../../components/imagePicker/ImagePicker'
 import BorderLineTextField from '../../../components/fields/BorderLineTextField'
 import SingleSelectionChips from '../../../components/singleSelection/SignleSelectionChips'
-import { ChevronRight, LocateFixed } from 'lucide-react-native'
+import { ChevronDown, ChevronRight, LocateFixed } from 'lucide-react-native'
 import { GENDER_SELECTIONS } from '../../../constants/appConstants'
 import { profileStepForm, StepHandle } from '../types/auth.types'
 import { Controller, useForm } from 'react-hook-form'
@@ -97,6 +97,7 @@ const SignupProfile = forwardRef<StepHandle<profileStepForm>, SignupProfileProps
                             placeholder='DD/MM/YYYY'
                             onChangeText={onChange}
                             title='Date Of Birth'
+                            rightIcon = {<ChevronDown />}
                             value={value}
                             disabled
                             errorMessage={formState.errors.dateOfBirth?.message}
@@ -146,9 +147,11 @@ const SignupProfile = forwardRef<StepHandle<profileStepForm>, SignupProfileProps
                         onPress={onCurrentlocationTap}
                     >
                         <View style={styles.currentLocation}>
+                            <View style={styles.currentLocation}>
                             <LocateFixed />
-                            <Text>Use Current Location</Text>
-                            <ChevronRight />
+                            <Text style={{paddingStart: 10}}>Use Current Location</Text>
+                            </View>
+                                <ChevronRight />
                         </View>
                         <View style={typography.borderLine} />
                     </TouchableOpacity>
@@ -181,7 +184,8 @@ const signupProfileSyles = (scale: LayoutScaleType) => {
         },
         currentLocation: {
             flexDirection: 'row',
-            alignItems: 'center'
+            alignItems: 'center',
+            justifyContent:'space-between'
         }
     })
 }

@@ -29,7 +29,7 @@ const Signup = () => {
   const route = useRoute<SignupRouteProp>();
   const signupType = route.params?.signupType;
   const { palletteColors, scale } = useTheme()
-  const [step, setStep] = useState<number>(2)
+  const [step, setStep] = useState<number>(0)
   const [image, setImage] = useState<string | ImageSourcePropType | undefined>(undefined)
   const styles = signupStyles(palletteColors, scale)
   const { open, close } = useAppBottomSheet()
