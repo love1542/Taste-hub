@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, ImageSourcePropType, TouchableOpacity } from 'react-native'
-import React, { forwardRef, useImperativeHandle } from 'react'
+import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import { LayoutScaleType, useTheme } from '../../../constants/theme'
 import ImagePicker from '../../../components/imagePicker/ImagePicker'
 import BorderLineTextField from '../../../components/fields/BorderLineTextField'
@@ -10,6 +10,8 @@ import { profileStepForm, StepHandle } from '../types/auth.types'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { profileStepSchema } from '../../../utilites/validation/authSchema'
+import { useAppBottomSheet } from '../../../components/bottomSheet/hooks/useAppBottomSheet'
+import AppDateTimePicker from '../../../components/datePicker/AppDateTimePicker'
 
 
 type SignupProfileProps = {
@@ -19,11 +21,12 @@ type SignupProfileProps = {
 const SignupProfile = forwardRef<StepHandle<profileStepForm>, SignupProfileProps>(({ img, onCameraPress }, ref) => {
     const { typography, scale } = useTheme()
     const styles = signupProfileSyles(scale)
+    const { open } = useAppBottomSheet()
     const onCurrentlocationTap = () => {
         console.log("open curret location")
     }
 
-    const { control, handleSubmit, formState, clearErrors } = useForm<profileStepForm>({
+    const { control, handleSubmit, formState, clearErrors, setValue } = useForm<profileStepForm>({
         resolver: zodResolver(profileStepSchema),
         defaultValues: {
             image: img ?? undefined,
@@ -33,6 +36,17 @@ const SignupProfile = forwardRef<StepHandle<profileStepForm>, SignupProfileProps
             location: ''
         },
     })
+
+    const openDatePicker = () => {
+        open({
+            title: "Date of Birth",
+            content: (<AppDateTimePicker mode='date'
+            onChange={(dateString)=> setValue("dateOfBirth", dateString, {
+            shouldValidate: true
+          })}
+            />),
+        })
+    }
 
     useImperativeHandle(ref, () => ({
         validate: async () => {
@@ -84,10 +98,12 @@ const SignupProfile = forwardRef<StepHandle<profileStepForm>, SignupProfileProps
                             onChangeText={onChange}
                             title='Date Of Birth'
                             value={value}
+                            disabled
                             errorMessage={formState.errors.dateOfBirth?.message}
                             onFocus={() => {
                                 clearErrors('dateOfBirth')
                             }}
+                            onPress={openDatePicker}
                         />
                     )} />
 

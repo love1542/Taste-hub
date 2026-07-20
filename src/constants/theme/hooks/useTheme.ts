@@ -1,15 +1,20 @@
 import { useContext, useMemo } from "react";
 import { ThemeContext } from "../contextProvider/ThemeContext";
-import { PaletteColors } from "../paletteColors";
+import { Themes } from "../themes";
 
 export const useTheme =()=> {
     const context = useContext(ThemeContext)
+
+    const theme = context?.theme ?? Themes.light
+    const mode = context?.mode ?? 'light'
+    const toggleTheme = context?.toggleTheme ?? (() => {})
+
     return useMemo(() => ({
-        palletteColors: context.theme.paletteColors,
-        color: context.theme.colors,
-        scale: context.theme.scale,
-        typography: context.theme.typography,
-        mode: context.mode,
-        toggleTheme: context.toggleTheme,
-    }), [context]);
+        palletteColors: theme.paletteColors,
+        color: theme.colors,
+        scale: theme.scale,
+        typography: theme.typography,
+        mode,
+        toggleTheme,
+    }), [theme, mode, toggleTheme]);
 }

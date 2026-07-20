@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Touchable, TouchableOpacity, StyleProp, TextStyle, KeyboardTypeOptions, TextInputKeyPressEvent, ViewStyle } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, StyleProp, TextStyle, KeyboardTypeOptions, TextInputKeyPressEvent, ViewStyle } from 'react-native'
 import React, { forwardRef, useState } from 'react'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme'
 import { Apple } from 'lucide-react-native'
@@ -9,7 +9,10 @@ export type BorderLineTextFieldsProps = {
     placeholder: string,
     onChangeText: (text: string) => void,
     leftIcon?: React.ReactNode,
+    rightIcon?: React.ReactNode,
     isSecureField?: boolean,
+    disabled?: boolean,
+    onPress?: () => void,
     onFocus?: () => void,
     onBlur?: () => void,
     errorMessage?: string,
@@ -26,7 +29,10 @@ const BorderLineTextField = forwardRef<TextInput, BorderLineTextFieldsProps>(({
     placeholder,
     onChangeText,
     leftIcon,
+    rightIcon,
     isSecureField = false,
+    disabled = false,
+    onPress,
     onBlur,
     onFocus,
     errorMessage,
@@ -45,6 +51,14 @@ const BorderLineTextField = forwardRef<TextInput, BorderLineTextFieldsProps>(({
         setSecure(!secure)
     }
 
+    const handleInputPress = () => {
+        if (disabled) {
+            onFocus?.()
+            onPress?.()
+            return
+        }
+    }
+
     return (
         <View style={styles.container}>
             <Text style={[typography.subtitle, styles.title]}>
@@ -61,9 +75,11 @@ const BorderLineTextField = forwardRef<TextInput, BorderLineTextFieldsProps>(({
                     ref={ref}
                     value={value}
                     placeholder={placeholder}
-                    style={[styles.textField, textStyles]}
+                    style={[styles.textField, textStyles, disabled && styles.disabledText]}
                     secureTextEntry={secure}
+                    editable={!disabled}
                     onChangeText={onChangeText}
+                    onTouchStart={handleInputPress}
                     onFocus={() => {
                         setIsFocused(true);
                         if (onFocus) onFocus();
@@ -76,6 +92,12 @@ const BorderLineTextField = forwardRef<TextInput, BorderLineTextFieldsProps>(({
                     onKeyPress={onKeyPress}
                     keyboardType={keyboardType}
                 />
+
+                {rightIcon && (
+                    <View style={styles.rightIconWrapper}>
+                        {rightIcon}
+                    </View>
+                )}
 
                 {isSecureField && (
                     <TouchableOpacity onPress={onSecureTap}>
@@ -116,6 +138,9 @@ const BorderLineTextFieldStyles = (color: palleteColorsType, scale: LayoutScaleT
             fontSize: scale.md_16,
             fontWeight: '400'
         },
+        disabledText: {
+            opacity: 0.6
+        },
         error: {
             paddingTop: scale.sm_8,
             color: color.appPrimary,
@@ -124,6 +149,9 @@ const BorderLineTextFieldStyles = (color: palleteColorsType, scale: LayoutScaleT
         rightText: {
             color: color.appPrimary,
             fontWeight: '500'
+        },
+        rightIconWrapper: {
+            marginLeft: scale.sm_8
         }
     })
 }
