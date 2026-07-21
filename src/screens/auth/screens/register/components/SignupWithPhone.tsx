@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import BorderLineTextField from '../../../components/fields/BorderLineTextField'
-import { Controller, useFormContext } from 'react-hook-form'
-import { SignupForm } from '../types/auth.types'
-import { signupStyles } from '../styles'
-import { useTheme } from '../../../constants/theme'
+import { useTheme } from '../../../../../constants/theme'
+import { useFormContext, Controller } from 'react-hook-form'
+import BorderLineTextField from '../../../../../components/fields/BorderLineTextField'
+import { signupStyles } from '../../../styles'
+import { SignupForm } from '../../../types/auth.types'
 
 const SignupWithPhone = () => {
   const { control, formState } = useFormContext<SignupForm>()

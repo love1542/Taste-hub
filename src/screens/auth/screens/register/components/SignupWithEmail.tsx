@@ -1,13 +1,13 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
-import BorderLineTextField from '../../../components/fields/BorderLineTextField'
+import { View, Text, StyleSheet } from 'react-native'
+import React, { forwardRef, useImperativeHandle } from 'react'
 import { Lock, Mail } from 'lucide-react-native'
 import { Controller, useForm, useFormContext } from 'react-hook-form'
-import { EmailStepForm, SignupForm, StepHandle } from '../types/auth.types'
-import { LayoutScaleType, palleteColorsType, useTheme } from '../../../constants/theme'
-import LeftIconWithTextButton from '../../../components/LeftIconWithTextButton'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { emailStepSchema } from '../../../utilites/validation/authSchema'
+import BorderLineTextField from '../../../../../components/fields/BorderLineTextField'
+import LeftIconWithTextButton from '../../../../../components/LeftIconWithTextButton'
+import { palleteColorsType, LayoutScaleType, useTheme } from '../../../../../constants/theme'
+import { emailStepSchema } from '../../../../../utilites/validation/authSchema'
+import { StepHandle, EmailStepForm } from '../../../types/auth.types'
 
 
 const SignupWithEmail = forwardRef<StepHandle<EmailStepForm>>((

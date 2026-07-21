@@ -2,11 +2,11 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import OtpFields from '../../../components/fields/OtpFields'
-import { LayoutScaleType, useTheme } from '../../../constants/theme'
-import { RESEND_TIME } from '../../../constants/appConstants'
-import { OtpForm, StepHandle } from '../types/auth.types'
-import { otpSchema } from '../../../utilites/validation/authSchema'
+import OtpFields from '../../../../../components/fields/OtpFields'
+import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
+import { RESEND_TIME } from '../../../../../constants/appConstants'
+import { OtpForm, StepHandle } from '../../../types/auth.types'
+import { otpSchema } from '../../../../../utilites/validation/authSchema'
 
 type VerifyOtpProps = {
   destination: string
@@ -61,7 +61,7 @@ const VerifyOtp = forwardRef<StepHandle<OtpForm>, VerifyOtpProps>((
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../../../assets/icons/verifyMsg.png')}
+        source={require('../../../../../../assets/icons/verifyMsg.png')}
         style={styles.icon}
       />
 

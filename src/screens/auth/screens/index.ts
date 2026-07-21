@@ -1,3 +1,3 @@
 export * from './Welcome'
-export * from './Login'
-export * from './Signup'
+export * from './login/Login'
+export * from './register/Signup'

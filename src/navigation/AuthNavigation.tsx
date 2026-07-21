@@ -1,12 +1,12 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Login from '../screens/auth/screens/Login'
+import Login from '../screens/auth/screens/login/Login'
 import { authRoutes } from '../constants/appConstants'
 import { AuthStackParamList } from './type'
 import ForgetPassword from '../screens/auth/screens/ForgetPassword'
-import Signup from '../screens/auth/screens/Signup'
 import Welcome from '../screens/auth/screens/Welcome'
 import Home from '../screens/home/Home'
+import Signup from '../screens/auth/screens/register/Signup'
 
 const stack = createNativeStackNavigator<AuthStackParamList>()
 const AuthNavigation = () => {
