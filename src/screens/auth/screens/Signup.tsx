@@ -1,5 +1,5 @@
 import { View, Keyboard, TouchableWithoutFeedback, ImageSourcePropType, ScrollView, Text } from 'react-native';
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PagingIndicator from '../../../components/pagingIndicator/PagingIndicator';
 import LeftIconWithTextButton from '../../../components/LeftIconWithTextButton';
@@ -15,11 +15,12 @@ import SignupProfile from '../components/SignupProfile';
 import { useAppBottomSheet } from '../../../components/bottomSheet/hooks/useAppBottomSheet';
 import ImagePickerSheet from '../../../components/imagePicker/ImagePickerSheet';
 import { ImagePickerType, useImagePicker } from '../../../components/imagePicker/useImagePicker';
-import { ImagePickerSheetItem } from '../../../components/imagePicker/types/imagePicker.types';
+import { ImagePickerSheetItem, PickedImage } from '../../../components/imagePicker/types/imagePicker.types';
 import { SIGNUP_SCREENS, SignupStep } from '../constants/signupConstants';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useCreateAccount, useSignupCredentials, useVerifyOtp } from '../hooks';
 import { useToast } from '../../../components/toast';
+import { IMAGE_PICKER_SHEET_BTNS } from '../../../components/imagePicker/data/imagePickerSheet.data';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, 'signup'>;
 type SignupStackNavigationprops = NativeStackNavigationProp<AuthStackParamList, 'signup'>
@@ -30,11 +31,18 @@ const Signup = () => {
   const signupType = route.params?.signupType;
   const { palletteColors, scale } = useTheme()
   const [step, setStep] = useState<number>(0)
-  const [image, setImage] = useState<string | ImageSourcePropType | undefined>(undefined)
   const styles = signupStyles(palletteColors, scale)
   const { open, close } = useAppBottomSheet()
   const { pickImage } = useImagePicker()
-  const {showToast} = useToast()
+  const { showToast } = useToast()
+
+  const randomImage = useMemo(() => {
+    let defaultImages = IMAGE_PICKER_SHEET_BTNS.filter((item) => item.type === 'default')
+    return defaultImages[
+      Math.floor(Math.random() * defaultImages.length)
+    ];
+  }, []);
+  const [image, setImage] = useState<PickedImage | undefined>(randomImage)
 
   const [signupData, setSignupData] = useState<Partial<SignupForm>>({})
   const stepRef = useRef<StepHandle<any>>(null)
@@ -61,10 +69,11 @@ const Signup = () => {
 
   const handleDefaultImagePress = (item: ImagePickerSheetItem) => {
     if (item.type === 'default') {
-      setImage(item.image)
+      setImage({ type: 'default', id: item.id })
     }
     close()
   }
+  
 
   const onCameraPress = () => {
     open({
@@ -72,12 +81,12 @@ const Signup = () => {
       content: <ImagePickerSheet
         onCameraPress={async () => {
           let image = await pickImage(ImagePickerType.Camera)
-          setImage(image?.path)
+          setImage({ type: 'uri', uri: image?.path })
           close()
         }}
         onGalleryPress={async () => {
           let image = await pickImage(ImagePickerType.Gallery)
-          setImage(image?.path)
+          setImage({ type: 'uri', uri: image?.path })
           close()
         }}
         defaultIconPress={handleDefaultImagePress}
@@ -124,20 +133,21 @@ const Signup = () => {
               ...response.data?.profileData
             }
             setSignupData(updated)
-            navigation.replace('home')
+            console.log(updated)
+            // navigation.replace('home')
           }
           break
       }
 
-      if (response?.success){
+      if (response?.success) {
         showToast({
           message: response.message,
-          type:"success"
+          type: "success"
         })
       } else {
         showToast({
           message: response?.message,
-          type:"error"
+          type: "error"
         })
       }
 
@@ -197,7 +207,7 @@ const Signup = () => {
             text={isLoading ? 'Loading...' : "countinue"}
             colors={['#FF6B35', '#FF6B35']}
             onPress={continuePress}
-            disabled= {isLoading}
+            disabled={isLoading}
           />
         </View>
       </SafeAreaView>

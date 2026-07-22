@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, ImageSourcePropType, TouchableOpacity } from 'react-native'
-import React, { forwardRef, useImperativeHandle, useState } from 'react'
+import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react'
 import { LayoutScaleType, useTheme } from '../../../constants/theme'
 import ImagePicker from '../../../components/imagePicker/ImagePicker'
 import BorderLineTextField from '../../../components/fields/BorderLineTextField'
@@ -12,10 +12,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { profileStepSchema } from '../../../utilites/validation/authSchema'
 import { useAppBottomSheet } from '../../../components/bottomSheet/hooks/useAppBottomSheet'
 import AppDateTimePicker from '../../../components/datePicker/AppDateTimePicker'
+import { IMAGE_PICKER_SHEET_BTNS } from '../../../components/imagePicker/data/imagePickerSheet.data'
+import { PickedImage } from '../../../components/imagePicker/types/imagePicker.types'
 
 
 type SignupProfileProps = {
-    img: string | ImageSourcePropType | undefined
+    img:  PickedImage | undefined
     onCameraPress: () => void
 }
 const SignupProfile = forwardRef<StepHandle<profileStepForm>, SignupProfileProps>(({ img, onCameraPress }, ref) => {
@@ -29,7 +31,7 @@ const SignupProfile = forwardRef<StepHandle<profileStepForm>, SignupProfileProps
     const { control, handleSubmit, formState, clearErrors, setValue } = useForm<profileStepForm>({
         resolver: zodResolver(profileStepSchema),
         defaultValues: {
-            image: img ?? undefined,
+            image: img,
             dateOfBirth: "",
             fullName: '',
             gender: '',
@@ -70,7 +72,7 @@ const SignupProfile = forwardRef<StepHandle<profileStepForm>, SignupProfileProps
 
             <View style={styles.contentWrapper}>
                 <ImagePicker
-                    uri={img}
+                    image={img}
                     onCameraPress={onCameraPress} />
 
                 <Controller

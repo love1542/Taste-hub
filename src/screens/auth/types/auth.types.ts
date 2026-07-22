@@ -1,10 +1,10 @@
-import { ImageSourcePropType } from "react-native";
+import { PickedImage } from "../../../components/imagePicker/types/imagePicker.types";
 
 export interface SignupForm {
-  email: string;
-  password: string;
-  phone: string;
-  image?: string | ImageSourcePropType
+  email?: string;
+  password?: string;
+  phone?: string;
+  image?: PickedImage
   fullName: string
   dateOfBirth: string
   gender: string
@@ -22,7 +22,7 @@ export interface OtpForm {
 }
 
 export interface profileStepForm {
-  image?: string | ImageSourcePropType
+  image?: PickedImage
   fullName: string
   dateOfBirth: string
   gender: string

@@ -2,37 +2,26 @@ import { View, Image, StyleSheet, TouchableOpacity, ImageSourcePropType } from '
 import React, { useMemo } from 'react'
 import { LayoutScaleType, ThemeColors, useTheme } from '../../constants/theme'
 import { Camera } from 'lucide-react-native'
-import { IMAGE_PICKER_SHEET_BTNS } from './data/imagePickerSheet.data'
+import { getPickedImage, IMAGE_PICKER_SHEET_BTNS } from './data/imagePickerSheet.data'
+import { PickedImage } from './types/imagePicker.types'
 
 type ImagePickerProps = {
-    uri?: string | ImageSourcePropType,
+    image?: PickedImage | undefined,
     onCameraPress: () => void
 }
 
 const ImagePicker = ({
-    uri,
+    image,
     onCameraPress
 }: ImagePickerProps) => {
     const { scale, color, palletteColors } = useTheme()
     const styles = ImagePickerStyles(scale, color)
 
-    const randomImage = useMemo(() => {
-        let defaultImages = IMAGE_PICKER_SHEET_BTNS.filter((item)=> item.type === 'default')
-        return defaultImages[
-            Math.floor(Math.random() * defaultImages.length)
-        ];
-    }, []);
-
-    const imageSource =
-        typeof uri === 'string'
-            ? uri.trim()
-                ? { uri }
-                : randomImage.image
-            : uri ?? randomImage.image;
-
+    const img = getPickedImage(image)
+    
     return (
         <View style={[styles.conatiner]}>
-            <Image source={imageSource} style={[styles.image]} />
+            <Image source={img} style={[styles.image]} />
             <TouchableOpacity style={styles.cameraWrapper} onPress={onCameraPress}>
                 <Camera size={20} color={palletteColors.appPrimary} />
             </TouchableOpacity>

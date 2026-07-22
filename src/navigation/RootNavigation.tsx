@@ -7,8 +7,6 @@ import Splash from '../screens/splash/Splash'
 import { rootRoutes } from '../constants/appConstants'
 import { RootStackParamList } from './type'
 import OnBoarding from '../screens/onboarding/OnBoarding'
-import { storageService } from '../services/storageService'
-
 
 const stack = createNativeStackNavigator<RootStackParamList>()
 
