@@ -1,35 +1,45 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import BorderLineTextField from '../../../../../components/fields/BorderLineTextField'
 import OtpFields from '../../../../../components/fields/OtpFields'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { otpSchema, phoneSchema } from '../../../../../utilites/validation/authSchema'
+import { otpSchema, phoneOtpSchema } from '../../../../../utilites/validation/authSchema'
 import LeftIconWithTextButton from '../../../../../components/LeftIconWithTextButton'
-import { useTheme } from '../../../../../constants/theme'
+import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
+import ResendOtp from '../../../components/ResendOtp'
 
-type phoneform = {
+type phoneformOtp = {
   phone: string
-}
-
-type otpForm = {
   otp: string
 }
 const PhoneLogin = () => {
-  const [numberVerify, setNumberVerify] = useState(true)
-  const {palletteColors} = useTheme()
+  const [numberVerify, setNumberVerify] = useState(false)
+  const { palletteColors, scale, typography } = useTheme()
+  const styles = phoneloginStyles(scale)
 
-  const { control, getValues, formState } = useForm<phoneform>({
-    resolver: zodResolver(phoneSchema),
-    values: { phone: "" }
+  const { control, getValues, formState, trigger } = useForm<phoneformOtp>({
+    resolver: zodResolver(phoneOtpSchema),
+    values: { phone: "", otp: "" }
   })
 
-  const { control: otpcontroler, formState: otpState } = useForm<otpForm>({
-    resolver: zodResolver(otpSchema),
-    values: { otp: "" }
-  })
+  const loginPress = async () => {
+    if (!numberVerify) {
+      let verify = await trigger('phone')
+      if (verify) {
+        setNumberVerify(true)
+      }
+    } else {
+      let verify = await trigger('otp')
+      if (verify) {
+        setNumberVerify(true)
+      }
+    }
+  }
+
+
   return (
-    <View>
+    <View style={styles.container}>
       <Controller
         name='phone'
         control={control}
@@ -39,6 +49,7 @@ const PhoneLogin = () => {
               title='Phone'
               value={value}
               placeholder='Enter your phone'
+              disabled={numberVerify}
               errorMessage={formState.errors.phone?.message}
               onChangeText={onChange}
             />
@@ -47,30 +58,37 @@ const PhoneLogin = () => {
 
       {
         numberVerify &&
-        <View style={{height:150}}>
-          <Text>Enter OTP</Text>
+        <View style={styles.otpView}>
+          <Text style={[typography.title, {color: palletteColors.appPrimary}]}>Enter OTP</Text>
           <Text>Enter the 6-digit code we sent to</Text>
+          <View style={{flexDirection:'row', gap: 5}}>
           <Text>{getValues("phone")}</Text>
+          <TouchableOpacity>
+            <Text style={[typography.subtitle,{color:palletteColors.appPrimary, fontWeight: '500'}]}> Change ?</Text>
+          </TouchableOpacity>
+          </View>
           <Controller
             name='otp'
-            control={otpcontroler}
+            control={control}
             render={({ field: { value, onChange } }) => {
               return (
-                     <OtpFields
+                <OtpFields
                   value={value}
                   onChange={onChange}
                 />
-               
+
               )
             }} />
 
-
+          <ResendOtp resendpress={() => {}}/>
         </View>
       }
 
-       <LeftIconWithTextButton  
-      text='Login'
-      colors={[palletteColors.appPrimary, palletteColors.appPrimary2]}
+      <LeftIconWithTextButton
+        onPress={loginPress}
+        text={numberVerify ? "Verify Otp" : "Login"}
+        colors={[palletteColors.appPrimary, palletteColors.appPrimary]}
+        textStyle={{color: palletteColors.white}}
       />
 
     </View>
@@ -78,3 +96,14 @@ const PhoneLogin = () => {
 }
 
 export default PhoneLogin
+
+const phoneloginStyles = (scale: LayoutScaleType) => {
+  return StyleSheet.create({
+    container: {
+      gap: scale.ml_20
+    },
+    otpView: {
+      gap: scale.sm_8
+    }
+  })
+}

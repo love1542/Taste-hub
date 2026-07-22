@@ -1,61 +1,87 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { EmailLoginForm } from '../../../types/auth.types'
 import BorderLineTextField from '../../../../../components/fields/BorderLineTextField'
 import LeftIconWithTextButton from '../../../../../components/LeftIconWithTextButton'
-import { useTheme } from '../../../../../constants/theme'
+import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { emailLoginSchema } from '../../../../../utilites/validation/authSchema'
 
 const EmailLogin = () => {
 
-    const {palletteColors} = useTheme()
+  const { palletteColors, scale, typography } = useTheme()
+  const styles = emailLoginStyles(scale)
 
-    const {control, formState, handleSubmit} = useForm<EmailLoginForm>({
+  const { control, formState, handleSubmit } = useForm<EmailLoginForm>({
+    resolver: zodResolver(emailLoginSchema),
+    defaultValues: { email: "", password: "" }
+  })
 
-        defaultValues: {email:"", password:""}
+  const handleloginPress = () => {
+    handleSubmit((data) => {
+      console.log(data)
     })
+  }
+
   return (
-    <View>
-      <Controller 
-      name='email'
-      control={control}
-      render={({field:{value,onChange}})=>{
-        return(
+    <View style={styles.emailFieldsWrapper}>
+      <Controller
+        name='email'
+        control={control}
+        render={({ field: { value, onChange } }) => {
+          return (
             <BorderLineTextField
-             title='Email'
-            value={value}
-            placeholder='Enter your email'
-            errorMessage={formState.errors.email?.message}
-            onChangeText={onChange}
+              title='Email'
+              value={value}
+              placeholder='Enter your email'
+              errorMessage={formState.errors.email?.message}
+              onChangeText={onChange}
             />
-        )
-      }}/>
+          )
+        }} />
 
-      <Controller 
-      name='password'
-      control={control}
-      render={({field:{value,onChange}})=>{
-        return(
+      <Controller
+        name='password'
+        control={control}
+        render={({ field: { value, onChange } }) => {
+          return (
             <BorderLineTextField
-             title='password'
-            value={value}
-            placeholder='Enter your password'
-            errorMessage={formState.errors.password?.message}
-            onChangeText={onChange}
+              title='password'
+              value={value}
+              placeholder='Enter your password'
+              errorMessage={formState.errors.password?.message}
+              onChangeText={onChange}
             />
-        )
-      }}/>
+          )
+        }} />
 
-      <TouchableOpacity>
-        <Text>Reset Password</Text>
+      <TouchableOpacity
+        style={styles.resetPass}
+      >
+        <Text style={[typography.subtitle, {color: palletteColors.appPrimary}]}>Forget Password</Text>
       </TouchableOpacity>
 
-      <LeftIconWithTextButton  
-      text='Login'
-      colors={[palletteColors.appPrimary, palletteColors.appPrimary2]}
+      <LeftIconWithTextButton
+        onPress={handleloginPress}
+        text='Login'
+        colors={[palletteColors.appPrimary, palletteColors.appPrimary]}
+        textStyle={{color: palletteColors.white}}
       />
     </View>
   )
 }
 
 export default EmailLogin
+
+
+export const emailLoginStyles = (scale: LayoutScaleType) =>{
+  return StyleSheet.create({
+    emailFieldsWrapper:{
+      gap: scale.ml_20,
+    },
+    resetPass:{
+      alignSelf:"flex-end"
+    }
+  })
+}

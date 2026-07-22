@@ -47,6 +47,7 @@ const OtpFields = ({
             <BorderLineTextField
               ref={(el: any) => (inputRefs.current[index] = el)}
               title=''
+              placeholder='-'
               onChangeText={(value: string) => onchangeValue(value, index)}
               value={otp[index]}
               textStyles={{ fontSize: scale.iconMD_24 }}
@@ -68,7 +69,6 @@ export default OtpFields
 const fieldsStyles = (scale: LayoutScaleType) => {
   return StyleSheet.create({
     container: {
-      flex: 1,
       flexDirection: 'row',
       gap: scale.md_16,
       justifyContent: 'center',
