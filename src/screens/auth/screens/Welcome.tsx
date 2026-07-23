@@ -23,7 +23,7 @@ const Welcome = () => {
   const styles = useWelcomeStyles(scale, palletteColors, typography)
 
   const handleLoginPress = () => {
-    console.log('Login pressed')
+    navigation.replace('auth', { screen: 'login' })
   }
 
   return (

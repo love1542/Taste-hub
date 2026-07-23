@@ -36,8 +36,13 @@ export type StepHandle<T> = {
 
 export type SignUpType = 'email' | 'phone' | 'social'
 
+export interface EmailLoginForm {
+  email: string;
+  password: string;
+}
 
 export type loginUserStorage = {
   token: string;
   userId: string;
 }
+

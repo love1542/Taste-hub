@@ -1,12 +1,12 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
+import { View, Text, StyleSheet, Image } from 'react-native'
+import React, { forwardRef, useImperativeHandle } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import OtpFields from '../../../components/fields/OtpFields'
-import { LayoutScaleType, useTheme } from '../../../constants/theme'
-import { RESEND_TIME } from '../../../constants/appConstants'
-import { OtpForm, StepHandle } from '../types/auth.types'
-import { otpSchema } from '../../../utilites/validation/authSchema'
+import OtpFields from '../../../../../components/fields/OtpFields'
+import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
+import { OtpForm, StepHandle } from '../../../types/auth.types'
+import { otpSchema } from '../../../../../utilites/validation/authSchema'
+import ResendOtp from '../../../components/ResendOtp'
 
 type VerifyOtpProps = {
   destination: string
@@ -16,8 +16,6 @@ type VerifyOtpProps = {
 const VerifyOtp = forwardRef<StepHandle<OtpForm>, VerifyOtpProps>((
   { destination, resendPress }, ref
 ) => {
-  const [seconds, setSeconds] = useState(0);
-
   const { scale, typography, palletteColors } = useTheme();
   const styles = verifyOtpStyles(scale);
 
@@ -28,40 +26,20 @@ const VerifyOtp = forwardRef<StepHandle<OtpForm>, VerifyOtpProps>((
     }
   })
 
-  useEffect(() => {
-    if (seconds === 0) return;
-
-    const interval = setInterval(() => {
-      setSeconds(prev => prev - 1);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [seconds]);
-
   useImperativeHandle(ref, () => ({
     validate: () =>
       new Promise((resolve) => {
         handleSubmit(
-          (data) => resolve(data),  
-          () => resolve(null)      
+          (data) => resolve(data),
+          () => resolve(null)
         )()
       })
   }))
 
-  const onResend = () => {
-    resendPress();
-    setSeconds(RESEND_TIME);
-  };
-
-  const formatTime = (time: number) => {
-    const sec = String(time).padStart(2, '0');
-    return `00:${sec}`;
-  };
-
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../../../assets/icons/verifyMsg.png')}
+        source={require('../../../../../../assets/icons/verifyMsg.png')}
         style={styles.icon}
       />
 
@@ -89,24 +67,8 @@ const VerifyOtp = forwardRef<StepHandle<OtpForm>, VerifyOtpProps>((
           )} />
 
       </View>
+      <ResendOtp resendpress={resendPress} />
 
-      <View style={styles.resendOtpWrapper}>
-        <Text style={typography.subtitle}>
-          Didn't receive the code?
-        </Text>
-
-        {seconds > 0 ? (
-          <Text style={[typography.subtitle, { color: palletteColors.appPrimary }]}>
-            Resend in {formatTime(seconds)}
-          </Text>
-        ) : (
-          <TouchableOpacity onPress={onResend}>
-            <Text style={[typography.subtitle, { color: palletteColors.appPrimary }]}>
-              Resend OTP
-            </Text>
-          </TouchableOpacity>
-        )}
-      </View>
     </View>
   );
 });
@@ -127,9 +89,9 @@ const verifyOtpStyles = (scale: LayoutScaleType) => {
       paddingVertical: scale.xxl_40
     },
     resendOtpWrapper: {
-      flexDirection: 'row', 
-      gap: scale.sm_8, 
-      justifyContent: 'center', 
+      flexDirection: 'row',
+      gap: scale.sm_8,
+      justifyContent: 'center',
       paddingTop: scale.ms_12
     }
   })

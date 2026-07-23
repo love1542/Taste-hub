@@ -1,22 +1,21 @@
 import z from "zod";
 import { EMAIL_REGEX } from "../../constants/appConstants";
 
-export const phoneSchema = z.object({
-    phone: z
-        .string()
+export const phoneSchema =  z.string()
         .min(10, ('Enter valid number'))
         .max(10,("Enter valid number"))
-})
+
+export const emailSchema =  z.string()
+        .min(1, "Email is required")
+        .regex(EMAIL_REGEX, "Enter Valid Email")
+
+export const passwordSchema =  z.string()
+        .min(1, "Password is required")
+        .min(6, "Min. 6 digits")
 
 export const emailStepSchema = z.object({
-    email: z.string()
-        .min(1, "Email is required")
-        .regex(EMAIL_REGEX, "Enter Valid Email"),
-        
-    password: z.string()
-        .min(1, "Password is required")
-        .min(6, "Min. 6 digits"),
-        
+    email: emailSchema,
+    password: passwordSchema,
     confirmPassword: z.string()
         .min(1, "Confirm password is required")
 })
@@ -26,10 +25,8 @@ export const emailStepSchema = z.object({
 });
 
 
-export const otpSchema = z.object({
-    otp: z.string()
+export const otpSchema = z.string()
     .min(6, ("Fill otp"))
-})
 
 export const profileStepSchema = z.object({
     image: z.any().optional(),
@@ -46,4 +43,14 @@ export const profileStepSchema = z.object({
 
     location: z.string()
     .min(1, {message: "location is required"})
+})
+
+export const emailLoginSchema = z.object({
+    email: emailSchema,
+    password: passwordSchema
+})
+
+export const phoneOtpSchema = z.object({
+    phone: phoneSchema,
+    otp: otpSchema
 })

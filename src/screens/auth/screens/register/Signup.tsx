@@ -1,28 +1,28 @@
 import { View, Keyboard, TouchableWithoutFeedback, ImageSourcePropType, ScrollView, Text } from 'react-native';
 import React, { useMemo, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import PagingIndicator from '../../../components/pagingIndicator/PagingIndicator';
-import LeftIconWithTextButton from '../../../components/LeftIconWithTextButton';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { AuthStackParamList } from '../../../navigation/type';
-import SignupWithEmail from '../components/SignupWithEmail';
-import VerifyOtp from '../components/VerifyOtp';
-import SignupWithPhone from '../components/SignupWithPhone';
-import { loginUserStorage, SignupForm, StepHandle } from '../types/auth.types';
-import { signupStyles } from '../styles';
-import { useTheme } from '../../../constants/theme';
-import SignupProfile from '../components/SignupProfile';
-import { useAppBottomSheet } from '../../../components/bottomSheet/hooks/useAppBottomSheet';
-import ImagePickerSheet from '../../../components/imagePicker/ImagePickerSheet';
-import { ImagePickerType, useImagePicker } from '../../../components/imagePicker/useImagePicker';
-import { ImagePickerSheetItem, PickedImage } from '../../../components/imagePicker/types/imagePicker.types';
-import { SIGNUP_SCREENS, SignupStep } from '../constants/signupConstants';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useCreateAccount, useSignupCredentials, useVerifyOtp } from '../hooks';
-import { useToast } from '../../../components/toast';
-import { IMAGE_PICKER_SHEET_BTNS } from '../../../components/imagePicker/data/imagePickerSheet.data';
+import { useAppBottomSheet } from '../../../../components/bottomSheet/hooks/useAppBottomSheet';
+import ImagePickerSheet from '../../../../components/imagePicker/ImagePickerSheet';
+import { ImagePickerSheetItem, PickedImage } from '../../../../components/imagePicker/types/imagePicker.types';
+import { useImagePicker, ImagePickerType } from '../../../../components/imagePicker/useImagePicker';
+import LeftIconWithTextButton from '../../../../components/LeftIconWithTextButton';
+import PagingIndicator from '../../../../components/pagingIndicator/PagingIndicator';
+import { useToast } from '../../../../components/toast';
+import { AuthStackParamList } from '../../../../navigation/type';
+import SignupProfile from './components/SignupProfile';
+import VerifyOtp from './components/VerifyOtp';
+import { SIGNUP_SCREENS, SignupStep } from '../../constants/signupConstants';
+import { useSignupCredentials, useVerifyOtp, useCreateAccount } from '../../hooks';
+import { signupStyles } from '../../styles';
+import { loginUserStorage, SignupForm, StepHandle } from '../../types/auth.types';
+import { useTheme } from '../../../../constants/theme';
+import SignupWithEmail from './components/SignupWithEmail';
+import SignupWithPhone from './components/SignupWithPhone';
+import { IMAGE_PICKER_SHEET_BTNS } from '../../../../components/imagePicker/data/imagePickerSheet.data';
 import uuid from 'react-native-uuid'
-import { STORAGE_KEYS, storageService } from '../../../services/storageService';
+import { storageService, STORAGE_KEYS } from '../../../../services/storageService';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, 'signup'>;
 type SignupStackNavigationprops = NativeStackNavigationProp<AuthStackParamList, 'signup'>
