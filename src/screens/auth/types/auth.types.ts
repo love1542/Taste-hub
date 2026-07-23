@@ -1,6 +1,7 @@
 import { PickedImage } from "../../../components/imagePicker/types/imagePicker.types";
 
 export interface SignupForm {
+  id: string
   email?: string;
   password?: string;
   phone?: string;
@@ -34,3 +35,9 @@ export type StepHandle<T> = {
 }
 
 export type SignUpType = 'email' | 'phone' | 'social'
+
+
+export type loginUserStorage = {
+  token: string;
+  userId: string;
+}

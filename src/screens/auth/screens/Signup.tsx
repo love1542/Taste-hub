@@ -8,7 +8,7 @@ import { AuthStackParamList } from '../../../navigation/type';
 import SignupWithEmail from '../components/SignupWithEmail';
 import VerifyOtp from '../components/VerifyOtp';
 import SignupWithPhone from '../components/SignupWithPhone';
-import { SignupForm, StepHandle } from '../types/auth.types';
+import { loginUserStorage, SignupForm, StepHandle } from '../types/auth.types';
 import { signupStyles } from '../styles';
 import { useTheme } from '../../../constants/theme';
 import SignupProfile from '../components/SignupProfile';
@@ -21,6 +21,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useCreateAccount, useSignupCredentials, useVerifyOtp } from '../hooks';
 import { useToast } from '../../../components/toast';
 import { IMAGE_PICKER_SHEET_BTNS } from '../../../components/imagePicker/data/imagePickerSheet.data';
+import uuid from 'react-native-uuid'
+import { STORAGE_KEYS, storageService } from '../../../services/storageService';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, 'signup'>;
 type SignupStackNavigationprops = NativeStackNavigationProp<AuthStackParamList, 'signup'>
@@ -44,7 +46,7 @@ const Signup = () => {
   }, []);
   const [image, setImage] = useState<PickedImage | undefined>(randomImage)
 
-  const [signupData, setSignupData] = useState<Partial<SignupForm>>({})
+  const [signupData, setSignupData] = useState<SignupForm | undefined>()
   const stepRef = useRef<StepHandle<any>>(null)
   const flow = SIGNUP_SCREENS[signupType]
   const currentStep = flow[step]
@@ -73,7 +75,7 @@ const Signup = () => {
     }
     close()
   }
-  
+
 
   const onCameraPress = () => {
     open({
@@ -106,10 +108,10 @@ const Signup = () => {
           if (signupType === 'email') {
             response = await registerMutation(result);
             if (response.success) {
-              const updated = {
-                ...signupData,
-                ...response.data
-              }
+              const updated: SignupForm = {
+                id: uuid.v4(),
+                ...result, 
+              };
               setSignupData(updated)
               setStep(step + 1);
             }
@@ -126,15 +128,18 @@ const Signup = () => {
           break
 
         case SignupStep.UserInfo:
-          response = await createAccountMutation(result)
+          const finalData: SignupForm = {
+            ...signupData!,
+            ...result,
+            image,
+          };
+          response = await createAccountMutation(finalData)
           if (response.success) {
-            const updated = {
-              ...signupData,
-              ...response.data?.profileData
-            }
-            setSignupData(updated)
-            console.log(updated)
-            // navigation.replace('home')
+
+            storageService.set<loginUserStorage | undefined>(STORAGE_KEYS.loginUser, response.data)
+
+            console.log(response.data)
+            navigation.replace('home')
           }
           break
       }

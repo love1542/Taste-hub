@@ -1,5 +1,6 @@
+import { STORAGE_KEYS, storageService } from "../../../services/storageService";
 import { mockApi } from "../../../utilites/apis/mockApi";
-import { EmailStepForm, OtpForm, profileStepForm } from "../types/auth.types";
+import { EmailStepForm, loginUserStorage, OtpForm, SignupForm } from "../types/auth.types";
 import uuid from 'react-native-uuid';
 
 export const registerCredentials = async (data: EmailStepForm) =>{
@@ -26,13 +27,21 @@ export const verifyOtp = async (otp: OtpForm) => {
     })
 }
 
-export const createAccount = async (profileData: profileStepForm) =>{
-    return mockApi({
-        data:{
-            token: uuid.v4(),
-            profileData: profileData
-        },
-        message: 'Account Created Succussfully',
-        success: true
-    })
-}
+export const createAccount = async (formData: SignupForm) => {
+  const oldUsers = (await storageService.get<SignupForm[]>(STORAGE_KEYS.allUsers)) ?? [];
+
+  console.log(oldUsers)
+  const newUsers = [...oldUsers, formData];
+  console.log("new users", newUsers)
+
+  await storageService.set<SignupForm[]>(STORAGE_KEYS.allUsers, newUsers);
+
+  return mockApi<loginUserStorage>({
+    data: {
+      token: uuid.v4(),
+      userId: formData.id ?? "1",
+    },
+    message: "Account Created Successfully",
+    success: true,
+  });
+};
