@@ -1,6 +1,6 @@
 import { STORAGE_KEYS, storageService } from "../../../services/storageService";
 import { mockApi } from "../../../utilites/apis/mockApi";
-import { EmailStepForm, loginUserStorage, OtpForm, SignupForm } from "../types/auth.types";
+import { EmailLoginForm, EmailStepForm, loginUserStorage, OtpForm, SignupForm } from "../types/auth.types";
 import uuid from 'react-native-uuid';
 
 export const registerCredentials = async (data: EmailStepForm) =>{
