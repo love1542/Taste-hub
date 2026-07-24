@@ -105,7 +105,6 @@ const Signup = () => {
 
       switch (currentStep) {
         case SignupStep.Credential:
-          if (signupType === 'email') {
             response = await registerMutation(result);
             if (response.success) {
               const updated: SignupForm = {
@@ -115,9 +114,6 @@ const Signup = () => {
               setSignupData(updated)
               setStep(step + 1);
             }
-          } else {
-            // phone mutation here when available
-          }
           break
 
         case SignupStep.Verification:

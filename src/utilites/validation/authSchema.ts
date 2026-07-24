@@ -29,8 +29,10 @@ export const emailStepSchema = z.object({
 });
 
 
-export const otpSchema = z.string()
+export const otpSchema = z.object({
+    otp: z.string()
     .min(6, ("Fill otp"))
+})
 
 export const profileStepSchema = z.object({
     image: z.any().optional(),
@@ -58,5 +60,6 @@ export const phoneOtpSchema = z.object({
   phone: z.string()
     .min(10, "Enter valid number")
     .max(10, "Enter valid number"),
-  otp: otpSchema,
+  otp: z.string()
+    .min(6, ("Fill otp")),
 });
