@@ -7,12 +7,12 @@ import LeftIconWithTextButton from '../../../../../components/LeftIconWithTextBu
 import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { emailLoginSchema } from '../../../../../utilites/validation/authSchema'
-import { useLogin } from '../../../hooks'
 import { useToast } from '../../../../../components/toast'
 import { STORAGE_KEYS, storageService } from '../../../../../services/storageService'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../../../../navigation/type'
+import { useEmailLogin } from '../../../hooks'
 
 type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'auth'>
 
@@ -27,7 +27,7 @@ const EmailLogin = () => {
     defaultValues: { email: "", password: "" }
   })
 
-  const {mutateAsync, isPending} = useLogin()
+  const {mutateAsync, isPending} = useEmailLogin()
 
   const handleloginPress = () => {
     handleSubmit(async (data) => {
@@ -89,7 +89,8 @@ const EmailLogin = () => {
 
       <LeftIconWithTextButton
         onPress={handleloginPress}
-        text='Login'
+        disabled={isPending}
+        text={isPending ? "loading..." : "login"}
         colors={[palletteColors.appPrimary, palletteColors.appPrimary]}
         textStyle={{color: palletteColors.white}}
       />

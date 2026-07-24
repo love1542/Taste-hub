@@ -8,15 +8,24 @@ import { otpSchema, phoneOtpSchema } from '../../../../../utilites/validation/au
 import LeftIconWithTextButton from '../../../../../components/LeftIconWithTextButton'
 import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
 import ResendOtp from '../../../components/ResendOtp'
+import { useloginVerifyOtp, useloginWithPhone } from '../../../hooks'
+import { useToast } from '../../../../../components/toast'
+import {loginUserStorage, phoneformOtp} from '../../../types/auth.types'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { RootStackParamList } from '../../../../../navigation/type'
+import  { useNavigation } from '@react-navigation/native'
+import { STORAGE_KEYS, storageService } from '../../../../../services/storageService'
 
-type phoneformOtp = {
-  phone: string
-  otp: string
-}
+type NavigationType = NativeStackNavigationProp<RootStackParamList, "auth">
+
 const PhoneLogin = () => {
+  const navigation = useNavigation<NavigationType>()
   const [numberVerify, setNumberVerify] = useState(false)
   const { palletteColors, scale, typography } = useTheme()
   const styles = phoneloginStyles(scale)
+  const {showToast} = useToast()
+  const verifyNumber = useloginWithPhone()
+  const verifyotp = useloginVerifyOtp()
 
   const { control, getValues, formState, trigger } = useForm<phoneformOtp>({
     resolver: zodResolver(phoneOtpSchema),
@@ -27,12 +36,43 @@ const PhoneLogin = () => {
     if (!numberVerify) {
       let verify = await trigger('phone')
       if (verify) {
-        setNumberVerify(true)
+        let response = await verifyNumber.mutateAsync(getValues("phone"))
+        if(response.success) {
+           setNumberVerify(true)
+          showToast({
+            message: response.message,
+            type: 'success'
+          })
+        } else {
+          showToast({
+            message: response.message,
+            type: 'error'
+          })
+        }
+       
       }
     } else {
       let verify = await trigger('otp')
       if (verify) {
-        setNumberVerify(true)
+        let response = await verifyotp.mutateAsync({
+          otp: getValues('otp'),
+          phone: getValues("phone")
+        })
+        if(response.success){
+
+          storageService.set<loginUserStorage>(STORAGE_KEYS.loginUser, response.data as loginUserStorage)
+          navigation.replace('auth', {screen: 'home'})
+
+          showToast({
+            message: response.message,
+            type: 'success'
+          })
+        } else {
+          showToast({
+            message: response.message,
+            type: 'error'
+          })
+        }
       }
     }
   }

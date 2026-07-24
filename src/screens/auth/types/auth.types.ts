@@ -41,6 +41,11 @@ export interface EmailLoginForm {
   password: string;
 }
 
+export type phoneformOtp = {
+  phone: string
+  otp: string
+}
+
 export type loginUserStorage = {
   token: string;
   userId: string;

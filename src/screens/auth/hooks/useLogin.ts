@@ -1,10 +1,20 @@
 import { useMutation } from "@tanstack/react-query"
-import { loginWithEmail } from "../services"
-import { loginUserStorage } from "../types/auth.types"
-import { STORAGE_KEYS, storageService } from "../../../services/storageService"
+import { loginWithEmail, loginWithPhone, loginAccountPhone } from "../services"
 
-export const useLogin = () => {
+export const useEmailLogin = () => {
   return useMutation({
     mutationFn: loginWithEmail,
+  });
+};
+
+export const useloginWithPhone = () => {
+  return useMutation({
+    mutationFn: loginWithPhone
+  });
+};
+
+export const useloginVerifyOtp = () => {
+  return useMutation({
+    mutationFn: loginAccountPhone
   });
 };
