@@ -22,6 +22,10 @@ export interface OtpForm {
   otp: string
 }
 
+export interface phoneForm {
+  phone: string
+}
+
 export interface profileStepForm {
   image?: PickedImage
   fullName: string
@@ -50,4 +54,3 @@ export type loginUserStorage = {
   token: string;
   userId: string;
 }
-

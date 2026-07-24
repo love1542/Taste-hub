@@ -1,15 +1,36 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { forwardRef, Ref, useImperativeHandle } from 'react'
 import { useTheme } from '../../../../../constants/theme'
-import { useFormContext, Controller } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import BorderLineTextField from '../../../../../components/fields/BorderLineTextField'
 import { signupStyles } from '../../../styles'
-import { SignupForm } from '../../../types/auth.types'
+import { phoneForm, StepHandle } from '../../../types/auth.types'
+import { phoneStepSchema } from '../../../../../utilites/validation/authSchema'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-const SignupWithPhone = () => {
-  const { control, formState } = useFormContext<SignupForm>()
+
+const SignupWithPhone = forwardRef<StepHandle<phoneForm>>((
+  _props, ref
+) => {
   const {palletteColors, scale, typography} = useTheme()
     const styles = signupStyles(palletteColors, scale)
+
+     const { control, formState, handleSubmit, clearErrors } = useForm<phoneForm>({
+        resolver: zodResolver(phoneStepSchema),
+        defaultValues: {
+          phone: ""
+        },
+      })
+
+      useImperativeHandle(ref, () => ({
+        validate: () =>
+          new Promise((resolve) => {
+            handleSubmit(
+              (data) => resolve(data),
+              () => resolve(null)
+            )()
+          })
+      }))
   return (
     <View style={{ width: '100%', gap: 6 }}>
       <Text style={typography.subHeading}>
@@ -25,13 +46,13 @@ const SignupWithPhone = () => {
         <BorderLineTextField
         placeholder='Enter Phone Number'
         title='phone'
-        value={value}
+        value={value ?? ""}
         onChangeText={onChange} 
         errorMessage={formState.errors.phone?.message}/>
       )}/>
       
     </View>
   )
-}
+})
 
 export default SignupWithPhone
