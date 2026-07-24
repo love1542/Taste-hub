@@ -3,10 +3,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Login from '../screens/auth/screens/login/Login'
 import { authRoutes } from '../constants/appConstants'
 import { AuthStackParamList } from './type'
-import ForgetPassword from '../screens/auth/screens/ForgetPassword'
-import Welcome from '../screens/auth/screens/Welcome'
+import ForgetPassword from '../screens/auth/screens/forgerPassword/ForgetPassword'
 import Home from '../screens/home/Home'
 import Signup from '../screens/auth/screens/register/Signup'
+import Welcome from '../screens/onboarding/welcome/Welcome'
 
 const stack = createNativeStackNavigator<AuthStackParamList>()
 const AuthNavigation = () => {

@@ -1,5 +1,4 @@
-import { View, Text } from 'react-native'
-import React, { useState } from 'react'
+import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import AuthNavigation from './AuthNavigation'
 import { createNativeStackNavigator} from '@react-navigation/native-stack'
