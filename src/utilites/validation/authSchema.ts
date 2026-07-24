@@ -1,9 +1,13 @@
 import z from "zod";
 import { EMAIL_REGEX } from "../../constants/appConstants";
 
-export const phoneSchema =  z.string()
-        .min(10, ('Enter valid number'))
-        .max(10,("Enter valid number"))
+export const phoneSchema = z.string()
+  .min(10, "Enter valid number")
+  .max(10, "Enter valid number");
+
+export const phoneStepSchema = z.object({
+  phone: phoneSchema,
+});
 
 export const emailSchema =  z.string()
         .min(1, "Email is required")
@@ -51,6 +55,8 @@ export const emailLoginSchema = z.object({
 })
 
 export const phoneOtpSchema = z.object({
-    phone: phoneSchema,
-    otp: otpSchema
-})
+  phone: z.string()
+    .min(10, "Enter valid number")
+    .max(10, "Enter valid number"),
+  otp: otpSchema,
+});

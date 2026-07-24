@@ -21,6 +21,10 @@ export interface OtpForm {
   otp: string
 }
 
+export interface phoneForm {
+  phone: string
+}
+
 export interface profileStepForm {
   image?: string | ImageSourcePropType
   fullName: string

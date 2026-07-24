@@ -154,7 +154,7 @@ const Signup = () => {
   const renderScreen = () => {
     switch (currentStep) {
       case SignupStep.Credential:
-        return signupType === 'email' ? <SignupWithEmail ref={stepRef} /> : <SignupWithPhone />
+        return signupType === 'email' ? <SignupWithEmail ref={stepRef} /> : <SignupWithPhone ref={stepRef} />
 
       case SignupStep.Verification:
         return <VerifyOtp ref={stepRef} destination={signupType === 'email' ? "sdf@gmail.com" : "9888722"} resendPress={() => { }} />
