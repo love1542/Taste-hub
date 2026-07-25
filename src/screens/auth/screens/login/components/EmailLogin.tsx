@@ -104,7 +104,10 @@ export default EmailLogin
 export const emailLoginStyles = (scale: LayoutScaleType) =>{
   return StyleSheet.create({
     emailFieldsWrapper:{
+      backgroundColor: "white",
+      padding: scale.ml_20,
       gap: scale.ml_20,
+      borderRadius: 15
     },
     resetPass:{
       alignSelf:"flex-end"

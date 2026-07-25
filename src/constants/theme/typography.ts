@@ -19,9 +19,9 @@ export const Typography = {
   },
 
   title: {
-    fontSize: 16,
-    fontWeight: '600',
-    fontFamily: 'Inter-SemiBold',
+    fontSize: 15,
+    color: PaletteColors.app262626,
+    fontFamily: 'Inter-Medium',
   },
 
   subtitle: {

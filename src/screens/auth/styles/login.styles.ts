@@ -7,7 +7,7 @@ export const loginStyles = (color: palleteColorsType, scale: LayoutScaleType) =>
             flex: 1,
             backgroundColor: color.dullwhite,
             padding: scale.lg_24,
-            gap: scale.xxl_40
+            gap: scale.lg_24,
         },
         socialLoginsWrapper: {
             gap: scale.ml_20,
@@ -19,7 +19,6 @@ export const loginStyles = (color: palleteColorsType, scale: LayoutScaleType) =>
             lineHeight: 20,
             color: color.black,
             textAlign: 'center',
-            marginBottom: scale.sm_8,
         },
         signupRow: {
             flexDirection: 'row',
@@ -36,6 +35,13 @@ export const loginStyles = (color: palleteColorsType, scale: LayoutScaleType) =>
         signupLink: {
             fontWeight: '600',
             color: color.appPrimary,
+        },
+        bglogo:{
+            height:210,
+            width:210,
+            position:'absolute',
+            bottom:-50,
+            right:-90
         }
     })
 }

@@ -1,28 +1,45 @@
-import { View, Image, StyleSheet } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { View, Image, StyleSheet, ImageSourcePropType, ViewStyle, StyleProp } from 'react-native';
 
-const AppIcon = () => {
-    return (
-        <View style={styles.container}>
-            <Image source={require('../../assets/icons/appIcon.png')} style={styles.icon} />
-        </View>
-    )
+interface AppIconProps {
+  source?: ImageSourcePropType;
+  size?: number;
+  iconSize?: number;
+  backgroundColor?: string;
+  borderRadius?: number;
+  style?: StyleProp<ViewStyle>;
 }
 
-export default AppIcon
+const AppIcon: React.FC<AppIconProps> = ({
+  source = require('../../assets/icons/appIcon.png'),
+  size = 80,
+  iconSize = 45,
+  backgroundColor = '#FF6B35',
+  borderRadius = 20,
+  style,
+}) => {
+  return (
+    <View
+      style={[
+        styles.container,
+        { width: size, height: size, backgroundColor, borderRadius },
+        style,
+      ]}
+    >
+      <Image
+        source={source}
+        style={{ width: iconSize, height: iconSize }}
+        resizeMode="contain"
+      />
+    </View>
+  );
+};
+
+export default AppIcon;
 
 const styles = StyleSheet.create({
-    container: {
-        height: 80,
-        width: 80,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#FF6B35",
-        borderRadius: 20
-    },
-    icon: {
-        height: 45,
-        width: 45,
-        margin: 20
-    }
-})
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

@@ -15,6 +15,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../../../../navigation/type'
 import  { useNavigation } from '@react-navigation/native'
 import { STORAGE_KEYS, storageService } from '../../../../../services/storageService'
+import { Check } from 'lucide-react-native'
 
 type NavigationType = NativeStackNavigationProp<RootStackParamList, "auth">
 
@@ -77,6 +78,10 @@ const PhoneLogin = () => {
     }
   }
 
+  const onChangePress = () =>{
+    setNumberVerify(false)
+  }
+
 
   return (
     <View style={styles.container}>
@@ -97,16 +102,20 @@ const PhoneLogin = () => {
         }} />
 
       {
-        numberVerify &&
+        numberVerify ?
         <View style={styles.otpView}>
-          <Text style={[typography.title, {color: palletteColors.appPrimary}]}>Enter OTP</Text>
-          <Text>Enter the 6-digit code we sent to</Text>
-          <View style={{flexDirection:'row', gap: 5}}>
-          <Text>{getValues("phone")}</Text>
-          <TouchableOpacity>
-            <Text style={[typography.subtitle,{color:palletteColors.appPrimary, fontWeight: '500'}]}> Change ?</Text>
+          <View style={[styles.changeWrapper,{backgroundColor: palletteColors.dullwhite}]}>
+            <View style={{flexDirection:'row'}}>
+            <Check color={palletteColors.green} size={20} strokeWidth={3} />
+            <Text> Otp send to {getValues("phone")} </Text>
+            </View>
+            <TouchableOpacity onPress={onChangePress}>
+            <Text style={[typography.subtitle,{color:palletteColors.appPrimary, fontWeight: 'medium'}]}> Change</Text>
           </TouchableOpacity>
-          </View>
+            </View>
+          <Text style={{ fontSize:scale.ml_20, fontWeight:"700"}}>Enter OTP</Text>
+          <Text>Enter the 6-digit code we sent to</Text>
+          
           <Controller
             name='otp'
             control={control}
@@ -121,7 +130,8 @@ const PhoneLogin = () => {
             }} />
 
           <ResendOtp resendpress={() => {}}/>
-        </View>
+        </View> : 
+        <Text style={styles.verifyInfoText}>We will send you a 6-digit OTP to verify your number.</Text>
       }
 
       <LeftIconWithTextButton
@@ -140,10 +150,23 @@ export default PhoneLogin
 const phoneloginStyles = (scale: LayoutScaleType) => {
   return StyleSheet.create({
     container: {
-      gap: scale.ml_20
+      backgroundColor: "white",
+      padding: scale.ml_20,
+      gap: scale.md_16,
+      borderRadius: 15
     },
     otpView: {
       gap: scale.sm_8
+    },
+    changeWrapper:{
+      flexDirection: 'row',
+      padding: scale.sm_8,
+      borderRadius: scale.xsm_6,
+      alignItems:'center',
+      justifyContent: 'space-between'
+    },
+    verifyInfoText:{
+      fontSize: scale.ms_12
     }
   })
 }
