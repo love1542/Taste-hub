@@ -46,9 +46,6 @@ export const profileStepSchema = z.object({
 
     gender: z.string()
     .min(1, {message: " Gender is required"}),
-
-    location: z.string()
-    .min(1, {message: "location is required"})
 })
 
 export const emailLoginSchema = z.object({

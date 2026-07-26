@@ -1,4 +1,4 @@
-import { View, Keyboard, TouchableWithoutFeedback, ImageSourcePropType, ScrollView, Text, Image } from 'react-native';
+import { View, Keyboard, TouchableWithoutFeedback, ScrollView, Text, Image } from 'react-native';
 import React, { useMemo, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';

@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet, ImageSourcePropType, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet} from 'react-native'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
 import ImagePicker from '../../../../../components/imagePicker/ImagePicker'
 import BorderLineTextField from '../../../../../components/fields/BorderLineTextField'
 import SingleSelectionChips from '../../../../../components/singleSelection/SignleSelectionChips'
-import { ChevronDown, ChevronRight, LocateFixed } from 'lucide-react-native'
+import { ChevronDown} from 'lucide-react-native'
 import { GENDER_SELECTIONS } from '../../../../../constants/appConstants'
 import { profileStepForm, StepHandle } from '../../../types/auth.types'
 import { Controller, useForm } from 'react-hook-form'
@@ -23,9 +23,6 @@ const SignupProfile = forwardRef<StepHandle<profileStepForm>, SignupProfileProps
     const { typography, scale } = useTheme()
     const styles = signupProfileSyles(scale)
     const { open } = useAppBottomSheet()
-    const onCurrentlocationTap = () => {
-        console.log("open curret location")
-    }
 
     const { control, handleSubmit, formState, clearErrors, setValue } = useForm<profileStepForm>({
         resolver: zodResolver(profileStepSchema),
@@ -34,7 +31,6 @@ const SignupProfile = forwardRef<StepHandle<profileStepForm>, SignupProfileProps
             dateOfBirth: "",
             fullName: '',
             gender: '',
-            location: ''
         },
     })
 
@@ -126,38 +122,6 @@ const SignupProfile = forwardRef<StepHandle<profileStepForm>, SignupProfileProps
                         />
                     )} />
 
-                <View style={styles.location}>
-                    <Controller
-                        control={control}
-                        name='location'
-                        render={({ field: { onChange, value } }) => (
-                            <BorderLineTextField
-                                placeholder='Enter Your Location'
-                                onChangeText={onChange}
-                                title='Location'
-                                value={value}
-                                errorMessage={formState.errors.location?.message}
-                                onFocus={() => {
-                                    clearErrors('location')
-                                }}
-                            />
-                        )} />
-
-                    <TouchableOpacity
-                        style={styles.currentLocationWrapper}
-                        onPress={onCurrentlocationTap}
-                    >
-                        <View style={styles.currentLocation}>
-                            <View style={styles.currentLocation}>
-                            <LocateFixed />
-                            <Text style={{paddingStart: 10}}>Use Current Location</Text>
-                            </View>
-                                <ChevronRight />
-                        </View>
-                        <View style={typography.borderLine} />
-                    </TouchableOpacity>
-                </View>
-
             </View>
         </>
     )
@@ -176,17 +140,5 @@ const signupProfileSyles = (scale: LayoutScaleType) => {
             gap: scale.xl_18,
             paddingTop: scale.xl_18
         },
-        location: {
-            width: '100%',
-            gap: scale.ms_12
-        },
-        currentLocationWrapper: {
-            gap: scale.ms_12
-        },
-        currentLocation: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent:'space-between'
-        }
     })
 }

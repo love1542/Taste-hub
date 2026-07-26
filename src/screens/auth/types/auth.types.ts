@@ -9,7 +9,6 @@ export interface SignupForm {
   fullName: string
   dateOfBirth: string
   gender: string
-  location: string
 }
 
 export interface EmailStepForm {
@@ -31,7 +30,6 @@ export interface profileStepForm {
   fullName: string
   dateOfBirth: string
   gender: string
-  location: string
 }
 
 export type StepHandle<T> = {
