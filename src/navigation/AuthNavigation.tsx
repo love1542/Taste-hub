@@ -14,7 +14,6 @@ const AuthNavigation = () => {
       <stack.Screen name={authRoutes.login} component={Login}/>
       <stack.Screen name={authRoutes.signup} component={Signup}/>
       <stack.Screen name={authRoutes.forgotPassword} component={ForgetPassword}/>
-      <stack.Screen name={authRoutes.home} component={Home}/>
     </stack.Navigator>
   )
 }

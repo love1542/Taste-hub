@@ -10,21 +10,26 @@ import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
 import ResendOtp from '../../../components/ResendOtp'
 import { useloginVerifyOtp, useloginWithPhone } from '../../../hooks'
 import { useToast } from '../../../../../components/toast'
-import {loginUserStorage, phoneformOtp} from '../../../types/auth.types'
+import { loginUserStorage, phoneformOtp } from '../../../types/auth.types'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { RootStackParamList } from '../../../../../navigation/type'
-import  { useNavigation } from '@react-navigation/native'
+import { AuthStackParamList, RootStackParamList } from '../../../../../navigation/type'
+import { useNavigation } from '@react-navigation/native'
 import { STORAGE_KEYS, storageService } from '../../../../../services/storageService'
 import { Check } from 'lucide-react-native'
+import { appRoutes, authRoutes, MainTabRoutes, rootRoutes } from '../../../../../constants/appConstants'
 
-type NavigationType = NativeStackNavigationProp<RootStackParamList, "auth">
+type AuthNavigation = NativeStackNavigationProp<
+  AuthStackParamList,
+  typeof authRoutes.login
+>;
 
 const PhoneLogin = () => {
-  const navigation = useNavigation<NavigationType>()
+  const navigation = useNavigation<AuthNavigation>()
+  const rootNavigation = navigation.getParent<NativeStackNavigationProp<RootStackParamList>>()
   const [numberVerify, setNumberVerify] = useState(false)
   const { palletteColors, scale, typography } = useTheme()
   const styles = phoneloginStyles(scale)
-  const {showToast} = useToast()
+  const { showToast } = useToast()
   const verifyNumber = useloginWithPhone()
   const verifyotp = useloginVerifyOtp()
 
@@ -38,8 +43,8 @@ const PhoneLogin = () => {
       let verify = await trigger('phone')
       if (verify) {
         let response = await verifyNumber.mutateAsync(getValues("phone"))
-        if(response.success) {
-           setNumberVerify(true)
+        if (response.success) {
+          setNumberVerify(true)
           showToast({
             message: response.message,
             type: 'success'
@@ -50,7 +55,7 @@ const PhoneLogin = () => {
             type: 'error'
           })
         }
-       
+
       }
     } else {
       let verify = await trigger('otp')
@@ -59,10 +64,23 @@ const PhoneLogin = () => {
           otp: getValues('otp'),
           phone: getValues("phone")
         })
-        if(response.success){
+        if (response.success) {
 
           storageService.set<loginUserStorage>(STORAGE_KEYS.loginUser, response.data as loginUserStorage)
-          navigation.replace('auth', {screen: 'home'})
+          rootNavigation?.reset({
+            index: 0,
+            routes: [
+              {
+                name: rootRoutes.app,
+                params: {
+                  screen: appRoutes.mainTabs,
+                  params: {
+                    screen: MainTabRoutes.home,
+                  },
+                },
+              },
+            ],
+          });
 
           showToast({
             message: response.message,
@@ -78,7 +96,7 @@ const PhoneLogin = () => {
     }
   }
 
-  const onChangePress = () =>{
+  const onChangePress = () => {
     setNumberVerify(false)
   }
 
@@ -103,42 +121,42 @@ const PhoneLogin = () => {
 
       {
         numberVerify ?
-        <View style={styles.otpView}>
-          <View style={[styles.changeWrapper,{backgroundColor: palletteColors.dullwhite}]}>
-            <View style={{flexDirection:'row'}}>
-            <Check color={palletteColors.green} size={20} strokeWidth={3} />
-            <Text> Otp send to {getValues("phone")} </Text>
+          <View style={styles.otpView}>
+            <View style={[styles.changeWrapper, { backgroundColor: palletteColors.dullwhite }]}>
+              <View style={{ flexDirection: 'row' }}>
+                <Check color={palletteColors.green} size={20} strokeWidth={3} />
+                <Text> Otp send to {getValues("phone")} </Text>
+              </View>
+              <TouchableOpacity onPress={onChangePress}>
+                <Text style={[typography.subtitle, { color: palletteColors.appPrimary, fontWeight: 'medium' }]}> Change</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={onChangePress}>
-            <Text style={[typography.subtitle,{color:palletteColors.appPrimary, fontWeight: 'medium'}]}> Change</Text>
-          </TouchableOpacity>
-            </View>
-          <Text style={{ fontSize:scale.ml_20, fontWeight:"700"}}>Enter OTP</Text>
-          <Text>Enter the 6-digit code we sent to</Text>
-          
-          <Controller
-            name='otp'
-            control={control}
-            render={({ field: { value, onChange } }) => {
-              return (
-                <OtpFields
-                  value={value}
-                  onChange={onChange}
-                />
+            <Text style={{ fontSize: scale.ml_20, fontWeight: "700" }}>Enter OTP</Text>
+            <Text>Enter the 6-digit code we sent to</Text>
 
-              )
-            }} />
+            <Controller
+              name='otp'
+              control={control}
+              render={({ field: { value, onChange } }) => {
+                return (
+                  <OtpFields
+                    value={value}
+                    onChange={onChange}
+                  />
 
-          <ResendOtp resendpress={() => {}}/>
-        </View> : 
-        <Text style={styles.verifyInfoText}>We will send you a 6-digit OTP to verify your number.</Text>
+                )
+              }} />
+
+            <ResendOtp resendpress={() => { }} />
+          </View> :
+          <Text style={styles.verifyInfoText}>We will send you a 6-digit OTP to verify your number.</Text>
       }
 
       <LeftIconWithTextButton
         onPress={loginPress}
         text={numberVerify ? "Verify Otp" : "Login"}
         colors={[palletteColors.appPrimary, palletteColors.appPrimary]}
-        textStyle={{color: palletteColors.white}}
+        textStyle={{ color: palletteColors.white }}
       />
 
     </View>
@@ -158,14 +176,14 @@ const phoneloginStyles = (scale: LayoutScaleType) => {
     otpView: {
       gap: scale.sm_8
     },
-    changeWrapper:{
+    changeWrapper: {
       flexDirection: 'row',
       padding: scale.sm_8,
       borderRadius: scale.xsm_6,
-      alignItems:'center',
+      alignItems: 'center',
       justifyContent: 'space-between'
     },
-    verifyInfoText:{
+    verifyInfoText: {
       fontSize: scale.ms_12
     }
   })
