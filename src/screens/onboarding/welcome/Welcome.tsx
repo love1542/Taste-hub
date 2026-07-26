@@ -58,8 +58,8 @@ const Welcome = () => {
         <View style={styles.centerWrapper}>
 
           <EmailPhoneLoginBtn
-            phoneOnPress={() => navigation.replace('auth',{screen:'signup', params:{signupType:'phone'}})}
-            emailOnPress={() => navigation.replace('auth',{screen:'signup', params:{signupType:'email'}})}
+            phoneOnPress={() => navigation.replace('auth',{screen:'signup', params:{signupType:'cardentials'}})}
+            emailOnPress={() => navigation.replace('auth',{screen:'signup', params:{signupType:'cardentials'}})}
           />
 
           <View style={styles.socialLoginsWrapper}>

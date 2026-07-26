@@ -38,5 +38,17 @@ export const signupStyles = (colors: palleteColorsType, scale: LayoutScaleType) 
             fontWeight: '600',
             color: colors.appPrimary,
         },
+        titlesWrapper: {
+            gap: scale.sm_8,
+            width: '70%',
+            marginTop: scale.xsm_6
+        },
+        bgIcon: {
+            height: 200,
+            width: 200,
+            position: 'absolute',
+            top: -20,
+            left: -90
+        }
     })
 }

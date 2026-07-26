@@ -1,4 +1,4 @@
-import { View, Keyboard, TouchableWithoutFeedback, ImageSourcePropType, ScrollView, Text } from 'react-native';
+import { View, Keyboard, TouchableWithoutFeedback, ImageSourcePropType, ScrollView, Text, Image } from 'react-native';
 import React, { useMemo, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
@@ -23,6 +23,7 @@ import SignupWithPhone from './components/SignupWithPhone';
 import { IMAGE_PICKER_SHEET_BTNS } from '../../../../components/imagePicker/data/imagePickerSheet.data';
 import uuid from 'react-native-uuid'
 import { storageService, STORAGE_KEYS } from '../../../../services/storageService';
+import SegmentControler from '../../../../components/segmentControler/SegmentControler';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, 'signup'>;
 type SignupStackNavigationprops = NativeStackNavigationProp<AuthStackParamList, 'signup'>
@@ -33,6 +34,7 @@ const Signup = () => {
   const signupType = route.params?.signupType;
   const { palletteColors, scale } = useTheme()
   const [step, setStep] = useState<number>(0)
+  const [tab, setTab] = useState<number>(0)
   const styles = signupStyles(palletteColors, scale)
   const { open, close } = useAppBottomSheet()
   const { pickImage } = useImagePicker()
@@ -165,27 +167,40 @@ const Signup = () => {
   const renderScreen = () => {
     switch (currentStep) {
       case SignupStep.Credential:
-        return signupType === 'email' ? <SignupWithEmail ref={stepRef} /> : <SignupWithPhone ref={stepRef} />
+        return cerdentialStep()
 
       case SignupStep.Verification:
-        return <VerifyOtp ref={stepRef} destination={signupType === 'email' ? "sdf@gmail.com" : "9888722"} resendPress={() => { }} />
+        return <VerifyOtp ref={stepRef} destination={step === 0 ? signupData?.email ?? "" : signupData?.phone ?? ""} resendPress={() => { }} />
 
       case SignupStep.UserInfo:
         return <SignupProfile ref={stepRef} img={image} onCameraPress={onCameraPress} />
     }
   }
 
+  const cerdentialStep = () => (
+     <View style={{gap: scale.xl_18}}>
+      <SegmentControler segments={["Email", "Phone"]} onChange={setTab} selectedIndex={tab} />
+      {
+        tab === 0 ? <SignupWithEmail ref={stepRef}/> : <SignupWithPhone ref={stepRef}/>
+      }
+    </View>
+  )
+
 
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
-
-        <PagingIndicator
+        
+        <Image source={require("../../../../../assets/icons/burger.png")} style={styles.bgIcon}/>
+        <View style={{width:'80%', alignSelf:'flex-end'}}>
+           <PagingIndicator
           totalPages={3}
           currentPageIndex={step}
           long={true}
         />
+        </View>
+       
 
         <View style={styles.contentWrapper}>
           <ScrollView

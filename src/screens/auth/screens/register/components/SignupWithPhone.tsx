@@ -1,12 +1,14 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import React, { forwardRef, Ref, useImperativeHandle } from 'react'
-import { useTheme } from '../../../../../constants/theme'
+import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
 import { Controller, useForm } from 'react-hook-form'
 import BorderLineTextField from '../../../../../components/fields/BorderLineTextField'
 import { signupStyles } from '../../../styles'
 import { phoneForm, StepHandle } from '../../../types/auth.types'
 import { phoneStepSchema } from '../../../../../utilites/validation/authSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
+import LeftIconWithTextButton from '../../../../../components/LeftIconWithTextButton'
+import { Phone } from 'lucide-react-native'
 
 
 const SignupWithPhone = forwardRef<StepHandle<phoneForm>>((
@@ -32,12 +34,21 @@ const SignupWithPhone = forwardRef<StepHandle<phoneForm>>((
           })
       }))
   return (
-    <View style={{ width: '100%', gap: 6 }}>
-      <Text style={typography.subHeading}>
-        Sign up with Phone
-      </Text>
+    <View style={{ width: '100%', gap: scale.xxl_40, }}>
+      <View style={{flexDirection: 'row', gap: scale.xs_4}}>
+        <LeftIconWithTextButton
+          leftIcon={<Phone size={38} color={palletteColors.appPrimary} />}
+          colors={[palletteColors.appFFE4D5, 'white']}
+          style={{ width: 70, height: 70, margin: 10 }}
+        />
 
-      <Text>Enter your details. New users are created automatically.</Text>
+        <View style={styles.titlesWrapper}>
+          <Text style={typography.subHeading}>
+            Sign up with phone
+          </Text>
+          <Text style={typography.subtitle}>Create your account to discover premium restaurants and food</Text>
+        </View>
+      </View>
 
       <Controller 
       name='phone'

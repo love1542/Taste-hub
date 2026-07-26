@@ -21,7 +21,7 @@ const Login = () => {
   const [tab, setTab] = useState<number>(0)
 
   const onSignupPress = () => {
-    navigation.replace('signup', { signupType: 'email' })
+    navigation.replace('signup',{signupType: 'cardentials'})
   }
 
   return (

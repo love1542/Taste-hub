@@ -7,12 +7,7 @@ export enum SignupStep {
 }
 
 export const SIGNUP_SCREENS: Record<SignUpType, readonly SignupStep[]> = {
-  email: [
-    SignupStep.Credential,
-    SignupStep.Verification,
-    SignupStep.UserInfo,
-  ],
-  phone: [
+  cardentials: [
     SignupStep.Credential,
     SignupStep.Verification,
     SignupStep.UserInfo,

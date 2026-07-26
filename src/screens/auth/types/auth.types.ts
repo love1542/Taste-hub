@@ -38,7 +38,7 @@ export type StepHandle<T> = {
   validate: () => Promise<T | null>
 }
 
-export type SignUpType = 'email' | 'phone' | 'social'
+export type SignUpType = 'cardentials' | 'social'
 
 export interface EmailLoginForm {
   email: string;
