@@ -39,7 +39,7 @@ const OnBoarding = () => {
       storageService.set(STORAGE_KEYS.showOnboarding, false)
 
       navigation.replace('auth', {
-        screen: authRoutes.welcome
+        screen: authRoutes.login
       })
     }
   }

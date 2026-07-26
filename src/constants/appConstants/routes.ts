@@ -1,5 +1,3 @@
-import onBoarding from "../../screens/onboarding/OnBoarding"
-
 export const rootRoutes = {
     splash: 'splash',
     auth: 'auth',
@@ -10,7 +8,6 @@ export const authRoutes = {
     home: 'home',
     login: 'login',
     signup: 'signup',
-    welcome: 'welcome',
     forgotPassword: 'forgotPassword'
 } as const
 

@@ -13,7 +13,6 @@ import { useToast } from '../../../../components/toast';
 import { AuthStackParamList } from '../../../../navigation/type';
 import SignupProfile from './components/SignupProfile';
 import VerifyOtp from './components/VerifyOtp';
-import { SIGNUP_SCREENS, SignupStep } from '../../constants/signupConstants';
 import { useSignupCredentials, useVerifyOtp, useCreateAccount } from '../../hooks';
 import { signupStyles } from '../../styles';
 import { loginUserStorage, SignupForm, StepHandle } from '../../types/auth.types';
@@ -24,6 +23,7 @@ import { IMAGE_PICKER_SHEET_BTNS } from '../../../../components/imagePicker/data
 import uuid from 'react-native-uuid'
 import { storageService, STORAGE_KEYS } from '../../../../services/storageService';
 import SegmentControler from '../../../../components/segmentControler/SegmentControler';
+import { SIGNUP_SCREENS, SignupStep } from '../../constants/signupConstants';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, 'signup'>;
 type SignupStackNavigationprops = NativeStackNavigationProp<AuthStackParamList, 'signup'>

@@ -28,7 +28,7 @@ const Splash = () => {
           navigation.replace(rootRoutes.onBoarding)
         }else {
           navigation.replace(rootRoutes.auth,{
-            screen: authRoutes.welcome
+            screen: authRoutes.login
           })
         }
       },2000)
