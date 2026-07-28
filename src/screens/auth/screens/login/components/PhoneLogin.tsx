@@ -4,28 +4,17 @@ import { Controller, useForm } from 'react-hook-form'
 import BorderLineTextField from '../../../../../components/fields/BorderLineTextField'
 import OtpFields from '../../../../../components/fields/OtpFields'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { otpSchema, phoneOtpSchema } from '../../../../../utilites/validation/authSchema'
+import { phoneOtpSchema } from '../../../../../utilites/validation/authSchema'
 import LeftIconWithTextButton from '../../../../../components/LeftIconWithTextButton'
 import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
 import ResendOtp from '../../../components/ResendOtp'
 import { useloginVerifyOtp, useloginWithPhone } from '../../../hooks'
 import { useToast } from '../../../../../components/toast'
-import { loginUserStorage, phoneformOtp } from '../../../types/auth.types'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { AuthStackParamList, RootStackParamList } from '../../../../../navigation/type'
-import { useNavigation } from '@react-navigation/native'
-import { STORAGE_KEYS, storageService } from '../../../../../services/storageService'
+import { phoneformOtp } from '../../../types/auth.types'
 import { Check } from 'lucide-react-native'
-import { appRoutes, authRoutes, MainTabRoutes, rootRoutes } from '../../../../../constants/appConstants'
 
-type AuthNavigation = NativeStackNavigationProp<
-  AuthStackParamList,
-  typeof authRoutes.login
->;
 
 const PhoneLogin = () => {
-  const navigation = useNavigation<AuthNavigation>()
-  const rootNavigation = navigation.getParent<NativeStackNavigationProp<RootStackParamList>>()
   const [numberVerify, setNumberVerify] = useState(false)
   const { palletteColors, scale, typography } = useTheme()
   const styles = phoneloginStyles(scale)
@@ -65,23 +54,6 @@ const PhoneLogin = () => {
           phone: getValues("phone")
         })
         if (response.success) {
-
-          storageService.set<loginUserStorage>(STORAGE_KEYS.loginUser, response.data as loginUserStorage)
-          rootNavigation?.reset({
-            index: 0,
-            routes: [
-              {
-                name: rootRoutes.app,
-                params: {
-                  screen: appRoutes.mainTabs,
-                  params: {
-                    screen: MainTabRoutes.home,
-                  },
-                },
-              },
-            ],
-          });
-
           showToast({
             message: response.message,
             type: 'success'

@@ -7,21 +7,24 @@ import { ThemeProvider } from './src/constants/theme/contextProvider/ThemeProvid
 import BottomSheetProvider from './src/components/bottomSheet/BottomSheetProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastContextProvider } from './src/components/toast/ToastProvider';
+import { AuthProvider } from './src/contexts/AuthContext';
 
 function App() {
   const queryClient = new QueryClient()
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
-        <ToastContextProvider>
-          <BottomSheetModalProvider>
-            <ThemeProvider>
-              <BottomSheetProvider>
-                <RootNavigation />
-              </BottomSheetProvider>
-            </ThemeProvider>
-          </BottomSheetModalProvider>
-        </ToastContextProvider>
+        <AuthProvider>
+          <ToastContextProvider>
+            <BottomSheetModalProvider>
+              <ThemeProvider>
+                <BottomSheetProvider>
+                  <RootNavigation />
+                </BottomSheetProvider>
+              </ThemeProvider>
+            </BottomSheetModalProvider>
+          </ToastContextProvider>
+        </AuthProvider>
       </QueryClientProvider>
     </GestureHandlerRootView>
   );

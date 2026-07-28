@@ -7,22 +7,40 @@ import { rootRoutes } from '../constants/appConstants'
 import { RootStackParamList } from './type'
 import OnBoarding from '../screens/onboarding/OnBoarding'
 import AppNavigation from './AppNavigation'
+import { useAuth } from '../hooks'
 
 const stack = createNativeStackNavigator<RootStackParamList>()
 
 const RootNavigation = () => {
-  const islogin: boolean = false
+  const { isLogin, isLoading, showOnboarding } = useAuth();
+
   return (
     <NavigationContainer>
       <stack.Navigator screenOptions={{ headerShown: false }}>
-        <stack.Screen name={rootRoutes.splash} component={Splash} />
-        <stack.Screen name={rootRoutes.onBoarding} component={OnBoarding} />
-        <stack.Screen name={rootRoutes.auth} component={AuthNavigation} />
-        <stack.Screen name={rootRoutes.app} component={AppNavigation} />
+        {isLoading ? (
+          <stack.Screen
+            name={rootRoutes.splash}
+            component={Splash}
+          />
+        ) : showOnboarding ? (
+          <stack.Screen
+            name={rootRoutes.onBoarding}
+            component={OnBoarding}
+          />
+        ) : isLogin ? (
+          <stack.Screen
+            name={rootRoutes.app}
+            component={AppNavigation}
+          />
+        ) : (
+          <stack.Screen
+            name={rootRoutes.auth}
+            component={AuthNavigation}
+          />
+        )}
       </stack.Navigator>
-
     </NavigationContainer>
-  )
-}
+  );
+};
 
 export default RootNavigation
