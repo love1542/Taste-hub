@@ -1,7 +1,7 @@
 import { View, Keyboard, TouchableWithoutFeedback, ScrollView, Text, Image } from 'react-native';
 import React, { useMemo, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CompositeNavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAppBottomSheet } from '../../../../components/bottomSheet/hooks/useAppBottomSheet';
 import ImagePickerSheet from '../../../../components/imagePicker/ImagePickerSheet';
@@ -15,27 +15,22 @@ import SignupProfile from './components/SignupProfile';
 import VerifyOtp from './components/VerifyOtp';
 import { useSignupCredentials, useVerifyOtp, useCreateAccount } from '../../hooks';
 import { signupStyles } from '../../styles';
-import { loginUserStorage, SignupForm, StepHandle } from '../../types/auth.types';
+import { SignupForm, StepHandle } from '../../types/auth.types';
 import { useTheme } from '../../../../constants/theme';
 import SignupWithEmail from './components/SignupWithEmail';
 import SignupWithPhone from './components/SignupWithPhone';
 import { IMAGE_PICKER_SHEET_BTNS } from '../../../../components/imagePicker/data/imagePickerSheet.data';
 import uuid from 'react-native-uuid'
-import { storageService, STORAGE_KEYS } from '../../../../services/storageService';
 import SegmentControler from '../../../../components/segmentControler/SegmentControler';
 import { SIGNUP_SCREENS, SignupStep } from '../../constants/signupConstants';
-import { appRoutes, authRoutes, MainTabRoutes, rootRoutes } from '../../../../constants/appConstants';
+import { authRoutes, } from '../../../../constants/appConstants';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, typeof authRoutes.signup>;
 
-type SignupNavigationProp = CompositeNavigationProp<
-  NativeStackNavigationProp<AuthStackParamList, typeof authRoutes.signup>,
-  NativeStackNavigationProp<RootStackParamList>
->;
+type SignupNavigationProp = NativeStackNavigationProp<AuthStackParamList, typeof authRoutes.signup>;
 
 const Signup = () => {
   const navigation = useNavigation<SignupNavigationProp>()
-  const rootNavigation = navigation.getParent<NativeStackNavigationProp<RootStackParamList>>();
   const route = useRoute<SignupRouteProp>();
   const signupType = route.params?.signupType;
   const { palletteColors, scale } = useTheme()
@@ -52,6 +47,7 @@ const Signup = () => {
       Math.floor(Math.random() * defaultImages.length)
     ];
   }, []);
+  
   const [image, setImage] = useState<PickedImage | undefined>(randomImage)
 
   const [signupData, setSignupData] = useState<SignupForm | undefined>()
@@ -72,7 +68,6 @@ const Signup = () => {
   const {
     mutateAsync: createAccountMutation,
     isPending: isCreateAccountLoading,
-    error: createAccountError,
   } = useCreateAccount();
 
   const isLoading = isRegisterLoading || isVerifyOtpLoading || isCreateAccountLoading
@@ -138,25 +133,6 @@ const Signup = () => {
             image,
           };
           response = await createAccountMutation(finalData)
-          if (response.success) {
-
-            storageService.set<loginUserStorage | undefined>(STORAGE_KEYS.loginUser, response.data)
-
-            rootNavigation?.reset({
-              index: 0,
-              routes: [
-                {
-                  name: rootRoutes.app,
-                  params: {
-                    screen: appRoutes.mainTabs,
-                    params: {
-                      screen: MainTabRoutes.home,
-                    },
-                  },
-                },
-              ],
-            });
-          }
           break
       }
 
