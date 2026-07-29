@@ -1,2 +1,2 @@
 export * from './LeftIconWithTextButton'
-export * from './AppIcon'
+export * from './IconButton'

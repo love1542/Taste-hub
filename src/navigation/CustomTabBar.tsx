@@ -24,7 +24,7 @@ const CustomTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => 
                         }
                     };
                     return (
-                        <TouchableOpacity onPress={onPress} style={isFocused ? styles.activeTab : styles.unactiveTab}>
+                        <TouchableOpacity key={index} onPress={onPress} style={isFocused ? styles.activeTab : styles.unactiveTab}>
                             {
                                 options.tabBarIcon?.({
                                     color: 'white',

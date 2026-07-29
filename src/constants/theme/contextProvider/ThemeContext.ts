@@ -1,5 +1,5 @@
 import React, { Children, createContext, ReactNode } from "react";
-import { themeMode, ThemeType } from "../themes";
+import { themeMode, Themes, ThemeType } from "../themes";
 
 interface ThemeContextType {
     theme: ThemeType
@@ -9,7 +9,7 @@ interface ThemeContextType {
 }
 
 export const ThemeContext = createContext<ThemeContextType>({
-    theme: {} as ThemeType,
+    theme: Themes.light,
     mode: 'light',
     isDark: false,
     toggleTheme: () => {}

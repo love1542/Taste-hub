@@ -10,7 +10,7 @@ import SocialLogins from '../../components/SocialLogins'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { AuthStackParamList } from '../../../../navigation/type'
 import { useNavigation } from '@react-navigation/native'
-import AppIcon from '../../../../components/AppIcon'
+import IconButton from '../../../../components/IconButton'
 
 type NavigatonProps = NativeStackNavigationProp<AuthStackParamList, 'login'>
 
@@ -27,7 +27,7 @@ const Login = () => {
   return (
     <SafeAreaView style={styles.loginWrapper}>
       <View style={{ flexDirection: 'row', gap: scale.ms_12, alignItems: "center" }}>
-        <AppIcon size={60} />
+        <IconButton source={require('../../../../../assets/icons/appIcon.png')}size={60} />
         <View style={{ gap: scale.sm_8 }}>
           <Text style={typography.largeheading}>Welcome back  🥳</Text>
           <Text style={typography.title}>Login to continue enjoying food in best restarunts.</Text>

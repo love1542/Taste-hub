@@ -1,41 +1,56 @@
+import { LucideIcon } from 'lucide-react-native';
 import React from 'react';
-import { View, Image, StyleSheet, ImageSourcePropType, ViewStyle, StyleProp } from 'react-native';
+import { View, Image, StyleSheet, ImageSourcePropType, ViewStyle, StyleProp, Touchable, TouchableOpacity } from 'react-native';
 
-interface AppIconProps {
+interface IconButtonProps {
   source?: ImageSourcePropType;
+  icon?:  LucideIcon;
+  iconColor?: string,
   size?: number;
   iconSize?: number;
   backgroundColor?: string;
   borderRadius?: number;
+  onpress?: ()=> void
   style?: StyleProp<ViewStyle>;
 }
 
-const AppIcon: React.FC<AppIconProps> = ({
-  source = require('../../assets/icons/appIcon.png'),
+const IconButton: React.FC<IconButtonProps> = ({
+  source,
+  icon,
+  iconColor = 'white',
   size = 80,
   iconSize = 45,
   backgroundColor = '#FF6B35',
   borderRadius = 20,
-  style,
+  onpress,
+  style
 }) => {
+  const Icon = icon
   return (
-    <View
+    <TouchableOpacity
+      disabled={!onpress}
       style={[
         styles.container,
         { width: size, height: size, backgroundColor, borderRadius },
         style,
       ]}
     >
-      <Image
+      {
+        source && <Image
         source={source}
         style={{ width: iconSize, height: iconSize }}
         resizeMode="contain"
       />
-    </View>
+      }
+      {
+        Icon && <Icon size={iconSize} color={iconColor}/>
+      }
+      
+    </TouchableOpacity>
   );
 };
 
-export default AppIcon;
+export default IconButton;
 
 const styles = StyleSheet.create({
   container: {

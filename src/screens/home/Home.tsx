@@ -1,38 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { STORAGE_KEYS, storageService } from '../../services/storageService';
-import { loginUserStorage, SignupForm } from '../auth/types/auth.types';
+import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+
+import HomeHeader from './components/HomeHeader';
+import { useAppBottomSheet } from '../../components/bottomSheet/hooks/useAppBottomSheet';
+import SearchField from '../../components/searchField/SearchField';
 
 const Home = () => {
-  const [info, setInfo] = useState<loginUserStorage | null>(null);
-  const [allusers, setAllUsers] = useState<SignupForm[]>()
+  const [query, setQuery] = useState('')
+  const { open } = useAppBottomSheet()
 
-  useEffect(() => {
-    const loadUser = async () => {
-      const user =
-        await storageService.get<loginUserStorage>(STORAGE_KEYS.loginUser);
-
-      setInfo(user);
-    };
-    const loadAllusers = async () => {
-    const users =
-    (await storageService.get<SignupForm[]>(STORAGE_KEYS.allUsers)) ?? [];
-    setAllUsers(users)
-    }
-    
-    loadAllusers()
-    loadUser();
-  }, []);
-
+  const openSeachPress = () => {
+    open({
+      content: <View>
+        <SearchField
+          value={query}
+          placeholder='Search Best Restraunt & Food'
+          onChange={setQuery}
+          onClear={() => { setQuery('') }}
+          autoFocus={true}
+        />
+      </View>,
+      snapPoints: ['100%'],
+      enablePanDownToClose: true
+    })
+  }
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
-      <Text>{info?.userId}</Text>
-      <Text>{info?.token}</Text>
-      <TouchableOpacity onPress={()=> {console.log(allusers)}}>
-        <Text>All users</Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View>
+        <HomeHeader query={query} onOpenSearch={openSeachPress} />
+        <Text>Home view</Text>
+      </View>
+    </TouchableWithoutFeedback>
+
   );
 };
 

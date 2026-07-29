@@ -2,8 +2,12 @@ import { useContext, useMemo } from "react";
 import { ThemeContext } from "../contextProvider/ThemeContext";
 import { Themes } from "../themes";
 
-export const useTheme =()=> {
+export const useTheme = ()=> {
     const context = useContext(ThemeContext)
+
+    if(!context){
+        throw new Error('useTheme must be used inside <ThemeProvider>')
+    }
 
     const theme = context?.theme ?? Themes.light
     const mode = context?.mode ?? 'light'

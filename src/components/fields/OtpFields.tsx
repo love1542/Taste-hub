@@ -17,7 +17,6 @@ const OtpFields = ({
   const inputRefs = useRef<(TextInput | null)[]>([])
 
   const otp = value.split('')
-  console.log(otp)
 
   const onchangeValue = (text: string, index: number) => {
     const cleanText = text.slice(-1)

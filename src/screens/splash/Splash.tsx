@@ -6,7 +6,7 @@ import { authRoutes, rootRoutes } from '../../constants/appConstants'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../navigation/type'
 import { STORAGE_KEYS, storageService } from '../../services/storageService'
-import AppIcon from '../../components/AppIcon'
+import IconButton from '../../components/IconButton'
 
 type SplashNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -43,7 +43,7 @@ const Splash = () => {
     return (
         <View style={styles.container}>
             <Image source={require('../../../assets/splash/splash_bg.png')} style={styles.bg} />
-            <AppIcon/>
+            <IconButton source={require('../../../assets/icons/appIcon.png')}/>
             <Text style={styles.heading}>TasteHub</Text>
             <Text style={styles.title}>Food that finds you</Text>
         </View>
