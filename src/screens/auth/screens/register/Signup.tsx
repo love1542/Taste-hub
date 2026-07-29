@@ -10,26 +10,27 @@ import { useImagePicker, ImagePickerType } from '../../../../components/imagePic
 import LeftIconWithTextButton from '../../../../components/LeftIconWithTextButton';
 import PagingIndicator from '../../../../components/pagingIndicator/PagingIndicator';
 import { useToast } from '../../../../components/toast';
-import { AuthStackParamList } from '../../../../navigation/type';
+import { AuthStackParamList, RootStackParamList } from '../../../../navigation/type';
 import SignupProfile from './components/SignupProfile';
 import VerifyOtp from './components/VerifyOtp';
 import { useSignupCredentials, useVerifyOtp, useCreateAccount } from '../../hooks';
 import { signupStyles } from '../../styles';
-import { loginUserStorage, SignupForm, StepHandle } from '../../types/auth.types';
+import { SignupForm, StepHandle } from '../../types/auth.types';
 import { useTheme } from '../../../../constants/theme';
 import SignupWithEmail from './components/SignupWithEmail';
 import SignupWithPhone from './components/SignupWithPhone';
 import { IMAGE_PICKER_SHEET_BTNS } from '../../../../components/imagePicker/data/imagePickerSheet.data';
 import uuid from 'react-native-uuid'
-import { storageService, STORAGE_KEYS } from '../../../../services/storageService';
 import SegmentControler from '../../../../components/segmentControler/SegmentControler';
 import { SIGNUP_SCREENS, SignupStep } from '../../constants/signupConstants';
+import { authRoutes, } from '../../../../constants/appConstants';
 
-type SignupRouteProp = RouteProp<AuthStackParamList, 'signup'>;
-type SignupStackNavigationprops = NativeStackNavigationProp<AuthStackParamList, 'signup'>
+type SignupRouteProp = RouteProp<AuthStackParamList, typeof authRoutes.signup>;
+
+type SignupNavigationProp = NativeStackNavigationProp<AuthStackParamList, typeof authRoutes.signup>;
 
 const Signup = () => {
-  const navigation = useNavigation<SignupStackNavigationprops>()
+  const navigation = useNavigation<SignupNavigationProp>()
   const route = useRoute<SignupRouteProp>();
   const signupType = route.params?.signupType;
   const { palletteColors, scale } = useTheme()
@@ -46,6 +47,7 @@ const Signup = () => {
       Math.floor(Math.random() * defaultImages.length)
     ];
   }, []);
+  
   const [image, setImage] = useState<PickedImage | undefined>(randomImage)
 
   const [signupData, setSignupData] = useState<SignupForm | undefined>()
@@ -66,7 +68,6 @@ const Signup = () => {
   const {
     mutateAsync: createAccountMutation,
     isPending: isCreateAccountLoading,
-    error: createAccountError,
   } = useCreateAccount();
 
   const isLoading = isRegisterLoading || isVerifyOtpLoading || isCreateAccountLoading
@@ -107,15 +108,15 @@ const Signup = () => {
 
       switch (currentStep) {
         case SignupStep.Credential:
-            response = await registerMutation(result);
-            if (response.success) {
-              const updated: SignupForm = {
-                id: uuid.v4(),
-                ...result, 
-              };
-              setSignupData(updated)
-              setStep(step + 1);
-            }
+          response = await registerMutation(result);
+          if (response.success) {
+            const updated: SignupForm = {
+              id: uuid.v4(),
+              ...result,
+            };
+            setSignupData(updated)
+            setStep(step + 1);
+          }
           break
 
         case SignupStep.Verification:
@@ -132,13 +133,6 @@ const Signup = () => {
             image,
           };
           response = await createAccountMutation(finalData)
-          if (response.success) {
-
-            storageService.set<loginUserStorage | undefined>(STORAGE_KEYS.loginUser, response.data)
-
-            console.log(response.data)
-            navigation.replace('home')
-          }
           break
       }
 
@@ -178,10 +172,10 @@ const Signup = () => {
   }
 
   const cerdentialStep = () => (
-     <View style={{gap: scale.xl_18}}>
+    <View style={{ gap: scale.xl_18 }}>
       <SegmentControler segments={["Email", "Phone"]} onChange={setTab} selectedIndex={tab} />
       {
-        tab === 0 ? <SignupWithEmail ref={stepRef}/> : <SignupWithPhone ref={stepRef}/>
+        tab === 0 ? <SignupWithEmail ref={stepRef} /> : <SignupWithPhone ref={stepRef} />
       }
     </View>
   )
@@ -191,16 +185,16 @@ const Signup = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
-        
-        <Image source={require("../../../../../assets/icons/burger.png")} style={styles.bgIcon}/>
-        <View style={{width:'80%', alignSelf:'flex-end'}}>
-           <PagingIndicator
-          totalPages={3}
-          currentPageIndex={step}
-          long={true}
-        />
+
+        <Image source={require("../../../../../assets/icons/burger.png")} style={styles.bgIcon} />
+        <View style={{ width: '80%', alignSelf: 'flex-end' }}>
+          <PagingIndicator
+            totalPages={3}
+            currentPageIndex={step}
+            long={true}
+          />
         </View>
-       
+
 
         <View style={styles.contentWrapper}>
           <ScrollView

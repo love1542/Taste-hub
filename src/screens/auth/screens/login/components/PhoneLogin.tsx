@@ -4,27 +4,21 @@ import { Controller, useForm } from 'react-hook-form'
 import BorderLineTextField from '../../../../../components/fields/BorderLineTextField'
 import OtpFields from '../../../../../components/fields/OtpFields'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { otpSchema, phoneOtpSchema } from '../../../../../utilites/validation/authSchema'
+import { phoneOtpSchema } from '../../../../../utilites/validation/authSchema'
 import LeftIconWithTextButton from '../../../../../components/LeftIconWithTextButton'
 import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
 import ResendOtp from '../../../components/ResendOtp'
 import { useloginVerifyOtp, useloginWithPhone } from '../../../hooks'
 import { useToast } from '../../../../../components/toast'
-import {loginUserStorage, phoneformOtp} from '../../../types/auth.types'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { RootStackParamList } from '../../../../../navigation/type'
-import  { useNavigation } from '@react-navigation/native'
-import { STORAGE_KEYS, storageService } from '../../../../../services/storageService'
+import { phoneformOtp } from '../../../types/auth.types'
 import { Check } from 'lucide-react-native'
 
-type NavigationType = NativeStackNavigationProp<RootStackParamList, "auth">
 
 const PhoneLogin = () => {
-  const navigation = useNavigation<NavigationType>()
   const [numberVerify, setNumberVerify] = useState(false)
   const { palletteColors, scale, typography } = useTheme()
   const styles = phoneloginStyles(scale)
-  const {showToast} = useToast()
+  const { showToast } = useToast()
   const verifyNumber = useloginWithPhone()
   const verifyotp = useloginVerifyOtp()
 
@@ -38,8 +32,8 @@ const PhoneLogin = () => {
       let verify = await trigger('phone')
       if (verify) {
         let response = await verifyNumber.mutateAsync(getValues("phone"))
-        if(response.success) {
-           setNumberVerify(true)
+        if (response.success) {
+          setNumberVerify(true)
           showToast({
             message: response.message,
             type: 'success'
@@ -50,7 +44,7 @@ const PhoneLogin = () => {
             type: 'error'
           })
         }
-       
+
       }
     } else {
       let verify = await trigger('otp')
@@ -59,11 +53,7 @@ const PhoneLogin = () => {
           otp: getValues('otp'),
           phone: getValues("phone")
         })
-        if(response.success){
-
-          storageService.set<loginUserStorage>(STORAGE_KEYS.loginUser, response.data as loginUserStorage)
-          navigation.replace('auth', {screen: 'home'})
-
+        if (response.success) {
           showToast({
             message: response.message,
             type: 'success'
@@ -78,7 +68,7 @@ const PhoneLogin = () => {
     }
   }
 
-  const onChangePress = () =>{
+  const onChangePress = () => {
     setNumberVerify(false)
   }
 
@@ -103,42 +93,42 @@ const PhoneLogin = () => {
 
       {
         numberVerify ?
-        <View style={styles.otpView}>
-          <View style={[styles.changeWrapper,{backgroundColor: palletteColors.dullwhite}]}>
-            <View style={{flexDirection:'row'}}>
-            <Check color={palletteColors.green} size={20} strokeWidth={3} />
-            <Text> Otp send to {getValues("phone")} </Text>
+          <View style={styles.otpView}>
+            <View style={[styles.changeWrapper, { backgroundColor: palletteColors.dullwhite }]}>
+              <View style={{ flexDirection: 'row' }}>
+                <Check color={palletteColors.green} size={20} strokeWidth={3} />
+                <Text> Otp send to {getValues("phone")} </Text>
+              </View>
+              <TouchableOpacity onPress={onChangePress}>
+                <Text style={[typography.subtitle, { color: palletteColors.appPrimary, fontWeight: 'medium' }]}> Change</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={onChangePress}>
-            <Text style={[typography.subtitle,{color:palletteColors.appPrimary, fontWeight: 'medium'}]}> Change</Text>
-          </TouchableOpacity>
-            </View>
-          <Text style={{ fontSize:scale.ml_20, fontWeight:"700"}}>Enter OTP</Text>
-          <Text>Enter the 6-digit code we sent to</Text>
-          
-          <Controller
-            name='otp'
-            control={control}
-            render={({ field: { value, onChange } }) => {
-              return (
-                <OtpFields
-                  value={value}
-                  onChange={onChange}
-                />
+            <Text style={{ fontSize: scale.ml_20, fontWeight: "700" }}>Enter OTP</Text>
+            <Text>Enter the 6-digit code we sent to</Text>
 
-              )
-            }} />
+            <Controller
+              name='otp'
+              control={control}
+              render={({ field: { value, onChange } }) => {
+                return (
+                  <OtpFields
+                    value={value}
+                    onChange={onChange}
+                  />
 
-          <ResendOtp resendpress={() => {}}/>
-        </View> : 
-        <Text style={styles.verifyInfoText}>We will send you a 6-digit OTP to verify your number.</Text>
+                )
+              }} />
+
+            <ResendOtp resendpress={() => { }} />
+          </View> :
+          <Text style={styles.verifyInfoText}>We will send you a 6-digit OTP to verify your number.</Text>
       }
 
       <LeftIconWithTextButton
         onPress={loginPress}
         text={numberVerify ? "Verify Otp" : "Login"}
         colors={[palletteColors.appPrimary, palletteColors.appPrimary]}
-        textStyle={{color: palletteColors.white}}
+        textStyle={{ color: palletteColors.white }}
       />
 
     </View>
@@ -158,14 +148,14 @@ const phoneloginStyles = (scale: LayoutScaleType) => {
     otpView: {
       gap: scale.sm_8
     },
-    changeWrapper:{
+    changeWrapper: {
       flexDirection: 'row',
       padding: scale.sm_8,
       borderRadius: scale.xsm_6,
-      alignItems:'center',
+      alignItems: 'center',
       justifyContent: 'space-between'
     },
-    verifyInfoText:{
+    verifyInfoText: {
       fontSize: scale.ms_12
     }
   })
