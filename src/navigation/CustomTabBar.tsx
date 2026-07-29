@@ -51,13 +51,13 @@ const customTabStyles = (scale: LayoutScaleType, color: palleteColorsType) => {
         container: {
             backgroundColor: color.black,
             borderRadius: 30,
-            width: '90%',
             position: 'absolute',
             bottom: scale.ml_20,
             alignSelf: 'center',
             flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            paddingVertical: scale.sm_8
+            justifyContent: 'space-between',
+            padding: scale.sm_8,
+            gap: scale.md_16
         },
         activeTab: {
             flexDirection: 'row',

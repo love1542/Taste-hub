@@ -6,7 +6,7 @@ const Profile = () => {
 const { logout} = useAuth()
 
   return (
-    <View>
+    <View style={{flex:1,justifyContent:'center'}}>
       <Button title='Logout' onPress={logout}/>
     </View>
   )

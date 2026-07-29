@@ -12,10 +12,10 @@ export const authRoutes = {
 } as const
 
 export const MainTabRoutes = {
-  home: 'HomeTab',
-  orders: 'OrdersTab',
-  favourites: 'FavouritesTab',
-  profile: 'ProfileTab',
+  home: 'Home',
+  orders: 'Orders',
+  favourites: 'Favourites',
+  profile: 'Profile',
 } as const;
 
 export const appRoutes = {
