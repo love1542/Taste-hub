@@ -118,6 +118,7 @@ const SignupProfile = forwardRef<StepHandle<profileStepForm>, SignupProfileProps
                             selectedValue={value}
                             onSelectionChange={onChange}
                             errorMessage={formState.errors.gender?.message}
+                            scrolling={false}
 
                         />
                     )} />

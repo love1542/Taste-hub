@@ -8,6 +8,7 @@ interface IconButtonProps {
   iconColor?: string,
   size?: number;
   iconSize?: number;
+  iconFillColor?: string;
   backgroundColor?: string;
   borderRadius?: number;
   onpress?: ()=> void
@@ -20,6 +21,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   iconColor = 'white',
   size = 80,
   iconSize = 45,
+  iconFillColor = 'none',
   backgroundColor = '#FF6B35',
   borderRadius = 20,
   onpress,
@@ -43,7 +45,7 @@ const IconButton: React.FC<IconButtonProps> = ({
       />
       }
       {
-        Icon && <Icon size={iconSize} color={iconColor}/>
+        Icon && <Icon size={iconSize} color={iconColor} fill={iconFillColor} />
       }
       
     </TouchableOpacity>

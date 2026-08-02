@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme'
 import { LucideIcon } from 'lucide-react-native'
@@ -7,6 +7,7 @@ export interface SelectionItem {
     id: string,
     label: string,
     icon?: LucideIcon,
+    img?: string,
     onSelect?: () => void
 }
 
@@ -17,6 +18,7 @@ interface SingleSelectionChipsProps {
     selectedValue?: string;
     onSelectionChange?: (value: string | undefined) => void;
     errorMessage?: string;
+    scrolling?: boolean;
 }
 
 const SingleSelectionChips = ({
@@ -25,7 +27,8 @@ const SingleSelectionChips = ({
     title,
     selectedValue,
     onSelectionChange,
-    errorMessage
+    errorMessage,
+    scrolling = true
 }: SingleSelectionChipsProps) => {
     const [internalSelected, setInternalSelected] = useState<string | undefined>(defaultSelectedId)
 
@@ -61,19 +64,26 @@ const SingleSelectionChips = ({
             <FlatList
                 data={configs}
                 horizontal
-                scrollEnabled={false}
-                renderItem={({ item, index }) => {
+                scrollEnabled={scrolling}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => {
                     const slectedChip: boolean = item.id === selected
                     return (
-                        <TouchableOpacity key={index}
+                        <TouchableOpacity
                             style={[styles.chip, slectedChip && styles.SelectedChip]}
                             onPress={() => onPressChip(item)}
                         >
-                            <View style={{ flexDirection: 'row', gap: 8 }}>
+                            <View style={styles.chipRow}>
+                                {item.img && (
+                                    <Image
+                                        source={{ uri: item.img }}
+                                        style={styles.chipImage}
+                                        resizeMode="contain"
+                                    />
+                                )}
                                 {item.icon && <item.icon size={20} color={slectedChip ? palletteColors.appPrimary : palletteColors.black}/>}
                                 <Text style={[typography.subtitle, { fontWeight: '400' }]}>{item.label}</Text>
                             </View>
-
                         </TouchableOpacity>
                     )
                 }} />
@@ -103,6 +113,16 @@ const signleSelectionChipsStyles = (color: palleteColorsType, scale: LayoutScale
             paddingHorizontal: scale.ms_12,
             paddingVertical: scale.xs_4,
             marginHorizontal: scale.xs_4,
+        },
+        chipRow: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 8,
+        },
+        chipImage: {
+            width: 20,
+            height: 20,
+            marginRight: 8,
         },
         SelectedChip: {
             borderColor: color.appPrimary,

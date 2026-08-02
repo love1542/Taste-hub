@@ -4,10 +4,28 @@ import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Key
 import HomeHeader from './components/HomeHeader';
 import { useAppBottomSheet } from '../../components/bottomSheet/hooks/useAppBottomSheet';
 import SearchField from '../../components/searchField/SearchField';
+import SingleSelectionChips, { SelectionItem } from '../../components/singleSelection/SignleSelectionChips';
+import { cuisines } from '../../data/cuisines.data';
+import { restaurants } from '../../data/Restaurants.data';
+import RestaurantCell from './components/RestaurantCell';
 
 const Home = () => {
   const [query, setQuery] = useState('')
   const { open } = useAppBottomSheet()
+  const [selectedChip, setSelectedChip] = useState<string | null>(null);
+  
+  const data: SelectionItem[] = cuisines.map((cuisine) => ({
+    id: cuisine.id,
+    label: cuisine.name,
+    img: cuisine.image,
+  }));
+
+  const restraunt = restaurants.filter((restaurant) => {
+    const matchesQuery = restaurant.name.toLowerCase().includes("Domino's Pizza".toLowerCase());
+
+    return matchesQuery 
+  });
+
 
   const openSeachPress = () => {
     open({
@@ -26,9 +44,17 @@ const Home = () => {
   }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View>
+      <View style={styles.container}>
         <HomeHeader query={query} onOpenSearch={openSeachPress} />
-        <Text>Home view</Text>
+        
+        <SingleSelectionChips 
+        configs={data}
+        scrolling={true}
+        />
+
+      <RestaurantCell 
+      data={restraunt[0]}
+      />
       </View>
     </TouchableWithoutFeedback>
 
@@ -38,9 +64,8 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#fff',
+    gap: 16,
   },
   title: {
     fontSize: 24,

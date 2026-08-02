@@ -2,7 +2,7 @@
 // Category
 // ===========================
 
-import { CUISINE } from "./Cyisine.data";
+import { CUISINE } from "./cuisines.data";
 
 export const CATEGORY = {
   PIZZA: 'pizza',
@@ -93,7 +93,8 @@ export interface Restaurant {
 
   deliveryFee: number;
   minimumOrder: number;
-  estimatedDeliveryTime: number; // Minutes
+  estimatedDeliveryTime: string;
 
   isOpen: boolean;
+  isFavourite: boolean;
 }

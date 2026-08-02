@@ -61,7 +61,7 @@ const SearchField = ({value,
   )
 
   if(onPress && !editable){
-    return <TouchableOpacity onPress={onPress} > {content}</TouchableOpacity>
+    return <TouchableOpacity onPress={onPress}>{content}</TouchableOpacity>
   }
   
   return content

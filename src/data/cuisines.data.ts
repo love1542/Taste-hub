@@ -14,7 +14,7 @@ export const cuisines: Cuisine[] = [
   {
     id: CUISINE.INDIAN,
     name: 'Indian',
-    image: 'https://placehold.co/200x200',
+    image: 'https://hips.hearstapps.com/hmg-prod/images/delish-191119-butter-chicken-0367-portrait-pf-1574729678.jpg?crop=0.692xw:0.693xh;0.142xw,0.101xh',
   },
   {
     id: CUISINE.CHINESE,
