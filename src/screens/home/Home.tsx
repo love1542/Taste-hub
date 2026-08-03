@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, ScrollView, FlatList, TouchableOpacity, Text } from 'react-native';
 
 import HomeHeader from './components/HomeHeader';
 import { useAppBottomSheet } from '../../components/bottomSheet/hooks/useAppBottomSheet';
@@ -8,23 +8,24 @@ import SingleSelectionChips, { SelectionItem } from '../../components/singleSele
 import { cuisines } from '../../data/cuisines.data';
 import { restaurants } from '../../data/Restaurants.data';
 import RestaurantCell from './components/RestaurantCell';
+import { CuisineId } from '../../data/types';
+import { useGetRestaurants } from './hooks/useQurrys';
 
 const Home = () => {
   const [query, setQuery] = useState('')
   const { open } = useAppBottomSheet()
-  const [selectedChip, setSelectedChip] = useState<string | null>(null);
-  
-  const data: SelectionItem[] = cuisines.map((cuisine) => ({
-    id: cuisine.id,
-    label: cuisine.name,
-    img: cuisine.image,
+  const [cuisine, setCuisine] = useState<CuisineId | undefined>(undefined);
+  const [page, setPage] = useState<number>(1)
+  const { data, isLoading, isError } = useGetRestaurants({ page, limit: 5, cuisine: cuisine });
+
+  const restraunts = useMemo(()=>{
+      return data?.data ?? []
+  },[cuisine, page])
+
+  const cips: SelectionItem<CuisineId>[] = cuisines.map((value) => ({
+    id: value.id as CuisineId,
+    label: value.name,
   }));
-
-  const restraunt = restaurants.filter((restaurant) => {
-    const matchesQuery = restaurant.name.toLowerCase().includes("Domino's Pizza".toLowerCase());
-
-    return matchesQuery 
-  });
 
 
   const openSeachPress = () => {
@@ -43,29 +44,43 @@ const Home = () => {
     })
   }
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <HomeHeader query={query} onOpenSearch={openSeachPress} />
-        
-        <SingleSelectionChips 
-        configs={data}
-        scrolling={true}
-        />
+    <FlatList
+      data={restraunts}
+      keyExtractor={(item, index) => item.id ?? index.toString()}
+      initialNumToRender={8}
+      maxToRenderPerBatch={8}
+      onEndReached={
+        () => {setPage(page + 1);}
+      }
+      renderItem={({ item }) =>
+        <TouchableOpacity style={{paddingVertical: 12}}>
+          <RestaurantCell data={item} />
+        </TouchableOpacity>
+      }
+      ListHeaderComponent={
+        <View style={styles.headerWrapper}>
+          <HomeHeader query={query} onOpenSearch={openSeachPress} />
+          <SingleSelectionChips configs={cips} scrolling={true} 
+          onSelectionChange={(items)=>{
+            setCuisine(items)
+          }}/>
+        </View>
+      }
 
-      <RestaurantCell 
-      data={restraunt[0]}
-      />
-      </View>
-    </TouchableWithoutFeedback>
+      ListEmptyComponent={
+        isLoading ? <Text>Loading...</Text> : <Text>No Restaurants Found</Text>
+      }
+    />
 
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  headerWrapper: {
     flex: 1,
     backgroundColor: '#fff',
     gap: 16,
+    marginBottom: 16
   },
   title: {
     fontSize: 24,

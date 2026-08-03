@@ -65,6 +65,8 @@ export const LayoutScale = {
   avatarLG_96: 96,
   /** 100px - High-focus splash imagery banner configurations */
   bannerSM_100: 100,
+
+  bannerLG_200: 170
 } as const;
 
 export type LayoutScaleType = typeof LayoutScale;

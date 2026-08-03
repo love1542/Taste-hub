@@ -3,7 +3,8 @@ import React from 'react'
 import { Restaurant } from '../../../data/types'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../../constants/theme'
 import IconButton from '../../../components/IconButton'
-import { Heart } from 'lucide-react-native'
+import { Heart, Star } from 'lucide-react-native'
+import LeftIconWithTextButton from '../../../components/LeftIconWithTextButton'
 
 type RestaurantCellProps = {
     data: Restaurant
@@ -19,8 +20,11 @@ const RestaurantCell = ({ data }: RestaurantCellProps) => {
             <View style={styles.overlay}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     
-                    <Text style={styles.nameText}>{data.isOpen ? 'Open' : 'Closed'}</Text>
-
+                    <LeftIconWithTextButton text={data.isOpen ? 'Open' : 'Closed'} 
+                    colors={data.isOpen ? [palletteColors.green, palletteColors.green] : [palletteColors.appPrimary, palletteColors.appPrimary2]} 
+                    textStyle={{color: palletteColors.white}}
+                    />
+                    
                     <IconButton backgroundColor={palletteColors.dullwhite} iconColor={palletteColors.black} icon={Heart} iconSize={25}  size={40}
                      borderRadius={scale.ms_12}
                     iconFillColor= {data.isFavourite ? palletteColors.appPrimary : 'none'}
@@ -32,9 +36,13 @@ const RestaurantCell = ({ data }: RestaurantCellProps) => {
                 <View>
                     <Text style={styles.nameText}>{data.name}</Text>
                     <Text style={styles.metaText}>{data.address}</Text>
-                    <Text style={styles.metaText}>{data.estimatedDeliveryTime} mins</Text>
+                    <Text style={styles.metaText}>Delivery {data.estimatedDeliveryTime} mins</Text>
                 </View>
-                <Text style={styles.ratingText}>{data.rating} stars</Text>
+
+                <View style={styles.rattingWrapper}>
+                    <Star fill={palletteColors.yellow}  stroke={'none'} size={20}/>
+                    <Text style={styles.ratingText}>{data.rating}</Text>
+                </View>
             </View>
         </View>
     )
@@ -53,7 +61,7 @@ const cellStyles = (color: palleteColorsType, scale: LayoutScaleType) => {
         },
         image: {
             width: '100%',
-            height: 250,
+            height: scale.bannerLG_200,
         },
         overlay: {
             position: 'absolute',
@@ -77,9 +85,19 @@ const cellStyles = (color: palleteColorsType, scale: LayoutScaleType) => {
             color: color.app737373,
             marginTop: scale.nano_2,
         },
+        rattingWrapper: {
+            backgroundColor: color.appPrimary,
+            paddingVertical: scale.xs_4,
+            paddingHorizontal: scale.sm_8,
+            borderRadius: 30,
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: scale.xs_4
+        },
         ratingText: {
-            color: color.black,
+            color: color.white,
             fontSize: scale.md_16,
+            fontWeight: '600'
         },
     }
     )

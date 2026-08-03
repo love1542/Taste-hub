@@ -3,25 +3,25 @@ import React, { useEffect, useState } from 'react'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme'
 import { LucideIcon } from 'lucide-react-native'
 
-export interface SelectionItem {
-    id: string,
+export interface SelectionItem<T extends string = string> {
+    id: T,
     label: string,
     icon?: LucideIcon,
     img?: string,
     onSelect?: () => void
 }
 
-interface SingleSelectionChipsProps {
-    configs: SelectionItem[];
-    defaultSelectedId?: string;
+interface SingleSelectionChipsProps<T extends string = string> {
+    configs: readonly SelectionItem<T>[];
+    defaultSelectedId?: T;
     title?: string;
-    selectedValue?: string;
-    onSelectionChange?: (value: string | undefined) => void;
+    selectedValue?: T;
+    onSelectionChange?: (value: T | undefined) => void;
     errorMessage?: string;
     scrolling?: boolean;
 }
 
-const SingleSelectionChips = ({
+const SingleSelectionChips = <T extends string = string>({
     configs,
     defaultSelectedId,
     title,
@@ -29,8 +29,8 @@ const SingleSelectionChips = ({
     onSelectionChange,
     errorMessage,
     scrolling = true
-}: SingleSelectionChipsProps) => {
-    const [internalSelected, setInternalSelected] = useState<string | undefined>(defaultSelectedId)
+}: SingleSelectionChipsProps<T>) => {
+    const [internalSelected, setInternalSelected] = useState<T | undefined>(defaultSelectedId)
 
     const { typography, palletteColors, scale } = useTheme()
     const styles = signleSelectionChipsStyles(palletteColors, scale)
@@ -42,7 +42,7 @@ const SingleSelectionChips = ({
         }
     }, [selectedValue])
 
-    const onPressChip = (item: SelectionItem) => {
+    const onPressChip = (item: SelectionItem<T>) => {
         const nextValue = item.id === selected ? undefined : item.id
 
         if (selectedValue === undefined) {
@@ -65,6 +65,8 @@ const SingleSelectionChips = ({
                 data={configs}
                 horizontal
                 scrollEnabled={scrolling}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => {
                     const slectedChip: boolean = item.id === selected

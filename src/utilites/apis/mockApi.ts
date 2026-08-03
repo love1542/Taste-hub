@@ -4,6 +4,20 @@ export type ApiResponse<T> = {
   message: string;
 };
 
+export type PaginatedResponse<T> = {
+  success: boolean;
+  data?: T;
+  message: string;
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
+};
+
 export async function mockApi<T>({
   data,
   success = true,
