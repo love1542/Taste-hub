@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Restaurant } from '../../../data/types'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../../constants/theme'
@@ -8,14 +8,16 @@ import LeftIconWithTextButton from '../../../components/LeftIconWithTextButton'
 
 type RestaurantCellProps = {
     data: Restaurant
+    favPress: (id: string) => void
+    onCellPress: (id: string) => void
 }
 
-const RestaurantCell = ({ data }: RestaurantCellProps) => {
+const RestaurantCell = ({ data, favPress, onCellPress }: RestaurantCellProps) => {
     const { palletteColors, scale } = useTheme()
     const styles = cellStyles(palletteColors, scale)
 
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => onCellPress(data.id)}>
             <Image source={{ uri: data.logo }} style={styles.image} resizeMode="stretch" />
             <View style={styles.overlay}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -25,11 +27,16 @@ const RestaurantCell = ({ data }: RestaurantCellProps) => {
                     textStyle={{color: palletteColors.white}}
                     />
                     
-                    <IconButton backgroundColor={palletteColors.dullwhite} iconColor={palletteColors.black} icon={Heart} iconSize={25}  size={40}
-                     borderRadius={scale.ms_12}
-                    iconFillColor= {data.isFavourite ? palletteColors.appPrimary : 'none'}
-                     onpress={() => {}}
-                     />
+                    <IconButton
+                        backgroundColor={palletteColors.dullwhite}
+                        iconColor={palletteColors.black}
+                        icon={Heart}
+                        iconSize={25}
+                        size={40}
+                        borderRadius={scale.ms_12}
+                        iconFillColor={data.isFavourite ? palletteColors.appPrimary : 'none'}
+                        onpress={() => favPress(data.id)}
+                    />
                 </View>
             </View>
             <View style={styles.infoContainer}>
@@ -44,7 +51,7 @@ const RestaurantCell = ({ data }: RestaurantCellProps) => {
                     <Text style={styles.ratingText}>{data.rating}</Text>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

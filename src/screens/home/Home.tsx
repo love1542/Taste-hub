@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, FlatList, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
-
+import { View, StyleSheet, FlatList, Text, ActivityIndicator } from 'react-native';
 import HomeHeader from './components/HomeHeader';
 import { useAppBottomSheet } from '../../components/bottomSheet/hooks/useAppBottomSheet';
 import SearchField from '../../components/searchField/SearchField';
@@ -9,6 +8,7 @@ import { cuisines } from '../../data/cuisines.data';;
 import RestaurantCell from './components/RestaurantCell';
 import { CuisineId, Restaurant } from '../../data/types';
 import { useGetRestaurants } from './hooks/useQurrys';
+import { useToggleFavourite } from './hooks/useMutation';
 
 const Home = () => {
   const [query, setQuery] = useState('')
@@ -16,6 +16,7 @@ const Home = () => {
   const [cuisine, setCuisine] = useState<CuisineId | undefined>(undefined);
   const [page, setPage] = useState<number>(0)
   const { data, isLoading, isError } = useGetRestaurants({ page, limit: 5, cuisine: cuisine });
+  const {mutateAsync, data: toggleFavouriteRestaurant} = useToggleFavourite()
   const [restaurants, setRestaurants] = useState<Restaurant[]>([])
 
   useEffect(() => {
@@ -33,6 +34,20 @@ const Home = () => {
     label: value.name,
   }));
 
+  const handleToggleFavourite = async (id: string) => {
+    console.log('toggle favourite pressed', id);
+    console.log('response ', toggleFavouriteRestaurant)
+    try {
+      await mutateAsync(id);
+      setRestaurants(prevRestaurants =>
+        prevRestaurants.map(restaurant =>
+          restaurant.id === id ? { ...restaurant, isFavourite: !restaurant.isFavourite } : restaurant
+        )
+      );
+    } catch (error) {
+      console.error('Error toggling favourite:', error);
+    }
+  };
 
   const openSeachPress = () => {
     open({
@@ -62,10 +77,10 @@ const Home = () => {
           }
         }
       }
-      renderItem={({ item }) =>
-        <TouchableOpacity key={item.id} style={{ paddingVertical: 12 }}>
-          <RestaurantCell data={item} />
-        </TouchableOpacity>
+      renderItem={({ item, index }) =>
+        <View style={{ marginBottom: 16 }}>
+          <RestaurantCell key={index} data={item} favPress={handleToggleFavourite} onCellPress={() => {}} />
+          </View>
       }
       ListHeaderComponent={
         <View style={styles.headerWrapper}>

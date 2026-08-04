@@ -36,3 +36,26 @@ export const getRestaurants = async ({ page, limit, cuisine }: GetRestaurantsReq
         }
     }
 }
+
+
+export const toggleFavourite = async (id: string) => {
+    const restaurant = restaurants.find((item) => item.id === id)
+
+    if (!restaurant) {
+        return mockApi({
+            data: null,
+            success: false,
+            message: 'Restaurant not found',
+            delay: 2000,
+        });
+    }
+
+    restaurant.isFavourite = !restaurant.isFavourite
+
+    return mockApi({
+        data: restaurant,
+        success: true,
+        message: 'favourite updated successfully',
+        delay: 2000,
+    });
+}

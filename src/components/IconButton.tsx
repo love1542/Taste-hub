@@ -31,6 +31,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   return (
     <TouchableOpacity
       disabled={!onpress}
+      onPress={() => onpress?.()}
       style={[
         styles.container,
         { width: size, height: size, backgroundColor, borderRadius },
