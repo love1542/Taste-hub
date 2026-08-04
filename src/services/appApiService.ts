@@ -1,7 +1,9 @@
 import { tr } from "zod/v4/locales"
 import { restaurants } from "../data/Restaurants.data"
 import { ApiResponse, mockApi, PaginatedResponse } from "../utilites/apis/mockApi"
-import { CuisineId, Restaurant } from "../data/types"
+import { Category, CuisineId, Food, Restaurant } from "../data/types"
+import { CATEGORY, FOOD_CATEGORIES } from "../data/Categories.data"
+import { foods } from "../data/food.data"
 
 export type GetRestaurantsRequestParam = {
     page: number,
@@ -10,7 +12,7 @@ export type GetRestaurantsRequestParam = {
 }
 export const getRestaurants = async ({ page, limit, cuisine }: GetRestaurantsRequestParam): Promise<PaginatedResponse<Restaurant[]>> => {
 
-    const allRestaurants =  cuisine ? restaurants.filter((item) => item.cuisineIds.includes(cuisine)) ?? [] : restaurants
+    const allRestaurants = cuisine ? restaurants.filter((item) => item.cuisineIds.includes(cuisine)) ?? [] : restaurants
 
     const totalPages = Math.ceil(allRestaurants.length / limit);
 
@@ -27,7 +29,7 @@ export const getRestaurants = async ({ page, limit, cuisine }: GetRestaurantsReq
     return {
         ...response,
         pagination: {
-            hasNextPage: page < totalPages - 1 ,
+            hasNextPage: page < totalPages - 1,
             hasPrevPage: page != 0,
             limit: limit,
             page: page,
@@ -59,3 +61,54 @@ export const toggleFavourite = async (id: string) => {
         delay: 2000,
     });
 }
+
+export const getRestaurantById = async (id: string): Promise<ApiResponse<Restaurant>> => {
+    const restaurant = restaurants.find((item) => item.id === id)
+
+    if (!restaurant) {
+        return mockApi({
+            success: false,
+            message: 'Restaurant not found',
+            delay: 2000,
+        });
+    }
+
+    return mockApi({
+        data: restaurant,
+        success: true,
+        message: 'Restaurant fetched successfully',
+        delay: 2000,
+    });
+}
+
+export interface RestaurantMenu {
+    categories: Category[];
+    foods: Food[];
+}
+
+export const getRestaurantMenu = async (restaurantId: string): Promise<ApiResponse<RestaurantMenu>> => {
+    const restaurantFoods = foods.filter(
+        item => item.restaurantId === restaurantId,
+    );
+
+    if (restaurantFoods.length === 0) {
+        return mockApi({
+            data: {
+                categories: [],
+                foods: [],
+            },
+            success: false,
+            message: 'No menu found for this restaurant',
+        });
+    }
+
+    return mockApi({
+        data: {
+            categories: FOOD_CATEGORIES,
+            foods: restaurantFoods,
+        },
+        success: true,
+        message: 'Restaurant menu fetched successfully',
+        delay: 2500,
+    });
+};

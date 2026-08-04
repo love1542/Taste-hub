@@ -60,7 +60,7 @@ export interface Food {
   price: number;
   discountPrice?: number;
 
-  preparationTime: number; // Minutes
+  preparationTime: number;
 
   foodType: FoodType;
 

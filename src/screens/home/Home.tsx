@@ -9,14 +9,21 @@ import RestaurantCell from './components/RestaurantCell';
 import { CuisineId, Restaurant } from '../../data/types';
 import { useGetRestaurants } from './hooks/useQurrys';
 import { useToggleFavourite } from './hooks/useMutation';
+import { NativeStackNavigationProp, NativeStackNavigatorProps } from '@react-navigation/native-stack';
+import { AppStackParamList } from '../../navigation/type';
+import { appRoutes } from '../../constants/appConstants';
+import { useNavigation } from '@react-navigation/native';
+
+type NavigationProps = NativeStackNavigationProp<AppStackParamList, typeof appRoutes.RestaurantDetail>
 
 const Home = () => {
+  const navigation = useNavigation<NavigationProps>()
   const [query, setQuery] = useState('')
   const { open } = useAppBottomSheet()
   const [cuisine, setCuisine] = useState<CuisineId | undefined>(undefined);
   const [page, setPage] = useState<number>(0)
   const { data, isLoading, isError } = useGetRestaurants({ page, limit: 5, cuisine: cuisine });
-  const {mutateAsync, data: toggleFavouriteRestaurant} = useToggleFavourite()
+  const { mutateAsync, data: toggleFavouriteRestaurant } = useToggleFavourite()
   const [restaurants, setRestaurants] = useState<Restaurant[]>([])
 
   useEffect(() => {
@@ -71,36 +78,38 @@ const Home = () => {
       initialNumToRender={8}
       maxToRenderPerBatch={8}
       onEndReached={
-        () => { 
-          if(data?.pagination.hasNextPage) {
+        () => {
+          if (data?.pagination.hasNextPage) {
             setPage(prev => prev + 1)
           }
         }
       }
       renderItem={({ item, index }) =>
         <View style={{ marginBottom: 16 }}>
-          <RestaurantCell key={index} data={item} favPress={handleToggleFavourite} onCellPress={() => {}} />
-          </View>
+          <RestaurantCell key={index} data={item}
+            favPress={handleToggleFavourite}
+            onCellPress={() => { navigation.navigate(appRoutes.RestaurantDetail, { restaurantId: item.id }) }} />
+        </View>
       }
       ListHeaderComponent={
         <View style={styles.headerWrapper}>
           <HomeHeader query={query} onOpenSearch={openSeachPress} />
-          <SingleSelectionChips configs={cips} scrolling={true} 
-          onSelectionChange={(items)=>{
-            setCuisine(items);
-            setPage(0)
-          }}/>
+          <SingleSelectionChips configs={cips} scrolling={true}
+            onSelectionChange={(items) => {
+              setCuisine(items);
+              setPage(0)
+            }} />
         </View>
       }
 
       ListEmptyComponent={
-        isLoading ? 
-       <View style={styles.centerStateWrapper}>
-        <ActivityIndicator size={20} />
-       </View> 
-         : 
-        <View style={styles.centerStateWrapper}>
-          <Text>No Restaurant Register Yet</Text>
+        isLoading ?
+          <View style={styles.centerStateWrapper}>
+            <ActivityIndicator size={20} />
+          </View>
+          :
+          <View style={styles.centerStateWrapper}>
+            <Text>No Restaurant Register Yet</Text>
           </View>
       }
 
@@ -124,8 +133,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   centerStateWrapper: {
-    height:'100%',
-    justifyContent:'center',
+    height: '100%',
+    justifyContent: 'center',
     alignItems: 'center'
   }
 });
