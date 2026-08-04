@@ -10,16 +10,9 @@ export type GetRestaurantsRequestParam = {
 }
 export const getRestaurants = async ({ page, limit, cuisine }: GetRestaurantsRequestParam): Promise<PaginatedResponse<Restaurant[]>> => {
 
-    const getData = (cuisine?: CuisineId) => {
-        if (!cuisine) {
-            return restaurants;
-        }
-        return restaurants.filter((item) => item.cuisineIds.includes(cuisine));
-    };
+    const allRestaurants =  cuisine ? restaurants.filter((item) => item.cuisineIds.includes(cuisine)) ?? [] : restaurants
 
-    const allRestaurants = getData(cuisine)
-
-    const pages = allRestaurants.length / limit
+    const totalPages = Math.ceil(allRestaurants.length / limit);
 
     const thisPage = page * limit
     const data = allRestaurants.slice(thisPage, thisPage + limit)
@@ -34,12 +27,12 @@ export const getRestaurants = async ({ page, limit, cuisine }: GetRestaurantsReq
     return {
         ...response,
         pagination: {
-            hasNextPage: page < pages,
+            hasNextPage: page < totalPages - 1 ,
             hasPrevPage: page != 0,
             limit: limit,
             page: page,
             total: allRestaurants.length,
-            totalPages: pages
+            totalPages: totalPages
         }
     }
 }

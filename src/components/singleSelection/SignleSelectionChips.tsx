@@ -72,6 +72,7 @@ const SingleSelectionChips = <T extends string = string>({
                     const slectedChip: boolean = item.id === selected
                     return (
                         <TouchableOpacity
+                            key={item.id}
                             style={[styles.chip, slectedChip && styles.SelectedChip]}
                             onPress={() => onPressChip(item)}
                         >
