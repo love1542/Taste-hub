@@ -8,6 +8,7 @@ import BottomSheetProvider from './src/components/bottomSheet/BottomSheetProvide
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastContextProvider } from './src/components/toast/ToastProvider';
 import { AuthProvider } from './src/contexts/AuthContext';
+import { LocationContextProvider } from './src/contexts/LocationContextProvider';
 
 function App() {
   const queryClient = new QueryClient()
@@ -15,15 +16,18 @@ function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <ToastContextProvider>
-            <BottomSheetModalProvider>
-              <ThemeProvider>
-                <BottomSheetProvider>
-                  <RootNavigation />
-                </BottomSheetProvider>
-              </ThemeProvider>
-            </BottomSheetModalProvider>
-          </ToastContextProvider>
+          <LocationContextProvider>
+            <ToastContextProvider>
+              <BottomSheetModalProvider>
+                <ThemeProvider>
+                  <BottomSheetProvider>
+                    <RootNavigation />
+                  </BottomSheetProvider>
+                </ThemeProvider>
+              </BottomSheetModalProvider>
+            </ToastContextProvider>
+          </LocationContextProvider>
+
         </AuthProvider>
       </QueryClientProvider>
     </GestureHandlerRootView>

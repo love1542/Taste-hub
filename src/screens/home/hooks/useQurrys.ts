@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { getRestaurants, GetRestaurantsRequestParam } from "../../../services/appApiService"
-import { getLocations } from "../../../services/locationService"
+import { getLocationsWithQuery, getLocationWithLatLong } from "../../../services/locationService"
 
 export const useGetRestaurants = ({ page, limit, cuisine }: GetRestaurantsRequestParam) => {
     return useQuery({
@@ -12,6 +12,13 @@ export const useGetRestaurants = ({ page, limit, cuisine }: GetRestaurantsReques
 export const useGetLocations = (query: string) => {
     return useQuery({
         queryKey: ["search_Locations", query],
-        queryFn: () =>  getLocations(query)
+        queryFn: () =>  getLocationsWithQuery(query)
+    })
+}
+
+export const useGetLocationWithLatLong = (latitude: number, longitude: number) => {
+    return useQuery({
+        queryKey: ["reverse_Geocode", latitude, longitude],
+        queryFn: () =>  getLocationWithLatLong(latitude, longitude)
     })
 }

@@ -7,8 +7,9 @@ import SingleSelectionChips, { SelectionItem } from '../../components/singleSele
 import { cuisines } from '../../data/cuisines.data';;
 import RestaurantCell from './components/RestaurantCell';
 import { CuisineId, Restaurant } from '../../data/types';
-import { useGetRestaurants } from './hooks/useQurrys';
+import { useGetLocations, useGetRestaurants } from './hooks/useQurrys';
 import { useToggleFavourite } from './hooks/useMutation';
+import { getCurrentLocation } from '../../services/locationService';
 
 const Home = () => {
   const [query, setQuery] = useState('')
