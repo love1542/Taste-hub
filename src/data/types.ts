@@ -96,5 +96,6 @@ export interface Restaurant {
   estimatedDeliveryTime: string;
 
   isOpen: boolean;
+  openingHours: string;
   isFavourite: boolean;
 }

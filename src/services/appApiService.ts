@@ -4,6 +4,7 @@ import { ApiResponse, mockApi, PaginatedResponse } from "../utilites/apis/mockAp
 import { Category, CuisineId, Food, Restaurant } from "../data/types"
 import { CATEGORY, FOOD_CATEGORIES } from "../data/Categories.data"
 import { foods } from "../data/food.data"
+import { RestaurantMenu } from "../screens/restaurantDetail/types/types"
 
 export type GetRestaurantsRequestParam = {
     page: number,
@@ -81,16 +82,14 @@ export const getRestaurantById = async (id: string): Promise<ApiResponse<Restaur
     });
 }
 
-export interface RestaurantMenu {
-    categories: Category[];
-    foods: Food[];
-}
-
 export const getRestaurantMenu = async (restaurantId: string): Promise<ApiResponse<RestaurantMenu>> => {
     const restaurantFoods = foods.filter(
         item => item.restaurantId === restaurantId,
     );
 
+    const categoryIds = new Set(restaurantFoods.map((item) => item.categoryId));
+    const categories = FOOD_CATEGORIES.filter((category) => categoryIds.has(category.id));
+    
     if (restaurantFoods.length === 0) {
         return mockApi({
             data: {
@@ -104,7 +103,7 @@ export const getRestaurantMenu = async (restaurantId: string): Promise<ApiRespon
 
     return mockApi({
         data: {
-            categories: FOOD_CATEGORIES,
+            categories,
             foods: restaurantFoods,
         },
         success: true,
