@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { STORAGE_KEYS, storageService } from "../services/storageService";
 import { requestLocationPermission } from "../utilites/locationPermissions";
+import { getCurrentLocation, getLocationWithLatLong } from "../services/locationService";
 
 type UserLocation = {
     id: string;
@@ -12,6 +13,7 @@ type UserLocation = {
 }
 
 export type LocationContextType = {
+    currentLocation: UserLocation | null
     locations: UserLocation[];
     addLocation: (location: UserLocation) => void;
     removeLocation: (id: string) => void;
@@ -19,6 +21,8 @@ export type LocationContextType = {
 
     hasLocationPermission: boolean;
     requestPermission: () => Promise<boolean>;
+
+    refreshCurrentLocation: () => Promise<void>;
 }
 
 
@@ -27,6 +31,7 @@ export const LocationContext = createContext<LocationContextType | null>(null);
 export const LocationContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [locations, setLocations] = useState<UserLocation[]>([])
     const [hasLocationPermission, setHasLocationPermission] = useState<boolean>(false);
+    const [currentLocation, setCurrentLocation] = useState<UserLocation | null>(null);
 
     useEffect(() => {
         const loadLocations = async () => {
@@ -105,9 +110,36 @@ export const LocationContextProvider = ({ children }: { children: React.ReactNod
         }
     }
 
+    const refreshCurrentLocation = async () => {
+        const granted = await requestPermission();
+
+        if (!granted) return;
+
+        try {
+            const position = await getCurrentLocation();
+
+            const address = await getLocationWithLatLong(
+                position.coords.latitude,
+                position.coords.longitude,
+            );
+
+            console.log(address)
+
+            setCurrentLocation({
+                id: 'current',
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                address: address.display_name,
+                selectedLocation: false,
+                mode: 'current',
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
-        <LocationContext.Provider value={{ locations, addLocation, removeLocation, setSelectedLocation, requestPermission, hasLocationPermission }}>
+        <LocationContext.Provider value={{ locations, addLocation, removeLocation, setSelectedLocation, refreshCurrentLocation, requestPermission, hasLocationPermission, currentLocation }}>
             {
                 children
             }
