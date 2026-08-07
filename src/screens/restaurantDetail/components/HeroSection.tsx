@@ -24,7 +24,7 @@ const HeroSection = ({ restaturant, onbackPress, onHeartTap }: HeroSectionType) 
                 style={styles.img}
                 resizeMode='cover'>
 
-                    <View style={styles.overlay} />
+                <View style={styles.overlay} />
 
                 <SafeAreaView style={styles.buttonsContainer}>
                     <IconButton
@@ -50,11 +50,11 @@ const HeroSection = ({ restaturant, onbackPress, onHeartTap }: HeroSectionType) 
                 </SafeAreaView>
 
                 <View style={styles.nameSection}>
-                    <View style={{flexDirection:'row', alignItems: 'center'}}>
-                        <Dot color={isOpenColor} size={30}/>
-                        <Text style={[typography.title,{color: isOpenColor}]}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Dot color={isOpenColor} size={30} />
+                        <Text style={[typography.title, { color: isOpenColor }]}>
                             {restaturant.isOpen ? 'isOpen' : 'isClosed'}
-                            </Text>
+                        </Text>
                     </View>
                     <Text style={[typography.subHeading, { color: palletteColors.white }]}>{restaturant.name}</Text>
                 </View>

@@ -9,41 +9,38 @@ type props = {
   restaturant: Restaurant
 }
 
-
-
 const RestaurantPropertiesCell = ({ restaturant }: props) => {
   const { palletteColors, scale, typography } = useTheme()
   const styles = viewStyle(scale)
 
   return (
     <View style={[styles.container, typography.shadowCard]}>
-      <Image source={{ uri: restaturant.logo }} style={styles.img} resizeMode='cover'/>
-      <View style={{gap: scale.xs_4}}>
-        
+      <Image source={{ uri: restaturant.logo }} style={styles.img} resizeMode='cover' />
+      <View style={{ gap: scale.xs_4 }}>
+
         <InfoItem
-          icon={<Star fill={palletteColors.yellow} size={20} color={'none'}/>}
+          icon={<Star fill={palletteColors.yellow} size={20} color={'none'} />}
           text={`${restaturant.rating} (Rating)`}
           textSize={scale.md_16}
           textWeight='600'
         />
 
-        <View style={{flexDirection: 'row', gap: 12, alignItems: 'center'}}>
+        <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
           <InfoItem
-          icon={<Clock3 size={15} color={palletteColors.appPrimary}/>}
-          text={`${restaturant.estimatedDeliveryTime} min`}
-        />
+            icon={<Clock3 size={15} color={palletteColors.appPrimary} />}
+            text={`${restaturant.estimatedDeliveryTime} min`}
+          />
 
-        <InfoItem
-          icon={<MapPin size={15} color={palletteColors.appPrimary}/>}
-          // text={`${restaturant.location}`}
-          text='1.5 km'
-        />
+          <InfoItem
+            icon={<MapPin size={15} color={palletteColors.appPrimary} />}
+            // text={`${restaturant.location}`}
+            text='1.5 km'
+          />
           
         </View>
 
-        
         <InfoItem
-          icon={<PaperBagIcon size={15} color={palletteColors.appPrimary}/>}
+          icon={<PaperBagIcon size={15} color={palletteColors.appPrimary} />}
           text={`₹${restaturant.deliveryFee} dilivery`}
         />
       </View>
@@ -62,7 +59,7 @@ const viewStyle = (scale: LayoutScaleType) => {
       flexDirection: 'row',
       gap: 20,
     },
-    img:{
+    img: {
       height: scale.avatarMD_56,
       width: scale.avatarMD_56,
       borderRadius: 10,

@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native'
+import React, { useMemo, useState } from 'react'
 import { useGetRestaurantById, useGetRestaurantMenu } from './hooks/useQurries'
 import { appRoutes } from '../../constants/appConstants'
 import { AppStackParamList } from '../../navigation/type'
@@ -7,24 +7,51 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
 import HeroSection from './components/HeroSection'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme'
 import RestaurantPropertiesCell from './components/RestaurantPropertiesCell'
-import { ChevronRight, Clock, LucideIcon, MapPin } from 'lucide-react-native'
+import { ChevronRight, Clock, LucideIcon, MapPin, Plus } from 'lucide-react-native'
 import RestaurantDetailMenu from './components/RestaurantDetailMenu'
 import IconButton from '../../components/IconButton'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import SingleSelectionChips, { SelectionItem } from '../../components/singleSelection/SignleSelectionChips'
 
 
 type Props = RouteProp<AppStackParamList, typeof appRoutes.RestaurantDetail>
-type NavigationType = NativeStackNavigationProp<AppStackParamList , 'RestaurantDetail' >
-  
-  
+type NavigationType = NativeStackNavigationProp<AppStackParamList, 'RestaurantDetail'>
+
+
 const RestaurantDetailPage = () => {
   const { scale, palletteColors, typography } = useTheme()
+  const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined)
   const navigation = useNavigation<NavigationType>()
   const styles = detailStyles(scale, palletteColors)
   const route = useRoute<Props>()
   const restaurantId = route.params.restaurantId
   const { isLoading: isRestaurantLoading, data: restaurantData } = useGetRestaurantById(restaurantId)
   const { isLoading: isMenuLoading, data: menuData } = useGetRestaurantMenu(restaurantId)
+
+  const loading = isMenuLoading || isRestaurantLoading
+
+  const categoryOptions: SelectionItem<string>[] = useMemo(
+    () => menuData?.data?.categories.map((category) => ({
+      id: category.id,
+      label: category.name,
+    })) ?? [],
+    [menuData?.data?.categories]
+  )
+
+
+  const filteredFoods = useMemo(() => {
+    if (!menuData?.data) {
+      return []
+    }
+    if (!selectedCategory) {
+      return menuData.data.foods
+    }
+    return menuData.data.foods.filter((food) => food.categoryId === selectedCategory)
+  }, [menuData?.data, selectedCategory])
+
+  if (loading) {
+    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator /></View>
+  }
 
   if (!restaurantData?.data) {
     return <Text>no restaturant</Text>
@@ -35,10 +62,10 @@ const RestaurantDetailPage = () => {
     return (
       <View style={[typography.shadowCard, styles.infoRow]}>
         <IconButton
-        icon={Icon}
-        iconSize={20}
-        size={30}
-        backgroundColor={palletteColors.appPrimary}
+          icon={Icon}
+          iconSize={20}
+          size={30}
+          backgroundColor={palletteColors.appPrimary}
         />
         <View style={styles.infoText}>
           <Text style={typography.subtitle}>{title}</Text>
@@ -51,8 +78,8 @@ const RestaurantDetailPage = () => {
             onPress={onClick}
             style={styles.actionButton}
           >
-            <Text style={{color: palletteColors.appPrimary}}>Click</Text>
-            <ChevronRight size={20} color={palletteColors.appPrimary}/>
+            <Text style={{ color: palletteColors.appPrimary }}>Click</Text>
+            <ChevronRight size={20} color={palletteColors.appPrimary} />
           </TouchableOpacity>
         }
 
@@ -60,45 +87,65 @@ const RestaurantDetailPage = () => {
     )
   }
   return (
-    <ScrollView style={styles.container}>
-      <HeroSection 
-      restaturant={restaurantData.data} 
-      onbackPress={()=>{navigation.pop()}}
-      onHeartTap={()=>{console.log("like")}}
-      />
-      <View style={styles.imgCell}>
-        <RestaurantPropertiesCell restaturant={restaurantData.data} />
+    <View>
+      <FlatList
+      data={filteredFoods}
+      ListFooterComponent={<View style={{ height: 80 }} />}
+      ListHeaderComponent={
+        <View style={styles.container}>
+          <HeroSection
+            restaturant={restaurantData.data}
+            onbackPress={() => { navigation.pop() }}
+            onHeartTap={() => { console.log("like") }}
+          />
 
-        <Text style={typography.subHeading}>About</Text>
-        <View style={typography.shadowCard}>
-          <Text>{restaurantData.data.description}</Text>
+          <View style={styles.dataWrapper}>
+            <View >
+              <RestaurantPropertiesCell restaturant={restaurantData.data} />
+            </View>
+            
+
+            <Text style={typography.subHeading}>About</Text>
+            <View style={typography.shadowCard}>
+              <Text>{restaurantData.data.description}</Text>
+            </View>
+
+            <Text style={typography.subHeading}>Restarunt Info</Text>
+            {infoCell(
+              MapPin,
+              "LOCATION",
+              restaurantData.data.address,
+              () => { console.log("go to map") }
+            )}
+
+            {infoCell(
+              Clock,
+              "OPENING HOURS",
+              `${restaurantData.data.openingHours} ${restaurantData.data.isOpen ? '(Open Now)' : '(Closed Now)'}`
+            )}
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Text style={typography.subHeading}>Popular Menu</Text>
+              <Text>{`${menuData?.data?.foods.length} Total Items`}</Text>
+            </View>
+            
+            <SingleSelectionChips
+              configs={categoryOptions}
+              onSelectionChange={setSelectedCategory}
+              scrolling={true}
+            />
+          </View>
         </View>
+      }
+      renderItem={({ item }) =>
+      (
+          <RestaurantDetailMenu food={item} />        
+      )}
+      ItemSeparatorComponent={() => <View style={{ paddingVertical: scale.xsm_6 }} />}
+    />
+    </View>
+    
 
-        <Text style={typography.subHeading}>Restarunt Info</Text>
-        {infoCell(
-          MapPin,
-          "LOCATION",
-          restaurantData.data.address,
-          () => {console.log("go to map")}
-        )}
-
-        {infoCell(
-          Clock,
-          "OPENING HOURS",
-          `${restaurantData.data.openingHours} ${restaurantData.data.isOpen ? '(Open Now)' : '(Closed Now)'}`
-        )}
-
-        <View style={{flexDirection:'row', justifyContent:'space-between', alignItems: 'center'}}>
-        <Text style={typography.subHeading}>Popular Menu</Text>
-        <Text>{`${menuData?.data?.foods.length} Total Items`}</Text>
-        </View>
-        
-        <RestaurantDetailMenu menu={menuData?.data} />
-
-      </View>
-
-
-    </ScrollView>
   )
 }
 
@@ -108,12 +155,11 @@ const detailStyles = (scale: LayoutScaleType, color: palleteColorsType) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      color: color.dullwhite
+      color: color.dullwhite,
+      paddingBottom: scale.md_16
     },
-    imgCell: {
-      transform: [
-        { translateY: -40 }
-      ],
+    dataWrapper: {
+      marginTop: -40,
       paddingHorizontal: scale.md_16,
       gap: scale.ms_12
     },
