@@ -12,6 +12,7 @@ import RestaurantDetailMenu from './components/RestaurantDetailMenu'
 import IconButton from '../../components/IconButton'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import SingleSelectionChips, { SelectionItem } from '../../components/singleSelection/SignleSelectionChips'
+import CartMenu from './components/CartMenu'
 
 
 type Props = RouteProp<AppStackParamList, typeof appRoutes.RestaurantDetail>
@@ -87,64 +88,67 @@ const RestaurantDetailPage = () => {
     )
   }
   return (
-    <View>
+    <>
       <FlatList
-      data={filteredFoods}
-      ListFooterComponent={<View style={{ height: 80 }} />}
-      ListHeaderComponent={
-        <View style={styles.container}>
-          <HeroSection
-            restaturant={restaurantData.data}
-            onbackPress={() => { navigation.pop() }}
-            onHeartTap={() => { console.log("like") }}
-          />
-
-          <View style={styles.dataWrapper}>
-            <View >
-              <RestaurantPropertiesCell restaturant={restaurantData.data} />
-            </View>
-            
-
-            <Text style={typography.subHeading}>About</Text>
-            <View style={typography.shadowCard}>
-              <Text>{restaurantData.data.description}</Text>
-            </View>
-
-            <Text style={typography.subHeading}>Restarunt Info</Text>
-            {infoCell(
-              MapPin,
-              "LOCATION",
-              restaurantData.data.address,
-              () => { console.log("go to map") }
-            )}
-
-            {infoCell(
-              Clock,
-              "OPENING HOURS",
-              `${restaurantData.data.openingHours} ${restaurantData.data.isOpen ? '(Open Now)' : '(Closed Now)'}`
-            )}
-
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Text style={typography.subHeading}>Popular Menu</Text>
-              <Text>{`${menuData?.data?.foods.length} Total Items`}</Text>
-            </View>
-            
-            <SingleSelectionChips
-              configs={categoryOptions}
-              onSelectionChange={setSelectedCategory}
-              scrolling={true}
+        data={filteredFoods}
+        ListFooterComponent={<View style={{ height: scale.sm_8 }} />}
+        ListHeaderComponent={
+          <View style={styles.container}>
+            <HeroSection
+              restaturant={restaurantData.data}
+              onbackPress={() => { navigation.pop() }}
+              onHeartTap={() => { console.log("like") }}
             />
+
+            <View style={styles.dataWrapper}>
+              <View >
+                <RestaurantPropertiesCell restaturant={restaurantData.data} />
+              </View>
+
+
+              <Text style={typography.subHeading}>About</Text>
+              <View style={typography.shadowCard}>
+                <Text>{restaurantData.data.description}</Text>
+              </View>
+
+              <Text style={typography.subHeading}>Restarunt Info</Text>
+              {infoCell(
+                MapPin,
+                "LOCATION",
+                restaurantData.data.address,
+                () => { console.log("go to map") }
+              )}
+
+              {infoCell(
+                Clock,
+                "OPENING HOURS",
+                `${restaurantData.data.openingHours} ${restaurantData.data.isOpen ? '(Open Now)' : '(Closed Now)'}`
+              )}
+
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Text style={typography.subHeading}>Popular Menu</Text>
+                <Text>{`${menuData?.data?.foods.length} Total Items`}</Text>
+              </View>
+
+              <SingleSelectionChips
+                configs={categoryOptions}
+                onSelectionChange={setSelectedCategory}
+                scrolling={true}
+              />
+            </View>
           </View>
-        </View>
-      }
-      renderItem={({ item }) =>
-      (
-          <RestaurantDetailMenu food={item} />        
-      )}
-      ItemSeparatorComponent={() => <View style={{ paddingVertical: scale.xsm_6 }} />}
-    />
-    </View>
-    
+        }
+        renderItem={({ item }) =>
+        (
+          <View style={{ paddingHorizontal: scale.md_16 }}>
+            <RestaurantDetailMenu food={item} />
+          </View>
+        )}
+        ItemSeparatorComponent={() => <View style={{ paddingVertical: scale.xsm_6 }} />}
+      />
+      <CartMenu />
+    </>
+
 
   )
 }
@@ -179,5 +183,9 @@ const detailStyles = (scale: LayoutScaleType, color: palleteColorsType) => {
       alignItems: "center",
       gap: scale.xs_4
     },
+    cartMenu: {
+      position: 'absolute',
+      bottom: 5
+    }
   })
 }

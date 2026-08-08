@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image } from 'react-native'
 import { Plus } from 'lucide-react-native'
 import IconButton from '../../../components/IconButton'
 import { Food } from '../../../data/types'
-import { useTheme } from '../../../constants/theme'
+import { LayoutScaleType, useTheme } from '../../../constants/theme'
 
 type MenuProps = {
   food: Food | undefined
@@ -11,6 +11,7 @@ type MenuProps = {
 const RestaurantDetailMenu = ({ food }: MenuProps) => {
   const { scale, palletteColors, typography } = useTheme()
 
+  const styles = menuStyles(scale)
   if (!food) {
     return <Text>No food item available</Text>
   }
@@ -49,33 +50,35 @@ const RestaurantDetailMenu = ({ food }: MenuProps) => {
 
 export default RestaurantDetailMenu
 
-export const styles = StyleSheet.create({
+export const menuStyles = (scale: LayoutScaleType) => {
+  return StyleSheet.create({
 
-  foodItem: {
-    flexDirection: 'row',
-    gap: 12,
-    alignItems: 'center'
-  },
-  foodName: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  img: {
-    height: 80,
-    width: 80,
-    borderRadius: 10,
-  },
-  textContainer: {
-    flex: 1,
-    gap: 6
-  },
-  discount: {
-    fontSize: 12,
-    textDecorationLine: 'line-through'
-  },
-  addButton: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10
-  }
-})
+    foodItem: {
+      flexDirection: 'row',
+      gap: scale.ms_12,
+      alignItems: 'center'
+    },
+    foodName: {
+      fontSize: scale.md_16,
+      fontWeight: '600',
+    },
+    img: {
+      height: 80,
+      width: 80,
+      borderRadius: 10,
+    },
+    textContainer: {
+      flex: 1,
+      gap: scale.xsm_6
+    },
+    discount: {
+      fontSize: scale.md_16,
+      textDecorationLine: 'line-through'
+    },
+    addButton: {
+      position: 'absolute',
+      bottom: 10,
+      right: 10
+    }
+  })
+}

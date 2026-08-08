@@ -41,6 +41,12 @@ export const Typography = {
     width: '100%',
     backgroundColor: PaletteColors.appPrimary,
   },
+
+  rowCenter: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  } satisfies ViewStyle,
   
   shadowCard: {
     padding:12,
