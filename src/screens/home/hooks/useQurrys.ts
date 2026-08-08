@@ -15,10 +15,3 @@ export const useGetLocations = (query: string) => {
         queryFn: () =>  getLocationsWithQuery(query)
     })
 }
-
-export const useGetLocationWithLatLong = (latitude: number, longitude: number) => {
-    return useQuery({
-        queryKey: ["reverse_Geocode", latitude, longitude],
-        queryFn: () =>  getLocationWithLatLong(latitude, longitude)
-    })
-}

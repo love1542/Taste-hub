@@ -23,7 +23,7 @@ const Home = () => {
 
   useEffect(() => {
     refreshCurrentLocation();
-  }, [refreshCurrentLocation]);
+  }, []);
 
   useEffect(() => {
     const nextRestaurants = data?.data ?? [];
