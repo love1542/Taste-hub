@@ -4,6 +4,7 @@ import { useCart } from '../../hooks';
 import LeftIconWithTextButton from '../../components/LeftIconWithTextButton';
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme';
 import { ArrowRight } from 'lucide-react-native';
+import FoodCell from '../../components/FoodCell';
 
 
 const CartSheet = () => {
@@ -11,11 +12,11 @@ const CartSheet = () => {
   const { items } = useCart()
   const styles = sheetStyle(palletteColors, scale)
 
-  const menuDetail = (title:string, value: string| number , green?: boolean) => {
+  const menuDetail = (title: string, value: string | number, green?: boolean) => {
     return (
-      <View style={[ typography.rowCenter, {justifyContent: 'space-between'}]}>
-        <Text style={{color: palletteColors.app737373}}>{title}</Text>
-        <Text style={{color: green ? palletteColors.green : palletteColors.black}}>{value}</Text>
+      <View style={[typography.rowCenter, { justifyContent: 'space-between' }]}>
+        <Text style={{ color: palletteColors.app737373 }}>{title}</Text>
+        <Text style={{ color: green ? palletteColors.green : palletteColors.black }}>{value}</Text>
       </View>
     )
   }
@@ -35,57 +36,67 @@ const CartSheet = () => {
         />
       </View>
 
-    {/* Items  */}
+      {/* Items  */}
 
-    <ScrollView>
-      {
-        items.map((item)=>{
-          return(
-            <View key={item.foodId}>
-              <Text>{item.name}</Text>
-            </View>
-          )
-        })
-      }
-    </ScrollView>
+      <ScrollView 
+      showsVerticalScrollIndicator = {false}
+      style={{maxHeight: '40%'}}>
+        {
+          items.map((item) => {
+            return (
+              <View key={item.foodId}>
+                <FoodCell
+                  foodId={item.foodId}
+                  name={item.name}
+                  discountPrice={item.discountPrice}
+                  image={item.image}
+                  preparationTime={item.preparationTime}
+                  price={item.price}
+                  restaurantId={item.restaurantId}
+                />
+              </View>
+            )
+          })
+        }
+      </ScrollView>
 
-    <View style={styles.itemInfo}>
-      {menuDetail(
-        'Estimated time',
-        '21 min'
-      )}
-      {menuDetail(
-        'Subtotal',
-        '₹230'
-      )}
-      {menuDetail(
-        'Discount',
-        '- ₹20',
-        true
-      )}
-      {menuDetail(
-        'Delivery fee',
-        '₹10'
-      )}
+      <View style={styles.itemInfo}>
+        {menuDetail(
+          'Estimated time',
+          '21 min'
+        )}
+        {menuDetail(
+          'Subtotal',
+          '₹230'
+        )}
+        {menuDetail(
+          'Discount',
+          '- ₹20',
+          true
+        )}
+        {menuDetail(
+          'Delivery fee',
+          '₹10'
+        )}
 
-      <View style={typography.borderLine} />
-      
-      <View style={[ typography.rowCenter, {justifyContent: 'space-between'}]}>
-        <Text style={typography.subHeading}>Total</Text>
-        <Text style={typography.subHeading}>23</Text>
-      </View>
+        <View style={typography.borderLine} />
 
-      <TouchableOpacity
-        onPress={() => {console.log('checkout')}}
-        style={styles.buttonWrapper}
-      >
-          <Text style={[typography.title,styles.btnText]}>View & Checkout</Text>
-          <View style={[typography.rowCenter, {gap: scale.sm_8}]}>
-            <Text style={[typography.title,styles.btnText]}>24</Text>
+        <View style={[typography.rowCenter, { justifyContent: 'space-between' }]}>
+          <Text style={typography.subHeading}>Total</Text>
+          <Text style={typography.subHeading}>23</Text>
+        </View>
+
+        <TouchableOpacity
+          onPress={() => { console.log('checkout') }}
+          style={styles.buttonWrapper}
+        >
+          <Text style={[typography.title, styles.btnText]}>View & Checkout</Text>
+          <View style={[typography.rowCenter, { gap: scale.sm_8 }]}>
+            <Text style={[typography.title, styles.btnText]}>24</Text>
             <ArrowRight size={20} color={palletteColors.white} />
           </View>
-      </TouchableOpacity>
-    </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

@@ -8,11 +8,11 @@ import HeroSection from './components/HeroSection'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme'
 import RestaurantPropertiesCell from './components/RestaurantPropertiesCell'
 import { ChevronRight, Clock, LucideIcon, MapPin, Plus } from 'lucide-react-native'
-import RestaurantDetailMenu from './components/RestaurantDetailMenu'
 import IconButton from '../../components/IconButton'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import SingleSelectionChips, { SelectionItem } from '../../components/singleSelection/SignleSelectionChips'
 import CartMenu from './components/CartMenu'
+import FoodCell from '../../components/FoodCell'
 
 
 type Props = RouteProp<AppStackParamList, typeof appRoutes.RestaurantDetail>
@@ -141,7 +141,16 @@ const RestaurantDetailPage = () => {
         renderItem={({ item }) =>
         (
           <View style={{ paddingHorizontal: scale.md_16 }}>
-            <RestaurantDetailMenu food={item} />
+            <FoodCell
+              foodId={item.id}
+              name={item.name}
+              discountPrice={item.discountPrice}
+              image={item.image}
+              preparationTime={item.preparationTime}
+              price={item.price}
+              restaurantId={item.restaurantId}
+              description={item.description}
+            />
           </View>
         )}
         ItemSeparatorComponent={() => <View style={{ paddingVertical: scale.xsm_6 }} />}
