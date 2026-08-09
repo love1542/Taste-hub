@@ -5,14 +5,15 @@ import { useCart } from '../hooks'
 import IconButton from './IconButton'
 
 type CellProps = {
-    foodId: string,
-    image: string,
-    name: string,
-    description?: string,
-    preparationTime: number,
-    price: number,
-    discountPrice: number | undefined,
-    restaurantId: string
+    foodId: string;
+    image: string;
+    name: string;
+    description?: string;
+    preparationTime: number;
+    price: number;
+    discountPrice: number | undefined;
+    restaurantId: string;
+    deliveryFee: number;
 }
 
 
@@ -23,7 +24,8 @@ const FoodCell = ({ foodId,
     preparationTime,
     price,
     discountPrice,
-    restaurantId
+    restaurantId,
+    deliveryFee
 }: CellProps) => {
     const { scale, palletteColors, typography } = useTheme()
 
@@ -38,7 +40,8 @@ const FoodCell = ({ foodId,
             price: price,
             discountPrice: discountPrice,
             quantity: 1,
-            restaurantId: restaurantId
+            restaurantId: restaurantId,
+            deliveryFee: deliveryFee
         })
     }
 
@@ -135,7 +138,7 @@ export const menuStyles = (scale: LayoutScaleType, color: palleteColorsType) => 
         foodItem: {
             flexDirection: 'row',
             gap: scale.ms_12,
-            alignItems: 'center'
+            alignItems: 'flex-start'
         },
         foodName: {
             fontSize: scale.md_16,

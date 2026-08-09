@@ -150,6 +150,7 @@ const RestaurantDetailPage = () => {
               price={item.price}
               restaurantId={item.restaurantId}
               description={item.description}
+              deliveryFee={restaurantData.data?.deliveryFee ?? 0}
             />
           </View>
         )}

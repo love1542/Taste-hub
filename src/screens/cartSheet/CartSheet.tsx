@@ -1,16 +1,23 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useCart } from '../../hooks';
 import LeftIconWithTextButton from '../../components/LeftIconWithTextButton';
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme';
-import { ArrowRight } from 'lucide-react-native';
+import { ArrowRight, ShoppingBag } from 'lucide-react-native';
 import FoodCell from '../../components/FoodCell';
 
 
 const CartSheet = () => {
   const { palletteColors, scale, typography } = useTheme()
-  const { items } = useCart()
+  const { items, clearCart, price, totalDiscount, totalPrice, deliveryFee } = useCart()
   const styles = sheetStyle(palletteColors, scale)
+
+  const estimateTime = useMemo(() => {
+    return items.reduce(
+        (max, item) => Math.max(max, item.preparationTime),
+        0
+    );
+}, [items]);
 
   const menuDetail = (title: string, value: string | number, green?: boolean) => {
     return (
@@ -33,6 +40,7 @@ const CartSheet = () => {
           text='Clear'
           colors={[palletteColors.appPrimary, palletteColors.appPrimary]}
           textStyle={{ color: palletteColors.white }}
+          onPress={clearCart}
         />
       </View>
 
@@ -40,7 +48,7 @@ const CartSheet = () => {
 
       <ScrollView 
       showsVerticalScrollIndicator = {false}
-      style={{maxHeight: '40%'}}>
+      style={{maxHeight: 250}}>
         {
           items.map((item) => {
             return (
@@ -53,6 +61,7 @@ const CartSheet = () => {
                   preparationTime={item.preparationTime}
                   price={item.price}
                   restaurantId={item.restaurantId}
+                  deliveryFee={item.deliveryFee}
                 />
               </View>
             )
@@ -63,36 +72,39 @@ const CartSheet = () => {
       <View style={styles.itemInfo}>
         {menuDetail(
           'Estimated time',
-          '21 min'
+          `${estimateTime} min`
         )}
         {menuDetail(
           'Subtotal',
-          '₹230'
+          `₹${price}`
         )}
         {menuDetail(
           'Discount',
-          '- ₹20',
+          `- ₹${totalDiscount}`,
           true
         )}
         {menuDetail(
           'Delivery fee',
-          '₹10'
+          `₹${deliveryFee}`
         )}
 
         <View style={typography.borderLine} />
 
         <View style={[typography.rowCenter, { justifyContent: 'space-between' }]}>
           <Text style={typography.subHeading}>Total</Text>
-          <Text style={typography.subHeading}>23</Text>
+          <Text style={typography.subHeading}>₹{totalPrice}</Text>
         </View>
 
         <TouchableOpacity
           onPress={() => { console.log('checkout') }}
           style={styles.buttonWrapper}
         >
+          <View style={typography.rowCenter}>
+            <ShoppingBag color={palletteColors.white}/>
           <Text style={[typography.title, styles.btnText]}>View & Checkout</Text>
+          </View>
           <View style={[typography.rowCenter, { gap: scale.sm_8 }]}>
-            <Text style={[typography.title, styles.btnText]}>24</Text>
+            <Text style={[typography.title, styles.btnText]}>₹{totalPrice}</Text>
             <ArrowRight size={20} color={palletteColors.white} />
           </View>
         </TouchableOpacity>

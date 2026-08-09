@@ -13,7 +13,7 @@ const CartMenu = () => {
     const styles = menuStyles(scale, palletteColors)
     const { items, totalPrice } = useCart()
 
-    const {open} = useAppBottomSheet()
+    const { open } = useAppBottomSheet()
 
     const cartClick = () => {
         open({
@@ -24,9 +24,9 @@ const CartMenu = () => {
     return (
         <View style={styles.wrapper}>
             {
-                (items.length > 0) ? <TouchableOpacity 
-                onPress={cartClick}
-                style={[styles.cartBox, styles.addedBox]}>
+                (items.length > 0) ? <TouchableOpacity
+                    onPress={cartClick}
+                    style={[styles.cartBox, styles.addedBox]}>
                     <View style={[typography.rowCenter, { gap: scale.ms_12 }]}>
                         <IconButton
                             icon={ShoppingBag}

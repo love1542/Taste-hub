@@ -45,7 +45,8 @@ export const Typography = {
   rowCenter: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    gap: 6
   } satisfies ViewStyle,
   
   shadowCard: {
