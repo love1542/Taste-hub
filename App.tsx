@@ -8,6 +8,7 @@ import BottomSheetProvider from './src/components/bottomSheet/BottomSheetProvide
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastContextProvider } from './src/components/toast/ToastProvider';
 import { AuthProvider } from './src/contexts/AuthContext';
+import CartContextProvider from './src/contexts/CartContextProvider';
 
 function App() {
   const queryClient = new QueryClient()
@@ -16,13 +17,15 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <ToastContextProvider>
-            <BottomSheetModalProvider>
-              <ThemeProvider>
-                <BottomSheetProvider>
-                  <RootNavigation />
-                </BottomSheetProvider>
-              </ThemeProvider>
-            </BottomSheetModalProvider>
+            <CartContextProvider>
+              <BottomSheetModalProvider>
+                <ThemeProvider>
+                  <BottomSheetProvider>
+                    <RootNavigation />
+                  </BottomSheetProvider>
+                </ThemeProvider>
+              </BottomSheetModalProvider>
+            </CartContextProvider>
           </ToastContextProvider>
         </AuthProvider>
       </QueryClientProvider>

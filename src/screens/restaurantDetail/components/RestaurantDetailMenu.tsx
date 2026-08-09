@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
-import { Clock, Plus } from 'lucide-react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { Clock, Minus, Plus } from 'lucide-react-native'
 import IconButton from '../../../components/IconButton'
 import { Food } from '../../../data/types'
-import { LayoutScaleType, useTheme } from '../../../constants/theme'
+import { LayoutScaleType, palleteColorsType, useTheme } from '../../../constants/theme'
+import { useCart } from '../../../hooks'
 
 type MenuProps = {
   food: Food | undefined
@@ -11,10 +12,31 @@ type MenuProps = {
 const RestaurantDetailMenu = ({ food }: MenuProps) => {
   const { scale, palletteColors, typography } = useTheme()
 
-  const styles = menuStyles(scale)
-  if (!food) {
+  const { addToCart, items, updateQuantity } = useCart()
+
+   if (!food) {
     return <Text>No food item available</Text>
   }
+
+  const plusClick =() => {
+    addToCart({
+      foodId: food.id,
+      image: food.image,
+      name: food.name,
+      preparationTime: food.preparationTime,
+      price: food.price,
+      discountPrice: food.discountPrice,
+      quantity: 1,
+      restaurantId: food.restaurantId
+    })
+  }
+
+  const cartItem = items.find(item => item.foodId === food.id);
+
+  const quantity = cartItem?.quantity ?? 0;
+
+  const styles = menuStyles(scale, palletteColors)
+ 
 
   return (
     <View style={[styles.foodItem, typography.shadowCard]}>
@@ -42,14 +64,49 @@ const RestaurantDetailMenu = ({ food }: MenuProps) => {
       </View>
 
       <View style={styles.addButton}>
-        <IconButton
-          icon={Plus}
-          iconSize={20}
-          iconColor={palletteColors.white}
-          backgroundColor={palletteColors.appPrimary}
-          size={35}
-          borderRadius={50}
-        />
+        {quantity === 0 ? (
+          <IconButton
+            icon={Plus}
+            iconSize={20}
+            iconColor={palletteColors.white}
+            backgroundColor={palletteColors.appPrimary}
+            size={35}
+            borderRadius={50}
+            onpress={plusClick}
+          />
+        ) : (
+          <View style={styles.quantityContainer}>
+            <IconButton
+            icon={Minus}
+            iconSize={16}
+            iconColor={palletteColors.appPrimary}
+            backgroundColor={palletteColors.white}
+            size={27}
+            borderRadius={50}
+            onpress={
+              () => updateQuantity(food.id, quantity - 1)
+            }
+          />
+
+            <Text style={[typography.title, {color: palletteColors.white, fontWeight: 'bold'}]}>
+              {quantity}
+            </Text>
+
+            <IconButton
+            icon={Plus}
+            iconSize={16}
+            iconColor={palletteColors.appPrimary}
+            backgroundColor={palletteColors.white}
+            size={27}
+            borderRadius={50}
+            onpress={
+              () => updateQuantity(food.id, quantity + 1)
+            }
+          />
+          </View>
+        )}
+
+
       </View>
     </View>
 
@@ -58,7 +115,7 @@ const RestaurantDetailMenu = ({ food }: MenuProps) => {
 
 export default RestaurantDetailMenu
 
-export const menuStyles = (scale: LayoutScaleType) => {
+export const menuStyles = (scale: LayoutScaleType, color: palleteColorsType) => {
   return StyleSheet.create({
 
     foodItem: {
@@ -87,6 +144,22 @@ export const menuStyles = (scale: LayoutScaleType) => {
       position: 'absolute',
       bottom: 10,
       right: 10
-    }
+    },
+    quantityContainer: {
+      borderRadius: 18,
+      backgroundColor: color.appPrimary,
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: scale.xs_4,
+      padding: scale.xs_4
+    },
+
+    quantityText: {
+      color: color.white,
+      fontSize: 14,
+      fontWeight: '700',
+      minWidth: 20,
+      textAlign: 'center',
+    },
   })
 }

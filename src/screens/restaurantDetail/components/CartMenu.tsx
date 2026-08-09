@@ -4,16 +4,17 @@ import { LayoutScaleType, palleteColorsType, useTheme } from '../../../constants
 import { ShoppingBag } from 'lucide-react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import IconButton from '../../../components/IconButton'
+import { useCart } from '../../../hooks'
 
 const CartMenu = () => {
     const { scale, palletteColors, typography } = useTheme()
     const styles = menuStyles(scale, palletteColors)
+    const { items, totalPrice } = useCart()
 
-    const added = false
     return (
         <View style={styles.wrapper}>
             {
-                added ? <TouchableOpacity style={[styles.cartBox, styles.addedBox]}>
+                (items.length > 0) ? <TouchableOpacity style={[styles.cartBox, styles.addedBox]}>
                     <View style={[typography.rowCenter, { gap: scale.ms_12 }]}>
                         <IconButton
                             icon={ShoppingBag}
@@ -21,15 +22,18 @@ const CartMenu = () => {
                             iconSize={17}
                             backgroundColor={palletteColors.white}
                             size={35}
-                            badge={1}
+                            badge={items.length}
                         />
-                        <Text style={[typography.title, styles.activeText]}>1 Item</Text>
+                        <Text style={[typography.title, styles.activeText]}>
+                            {`${items.length} ${items.length < 1 ? 'item' : 'items'}`}
+                        </Text>
                     </View>
-                    <View style={{width: 1, height: '100%', backgroundColor: palletteColors.dullwhite}}/>
+                    <View style={{ width: 1, height: '100%', backgroundColor: palletteColors.dullwhite }} />
                     <Text style={[typography.title, styles.activeText]}>
-                        {`View Cart - ₹139   >`}
+                        {`View Cart - ₹${totalPrice}   >`}
                     </Text>
-                </TouchableOpacity> :
+                </TouchableOpacity>
+                    :
                     <View style={[styles.cartBox, styles.emptyBox]}>
                         <IconButton
                             icon={ShoppingBag}
