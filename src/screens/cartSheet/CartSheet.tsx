@@ -6,8 +6,11 @@ import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/th
 import { ArrowRight, ShoppingBag } from 'lucide-react-native';
 import FoodCell from '../../components/FoodCell';
 
+type CartProps = {
+  closeSheet: () => void
+}
 
-const CartSheet = () => {
+const CartSheet = ({closeSheet}: CartProps) => {
   const { palletteColors, scale, typography } = useTheme()
   const { items, clearCart, price, totalDiscount, totalPrice, deliveryFee } = useCart()
   const styles = sheetStyle(palletteColors, scale)
@@ -18,6 +21,15 @@ const CartSheet = () => {
         0
     );
 }, [items]);
+
+const clearClick = () =>{
+  closeSheet()
+  clearCart()
+}
+
+const checkout = () => {
+  closeSheet()
+}
 
   const menuDetail = (title: string, value: string | number, green?: boolean) => {
     return (
@@ -40,7 +52,7 @@ const CartSheet = () => {
           text='Clear'
           colors={[palletteColors.appPrimary, palletteColors.appPrimary]}
           textStyle={{ color: palletteColors.white }}
-          onPress={clearCart}
+          onPress={clearClick}
         />
       </View>
 
@@ -96,7 +108,7 @@ const CartSheet = () => {
         </View>
 
         <TouchableOpacity
-          onPress={() => { console.log('checkout') }}
+          onPress={checkout}
           style={styles.buttonWrapper}
         >
           <View style={typography.rowCenter}>

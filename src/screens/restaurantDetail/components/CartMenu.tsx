@@ -13,11 +13,11 @@ const CartMenu = () => {
     const styles = menuStyles(scale, palletteColors)
     const { items, totalPrice } = useCart()
 
-    const { open } = useAppBottomSheet()
+    const { open , close} = useAppBottomSheet()
 
     const cartClick = () => {
         open({
-            content: <CartSheet />,
+            content: <CartSheet closeSheet={close}/>,
             snapPoints: ['70%']
         })
     }

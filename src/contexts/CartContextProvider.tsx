@@ -93,7 +93,7 @@ const CartContextProvider = ({ children }: Props) => {
         0
     );
 
-    const deliveryFee = items[0].deliveryFee ?? 0
+    const deliveryFee = items[0]?.deliveryFee ?? 0
 
     const totalPrice = price - totalDiscount + deliveryFee;
     
