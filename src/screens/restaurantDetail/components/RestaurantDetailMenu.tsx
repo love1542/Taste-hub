@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image } from 'react-native'
-import { Plus } from 'lucide-react-native'
+import { Clock, Plus } from 'lucide-react-native'
 import IconButton from '../../../components/IconButton'
 import { Food } from '../../../data/types'
 import { LayoutScaleType, useTheme } from '../../../constants/theme'
@@ -15,6 +15,7 @@ const RestaurantDetailMenu = ({ food }: MenuProps) => {
   if (!food) {
     return <Text>No food item available</Text>
   }
+
   return (
     <View style={[styles.foodItem, typography.shadowCard]}>
       <Image source={{ uri: food.image }} style={styles.img} resizeMode='cover' />
@@ -25,10 +26,17 @@ const RestaurantDetailMenu = ({ food }: MenuProps) => {
 
         <View style={[{ alignItems: 'baseline' }, styles.foodItem]}>
           <Text style={styles.foodName}>₹{food.discountPrice ? food.discountPrice : food.price}</Text>
-          {food.discountPrice &&
+          {
+            food.discountPrice &&
             <Text style={[typography.subtitle, styles.discount]}>₹{food.price}</Text>
           }
-          <Text style={typography.title}>{food.preparationTime} min</Text>
+
+          <View style={{ width: 1, height: 10, backgroundColor: palletteColors.appD4D4D4 }} />
+          <View style={[typography.rowCenter, { gap: scale.xs_4 }]}>
+            <Clock size={15} color={palletteColors.appPrimary} />
+            <Text>{food.preparationTime} min</Text>
+          </View>
+
         </View>
 
       </View>
@@ -39,7 +47,7 @@ const RestaurantDetailMenu = ({ food }: MenuProps) => {
           iconSize={20}
           iconColor={palletteColors.white}
           backgroundColor={palletteColors.appPrimary}
-          size={30}
+          size={35}
           borderRadius={50}
         />
       </View>
@@ -68,11 +76,11 @@ export const menuStyles = (scale: LayoutScaleType) => {
       borderRadius: 10,
     },
     textContainer: {
-      flex: 1,
+      width: '60%',
       gap: scale.xsm_6
     },
     discount: {
-      fontSize: scale.md_16,
+      fontSize: scale.ms_12,
       textDecorationLine: 'line-through'
     },
     addButton: {
