@@ -5,16 +5,28 @@ import { ShoppingBag } from 'lucide-react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import IconButton from '../../../components/IconButton'
 import { useCart } from '../../../hooks'
+import { useAppBottomSheet } from '../../../components/bottomSheet/hooks/useAppBottomSheet'
+import CartSheet from '../../cartSheet/CartSheet'
 
 const CartMenu = () => {
     const { scale, palletteColors, typography } = useTheme()
     const styles = menuStyles(scale, palletteColors)
     const { items, totalPrice } = useCart()
 
+    const {open} = useAppBottomSheet()
+
+    const cartClick = () => {
+        open({
+            content: <CartSheet />,
+            snapPoints: ['70%']
+        })
+    }
     return (
         <View style={styles.wrapper}>
             {
-                (items.length > 0) ? <TouchableOpacity style={[styles.cartBox, styles.addedBox]}>
+                (items.length > 0) ? <TouchableOpacity 
+                onPress={cartClick}
+                style={[styles.cartBox, styles.addedBox]}>
                     <View style={[typography.rowCenter, { gap: scale.ms_12 }]}>
                         <IconButton
                             icon={ShoppingBag}
