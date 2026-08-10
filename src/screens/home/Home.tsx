@@ -10,8 +10,15 @@ import { CuisineId, Restaurant } from '../../data/types';
 import { useGetRestaurants } from './hooks/useQurrys';
 import { useToggleFavourite } from './hooks/useMutation';
 import { useLocation } from '../../hooks/useLocation';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AppStackParamList } from '../../navigation/type';
+import { appRoutes } from '../../constants/appConstants';
+import { useNavigation } from '@react-navigation/native';
+
+type NavigationProps = NativeStackNavigationProp<AppStackParamList, typeof appRoutes.RestaurantDetail>
 
 const Home = () => {
+  const navigation = useNavigation<NavigationProps>()
   const [query, setQuery] = useState('')
   const { open } = useAppBottomSheet()
   const [cuisine, setCuisine] = useState<CuisineId | undefined>(undefined);
@@ -86,11 +93,13 @@ const Home = () => {
           }
         }
       }
-      renderItem={({ item }) => (
-        <View style={styles.restaurantItem}>
-          <RestaurantCell data={item} favPress={handleToggleFavourite} onCellPress={() => { }} />
+      renderItem={({ item, index }) =>
+        <View style={{ marginBottom: 16 }}>
+          <RestaurantCell key={index} data={item}
+            favPress={handleToggleFavourite}
+            onCellPress={() => { navigation.navigate(appRoutes.RestaurantDetail, { restaurantId: item.id }) }} />
         </View>
-      )}
+      }
       ListHeaderComponent={
         <View style={styles.headerWrapper}>
           <HomeHeader query={query} onOpenSearch={openSeachPress} />

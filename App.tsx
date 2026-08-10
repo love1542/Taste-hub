@@ -9,6 +9,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastContextProvider } from './src/components/toast/ToastProvider';
 import { AuthProvider } from './src/contexts/AuthContext';
 import { LocationContextProvider } from './src/contexts/LocationContextProvider';
+import CartContextProvider from './src/contexts/CartContextProvider';
+
 
 function App() {
   const queryClient = new QueryClient()
@@ -18,6 +20,7 @@ function App() {
         <AuthProvider>
           <LocationContextProvider>
             <ToastContextProvider>
+            <CartContextProvider>
               <BottomSheetModalProvider>
                 <ThemeProvider>
                   <BottomSheetProvider>
@@ -25,9 +28,9 @@ function App() {
                   </BottomSheetProvider>
                 </ThemeProvider>
               </BottomSheetModalProvider>
-            </ToastContextProvider>
+            </CartContextProvider>
+          </ToastContextProvider>
           </LocationContextProvider>
-
         </AuthProvider>
       </QueryClientProvider>
     </GestureHandlerRootView>

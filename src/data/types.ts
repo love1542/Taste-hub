@@ -60,7 +60,7 @@ export interface Food {
   price: number;
   discountPrice?: number;
 
-  preparationTime: number; // Minutes
+  preparationTime: number;
 
   foodType: FoodType;
 
@@ -96,5 +96,6 @@ export interface Restaurant {
   estimatedDeliveryTime: string;
 
   isOpen: boolean;
+  openingHours: string;
   isFavourite: boolean;
 }

@@ -1,4 +1,4 @@
-import { TextStyle } from 'react-native';
+import { TextStyle, ViewStyle } from 'react-native';
 import { PaletteColors } from './paletteColors';
 import { width } from './layoutScales';
 
@@ -40,7 +40,34 @@ export const Typography = {
     height: 3,
     width: '100%',
     backgroundColor: PaletteColors.appPrimary,
-  }
+  },
+
+  rowCenter: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 6
+  } satisfies ViewStyle,
+  
+  shadowCard: {
+    padding:12,
+    backgroundColor: PaletteColors.white,
+    borderWidth: 1,
+    borderColor: '#F1F1F1',
+    borderRadius: 25,
+
+    // iOS
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+
+    // Android
+    elevation: 3,
+  } satisfies ViewStyle,
 
 } as const;
 
