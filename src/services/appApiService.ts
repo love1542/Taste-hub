@@ -5,6 +5,8 @@ import { Category, CuisineId, Food, Restaurant } from "../data/types"
 import { CATEGORY, FOOD_CATEGORIES } from "../data/Categories.data"
 import { foods } from "../data/food.data"
 import { RestaurantMenu } from "../screens/restaurantDetail/types/types"
+import { profileStepForm, SignupForm } from "../screens/auth/types/auth.types"
+import { STORAGE_KEYS, storageService } from "./storageService"
 
 export type GetRestaurantsRequestParam = {
     page: number,
@@ -111,3 +113,14 @@ export const getRestaurantMenu = async (restaurantId: string): Promise<ApiRespon
         delay: 2500,
     });
 };
+
+export const getProfile = async (userID: string): Promise<ApiResponse<SignupForm>> => {
+    const allUsers = await storageService.get<SignupForm[]>(STORAGE_KEYS.allUsers) ?? []
+    const profile = allUsers.find((item) => item.id === userID)
+
+    return await mockApi<SignupForm>({
+        data: profile,
+        success:true,
+        message: 'profile fetch successfully'
+    })
+}
