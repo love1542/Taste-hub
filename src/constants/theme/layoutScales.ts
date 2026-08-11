@@ -57,8 +57,8 @@ export const LayoutScale = {
   // --- IMAGE & AVATAR HEIGHTS ---
   /** 40px - Standard comment block/list row user avatar bubbles */
   avatarSM_40: 40,
-  /** 56px - Settings screen profile user avatar graphics */
-  avatarMD_56: 56,
+  /** 70px - Settings screen profile user avatar graphics */
+  avatarMD_70: 70,
 
   avtarBorder_60: 60,
   /** 96px - High-focus edit profile view display avatars */

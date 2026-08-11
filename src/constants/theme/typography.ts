@@ -18,6 +18,12 @@ export const Typography = {
     fontFamily: 'Inter-SemiBold',
   },
 
+  mdTitle:{
+    fontSize: 18,
+    color: PaletteColors.app262626,
+    fontFamily: 'Inter-Bold',
+  },
+
   title: {
     fontSize: 15,
     color: PaletteColors.app262626,

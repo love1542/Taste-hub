@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native'
 import React, { useEffect, useId, useState } from 'react'
 import { useAuth } from '../../hooks'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme'
@@ -10,6 +10,8 @@ import AccountInfoCell from './components/AccountInfoCell'
 import { useGetProfile } from './hooks/useQueries'
 import { STORAGE_KEYS, storageService } from '../../services/storageService'
 import { loginUserStorage } from '../auth/types/auth.types'
+import { GENDER_SELECTIONS } from '../../constants/appConstants/helper'
+import IconButton from '../../components/IconButton'
 
 const Profile = () => {
   const { logout } = useAuth()
@@ -17,7 +19,7 @@ const Profile = () => {
   const styles = profileStyle(palletteColors, scale)
   const [image, setImage] = useState<PickedImage | undefined>(undefined)
   const [id, setId] = useState('')
-  const { data } = useGetProfile(id)
+  const { data, isLoading } = useGetProfile(id)
 
   useEffect(() => {
     const getUserId = async () => {
@@ -32,130 +34,166 @@ const Profile = () => {
     getUserId()
   }, [])
 
+  if (isLoading) {
+    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}> <ActivityIndicator /></View>
+  }
+
   if (!data?.data) {
     return <Text>Not PRofile fount</Text>
   }
 
+  const getGenderLabel = (gender?: string) => {
+    if (!gender) return 'Not specified'
+    const found = GENDER_SELECTIONS.find(item => item.id === gender || item.label.toLowerCase() === gender.toLowerCase())
+    return found ? found.label : gender
+  }
+
   return (
     <ScrollView
-    showsVerticalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
       contentContainerStyle={{
         paddingBottom: 70,
       }}>
-    <SafeAreaView style={styles.container}>
-      <View style={{ alignSelf: 'center' }}>
-        <ImagePicker
-          onCameraPress={() => { }}
-          image={data.data.image}
-        />
-      </View>
+      <SafeAreaView style={styles.container}>
 
-      <View
-        style={[
-          typography.rowCenter,
+        {/* HEADER */}
+
+        <View style={styles.headerContainer}>
+
+          <View style={styles.headerLeft}>
+            <ImagePicker
+              image={data.data.image}
+              height={scale.avatarMD_70}
+              width={scale.avatarMD_70}
+            />
+            <View style={styles.headerText}>
+              <Text style={typography.subHeading}>Hello, {data.data.fullName}</Text>
+              <Text style={typography.subtitle}>Manage your profile and account settings</Text>
+            </View>
+          </View>
+
+          <IconButton icon={Pencil}
+            iconSize={20}
+            iconColor={palletteColors.white}
+            size={45}
+            borderRadius={20} />
+
+        </View>
+
+        {/* PERSONAL INFO */}
+
+        <Text style={typography.mdTitle}>Personal Information</Text>
+
+        <View style={[typography.shadowCard, { gap: scale.sm_8 }]}>
+
+          <AccountInfoCell
+            icon={UserRound}
+            title="Full Name"
+            value={data.data.fullName}
+          />
+          <View style={[typography.borderLine, styles.borderColor]} />
+
           {
-            width: '100%',
-            justifyContent: 'space-between',
-          },
-        ]}
-      >
-        <Text style={typography.subHeading}>Personal Information</Text>
+            data.data.phone &&
+            <View style={{ gap: scale.sm_8 }}>
+              <AccountInfoCell
+                icon={Phone}
+                title="Phone Number"
+                value={data.data.phone}
+              />
+              <View style={[typography.borderLine, styles.borderColor]} />
+            </View>
+          }
 
-        <Pencil
-          size={20}
-          color={palletteColors.appPrimary}
-        />
-      </View>
-
-
-      <View style={[typography.shadowCard, { gap: scale.md_16, },]}>
-        <AccountInfoCell
-          icon={UserRound}
-          title="Full Name"
-          value={data.data.fullName}
-        />
-
-          <View style={typography.borderLine} />
-
-
-        {data.data.email && (
-          <AccountInfoCell
-            icon={Mail}
-            title="Email Address"
-            value={data.data.email}
-          />
-
-        )}
-
-         {data.data.email && <View style={typography.borderLine} /> }
-
-        {data.data.phone && (
-          <AccountInfoCell
-            icon={Phone}
-            title="Phone Number"
-            value={data.data.phone}
-          />
-        )}
-
-        <View style={typography.borderLine} />
-
-        <AccountInfoCell
-          icon={VenusAndMars}
-          title="Gender"
-          value={data.data.gender}
-        />
-
-        <View style={typography.borderLine} />
-
-        <AccountInfoCell
-          icon={CalendarDays}
-          title="Date of Birth"
-          value={data.data.dateOfBirth}
-        />
-      </View>
-
-      {/* Settings */}
-      <Text style={typography.subHeading}>
-        Settings
-      </Text>
-
-      <View
-        style={[
-          typography.shadowCard,
           {
-            gap: scale.md_16,
-          },
-        ]}
-      >
-        <AccountInfoCell
-          icon={MapPin}
-          title="Manage Addresses"
-          onpress={() => console.log('open addresses')}
-        />
+            data.data.email &&
+            <View style={{ gap: scale.sm_8 }}>
+              <AccountInfoCell
+                icon={Mail}
+                title="Email Address"
+                value={data.data.email}
+              />
 
-        {data.data.email && (
+              <View style={[typography.borderLine, styles.borderColor]} />
+            </View>
+          }
+
           <AccountInfoCell
-            icon={LockKeyhole}
-            title="Change Password"
-            onpress={() => console.log('change password')}
+            icon={VenusAndMars}
+            title="Gender"
+            value={getGenderLabel(data.data.gender)}
           />
-        )}
-      </View>
+          <View style={[typography.borderLine, styles.borderColor]} />
 
-      {/* Account */}
-      <Text style={typography.subHeading}>
-        Account
-      </Text>
+          <AccountInfoCell
+            icon={CalendarDays}
+            title="Date of Birth"
+            value={data.data.dateOfBirth}
+          />
+        </View>
 
-      <View
-        style={[typography.shadowCard, { gap: scale.md_16, },]}>
-        <AccountInfoCell
-          icon={LogOut}
-          title="Log Out"
-          onpress={logout}
-        />
-      </View>
-    </SafeAreaView>
+        {/* Preferences */}
+        <Text style={typography.mdTitle}> Preferences </Text>
+
+        <View style={[typography.shadowCard, { gap: scale.sm_8 }]}>
+          <AccountInfoCell
+            icon={MapPin}
+            title="Manage Addresses"
+            value='Add,edit or remove addresses'
+            onpress={() => console.log('open addresses')}
+          />
+        </View>
+
+        {/* Account */}
+        <Text style={typography.mdTitle}>Login & Security</Text>
+
+        <View style={[typography.shadowCard, { gap: scale.sm_8 }]}>
+          {
+            !data.data.phone &&
+            <View style={{ gap: scale.sm_8 }}>
+              <AccountInfoCell
+                icon={Phone}
+                title="Phone Number"
+                value="Add phone number"
+                onpress={() => console.log('Add phone')}
+              />
+              <View style={[typography.borderLine, styles.borderColor]} />
+            </View>
+          }
+
+          {
+            !data.data.email &&
+            <View style={{ gap: scale.sm_8 }}>
+              <AccountInfoCell
+                icon={Mail}
+                title="Email Address"
+                value="Add an email adress"
+                onpress={() => console.log('add email')}
+              />
+              <View style={[typography.borderLine, styles.borderColor]} />
+            </View>
+          }
+
+          {data.data.email && (
+            <View style={{ gap: scale.sm_8 }}>
+              <AccountInfoCell
+                icon={LockKeyhole}
+                title="Change Password"
+                value='Change a password'
+                onpress={() => console.log('change password')}
+              />
+              <View style={[typography.borderLine, styles.borderColor]} />
+            </View>
+          )}
+
+          <AccountInfoCell
+            icon={LogOut}
+            title="Log Out"
+            value='Sign out from your account'
+            onpress={logout}
+          />
+        </View>
+      </SafeAreaView>
     </ScrollView>
   );
 }
@@ -168,7 +206,26 @@ const profileStyle = (color: palleteColorsType, scale: LayoutScaleType) => {
       flex: 1,
       backgroundColor: color.dullwhite,
       paddingHorizontal: scale.md_16,
-      gap: scale.ml_20
+      gap: scale.ml_20,
+    },
+    headerContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      gap: scale.ms_12,
+    },
+    headerLeft: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: scale.ms_12,
+    },
+    headerText: {
+      flex: 1,
+      justifyContent: 'center',
+    },
+    borderColor: {
+      backgroundColor: color.appD4D4D4
     }
   })
 }

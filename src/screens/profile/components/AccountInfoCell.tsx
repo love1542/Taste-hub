@@ -7,7 +7,7 @@ import { useTheme } from '../../../constants/theme';
 type CellProps = {
     icon: LucideIcon;
     title: string;
-    value?: string;
+    value: string;
     onpress?: () => void;
 }
 
@@ -22,7 +22,7 @@ const AccountInfoCell = ({ icon, title, value, onpress }: CellProps) => {
             activeOpacity={0.7}
             onPress={onpress}
             disabled={!isAction}
-            style={[styles.container, {paddingVertical: scale.sm_8,gap: scale.ms_12,}]}>
+            style={[styles.container, { paddingVertical: scale.sm_8, gap: scale.ms_12, }]}>
             {/* Icon */}
             <IconButton
                 icon={Icon}
@@ -30,19 +30,17 @@ const AccountInfoCell = ({ icon, title, value, onpress }: CellProps) => {
                 iconColor={palletteColors.white}
                 backgroundColor={palletteColors.appPrimary}
                 size={40}
+                borderRadius={16}
             />
 
             {/* Content */}
-            <View style={[ styles.content, { gap: value ? scale.xs_4 : 0 } ]} >
+            <View style={[styles.content, { gap: value ? scale.xs_4 : 0 }]} >
                 <Text style={typography.title} numberOfLines={1} >
                     {title}
                 </Text>
-
-                {value && (
-                    <Text style={[typography.subtitle,]} numberOfLines={1}>
-                        {value}
-                    </Text>
-                )}
+                <Text style={[typography.subtitle,]} numberOfLines={1}>
+                    {value}
+                </Text>
             </View>
 
             {/* Action */}
