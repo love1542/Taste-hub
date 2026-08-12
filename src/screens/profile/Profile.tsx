@@ -1,25 +1,31 @@
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native'
-import React, { useEffect, useId, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuth } from '../../hooks'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import ImagePicker from '../../components/imagePicker/ImagePicker'
-import { PickedImage } from '../../components/imagePicker/types/imagePicker.types'
-import { CalendarDays, Home, LockKeyhole, LogOut, LucideEdit, Mail, MapPin, Pencil, PersonStanding, Phone, UserRound, VenusAndMars } from 'lucide-react-native'
+import { CalendarDays, LockKeyhole, LogOut, Mail, MapPin, Pencil, Phone, UserRound, VenusAndMars } from 'lucide-react-native'
 import AccountInfoCell from './components/AccountInfoCell'
 import { useGetProfile } from './hooks/useQueries'
 import { STORAGE_KEYS, storageService } from '../../services/storageService'
 import { loginUserStorage } from '../auth/types/auth.types'
 import { GENDER_SELECTIONS } from '../../constants/appConstants/helper'
 import IconButton from '../../components/IconButton'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { AppStackParamList } from '../../navigation/type'
+import { useNavigation } from '@react-navigation/native'
+import { appRoutes } from '../../constants/appConstants'
+
+type NavigationType = NativeStackNavigationProp<AppStackParamList, 'EditProfile'>
 
 const Profile = () => {
   const { logout } = useAuth()
+  const navigation = useNavigation<NavigationType>()
   const { palletteColors, scale, typography } = useTheme()
   const styles = profileStyle(palletteColors, scale)
-  const [image, setImage] = useState<PickedImage | undefined>(undefined)
   const [id, setId] = useState('')
   const { data, isLoading } = useGetProfile(id)
+ 
 
   useEffect(() => {
     const getUserId = async () => {
@@ -46,6 +52,13 @@ const Profile = () => {
     if (!gender) return 'Not specified'
     const found = GENDER_SELECTIONS.find(item => item.id === gender || item.label.toLowerCase() === gender.toLowerCase())
     return found ? found.label : gender
+  }
+
+  const editProfilePress = () =>{
+    console.log('before', data.data)
+    {
+      data.data && navigation.navigate(appRoutes.editProfile, {profileData: data.data})
+    }
   }
 
   return (
@@ -76,7 +89,9 @@ const Profile = () => {
             iconSize={20}
             iconColor={palletteColors.white}
             size={45}
-            borderRadius={20} />
+            borderRadius={20} 
+            onpress={editProfilePress}
+            />
 
         </View>
 

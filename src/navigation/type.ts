@@ -1,6 +1,6 @@
 import { NavigatorScreenParams, TabRouter } from '@react-navigation/native';
 import { appRoutes, authRoutes, MainTabRoutes, rootRoutes } from '../constants/appConstants';
-import { SignUpType } from '../screens/auth/types/auth.types';
+import { SignupForm, SignUpType } from '../screens/auth/types/auth.types';
 
 export type AuthStackParamList = {
   [authRoutes.login]: undefined;
@@ -25,6 +25,7 @@ export type BottomTabParamList = {
 export type AppStackParamList = {
   [appRoutes.mainTabs]: NavigatorScreenParams<BottomTabParamList>;
   [appRoutes.RestaurantDetail]:  {restaurantId: string;};
+  [appRoutes.editProfile]:  {profileData: SignupForm};
 }
 
 

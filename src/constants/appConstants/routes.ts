@@ -20,5 +20,6 @@ export const MainTabRoutes = {
 
 export const appRoutes = {
     mainTabs: 'mainTabs',
-    RestaurantDetail: 'RestaurantDetail'
+    RestaurantDetail: 'RestaurantDetail',
+    editProfile: 'EditProfile'
 } as const
