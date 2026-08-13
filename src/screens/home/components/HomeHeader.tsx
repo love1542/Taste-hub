@@ -6,6 +6,8 @@ import IconButton from '../../../components/IconButton'
 import { Bell, Navigation } from 'lucide-react-native'
 import SearchField from '../../../components/searchField/SearchField'
 import { useLocation } from '../../../hooks/useLocation'
+import { useGetProfile } from '../../profile/hooks/useQueries'
+import { useAuth } from '../../../hooks'
 
 type HomeHeaderProps = {
   query: string
@@ -16,7 +18,8 @@ const HomeHeader = ({ query, onOpenSearch }: HomeHeaderProps) => {
     const { palletteColors, scale, typography } = useTheme()
     const styles = headerStyle(scale, palletteColors)
     const {currentLocation} = useLocation()
-    
+    const {userId} = useAuth()
+    const { data: profile } = useGetProfile(userId)     
     return (
         <View style={styles.container}>
             <SafeAreaView style={{gap:scale.xl_18}}>
@@ -36,7 +39,7 @@ const HomeHeader = ({ query, onOpenSearch }: HomeHeaderProps) => {
                     </View>
                 </View>
                 <Text style={[typography.largeheading, {color: palletteColors.white}]}>
-                    Good Morning, Love
+                    Good Morning, {profile?.data?.fullName ?? ''}
                 </Text>
 
                 <SearchField 
