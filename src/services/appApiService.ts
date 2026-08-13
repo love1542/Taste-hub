@@ -1,11 +1,10 @@
-import { tr } from "zod/v4/locales"
 import { restaurants } from "../data/Restaurants.data"
 import { ApiResponse, mockApi, PaginatedResponse } from "../utilites/apis/mockApi"
-import { Category, CuisineId, Food, Restaurant } from "../data/types"
-import { CATEGORY, FOOD_CATEGORIES } from "../data/Categories.data"
+import { CuisineId, Restaurant } from "../data/types"
+import { FOOD_CATEGORIES } from "../data/Categories.data"
 import { foods } from "../data/food.data"
 import { RestaurantMenu } from "../screens/restaurantDetail/types/types"
-import { profileStepForm, SignupForm } from "../screens/auth/types/auth.types"
+import { SignupForm } from "../screens/auth/types/auth.types"
 import { STORAGE_KEYS, storageService } from "./storageService"
 
 export type GetRestaurantsRequestParam = {
@@ -91,7 +90,7 @@ export const getRestaurantMenu = async (restaurantId: string): Promise<ApiRespon
 
     const categoryIds = new Set(restaurantFoods.map((item) => item.categoryId));
     const categories = FOOD_CATEGORIES.filter((category) => categoryIds.has(category.id));
-    
+
     if (restaurantFoods.length === 0) {
         return mockApi({
             data: {
@@ -120,7 +119,33 @@ export const getProfile = async (userID: string): Promise<ApiResponse<SignupForm
 
     return await mockApi<SignupForm>({
         data: profile,
-        success:true,
+        success: true,
         message: 'profile fetch successfully'
     })
+}
+
+export const editProfile = async (user: SignupForm): Promise<ApiResponse<undefined>> => {
+    try {
+        const allUsers = await storageService.get<SignupForm[]>(STORAGE_KEYS.allUsers) ?? []
+
+        const updatedUsers = allUsers.map((item) => {
+            if (item.id === user.id) {
+                return { ...item, ...user }
+            }
+            return item
+        })
+
+        await storageService.set<SignupForm[]>(STORAGE_KEYS.allUsers, updatedUsers)
+
+        return await mockApi({
+            message: 'Profile Updated',
+            success: true
+        })
+    } catch (error) {
+        console.log("Error to edit profile", error)
+        return await mockApi({
+            message: 'try again to update',
+            success: false
+        })
+    }
 }

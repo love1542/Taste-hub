@@ -1,15 +1,15 @@
 import { LucideIcon } from 'lucide-react-native';
 import React from 'react';
-import { View, Image, StyleSheet, ImageSourcePropType, ViewStyle, StyleProp, Touchable, TouchableOpacity, Text } from 'react-native';
+import { View, Image, StyleSheet, ImageSourcePropType, ViewStyle, StyleProp, Touchable, TouchableOpacity, Text, ColorValue } from 'react-native';
 
 interface IconButtonProps {
   source?: ImageSourcePropType;
   icon?: LucideIcon;
-  iconColor?: string,
+  iconColor?: ColorValue | undefined,
   size?: number;
   iconSize?: number;
   iconFillColor?: string;
-  backgroundColor?: string;
+  backgroundColor?: ColorValue | undefined;
   borderRadius?: number;
   onpress?: () => void
   style?: StyleProp<ViewStyle>;
