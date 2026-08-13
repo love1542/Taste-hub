@@ -39,7 +39,6 @@ const Profile = () => {
   }
 
   const editProfilePress = () =>{
-    console.log('before', data.data)
     {
       data.data && navigation.navigate(appRoutes.editProfile, {profileData: data.data})
     }
