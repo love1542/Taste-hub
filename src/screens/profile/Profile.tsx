@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useAuth } from '../../hooks'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -7,8 +7,6 @@ import ImagePicker from '../../components/imagePicker/ImagePicker'
 import { CalendarDays, LockKeyhole, LogOut, Mail, MapPin, Pencil, Phone, UserRound, VenusAndMars } from 'lucide-react-native'
 import AccountInfoCell from './components/AccountInfoCell'
 import { useGetProfile } from './hooks/useQueries'
-import { STORAGE_KEYS, storageService } from '../../services/storageService'
-import { loginUserStorage } from '../auth/types/auth.types'
 import { GENDER_SELECTIONS } from '../../constants/appConstants/helper'
 import IconButton from '../../components/IconButton'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -23,22 +21,8 @@ const Profile = () => {
   const navigation = useNavigation<NavigationType>()
   const { palletteColors, scale, typography } = useTheme()
   const styles = profileStyle(palletteColors, scale)
-  const [id, setId] = useState('')
-  const { data, isLoading } = useGetProfile(id)
- 
-
-  useEffect(() => {
-    const getUserId = async () => {
-      try {
-        const userToken = await storageService.get<loginUserStorage>(STORAGE_KEYS.loginUser)
-        setId(userToken?.userId ?? '')
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
-    getUserId()
-  }, [])
+  const {userId} = useAuth()
+  const { data, isLoading } = useGetProfile(userId)
 
   if (isLoading) {
     return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}> <ActivityIndicator /></View>
