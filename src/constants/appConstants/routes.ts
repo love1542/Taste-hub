@@ -21,5 +21,7 @@ export const MainTabRoutes = {
 export const appRoutes = {
     mainTabs: 'mainTabs',
     RestaurantDetail: 'RestaurantDetail',
-    editProfile: 'EditProfile'
+    editProfile: 'EditProfile',
+    manageAdress: 'ManageAdress',
+    addAdress: 'AddAdress'
 } as const

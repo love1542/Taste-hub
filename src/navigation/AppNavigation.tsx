@@ -5,6 +5,8 @@ import { appRoutes } from '../constants/appConstants'
 import TabNavigation from './TabNavigation'
 import RestaurantDetailPage from '../screens/restaurantDetail/RestaurantDetailPage'
 import EditProfile from '../screens/profile/EditProfile'
+import ManageAdresses from '../screens/adresses/ManageAdresses'
+import AddAdress from '../screens/adresses/AddAdress'
 
 
 const stack = createNativeStackNavigator<AppStackParamList>()
@@ -14,6 +16,8 @@ const AppNavigation = () => {
         <stack.Screen name={appRoutes.mainTabs} component={TabNavigation}/>
         <stack.Screen name={appRoutes.RestaurantDetail} component={RestaurantDetailPage} />
         <stack.Screen name={appRoutes.editProfile} component={EditProfile} />
+        <stack.Screen name={appRoutes.manageAdress} component={ManageAdresses} />
+        <stack.Screen name={appRoutes.addAdress} component={AddAdress} />
       </stack.Navigator>
   )
 }

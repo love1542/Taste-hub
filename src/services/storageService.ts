@@ -5,6 +5,7 @@ export const STORAGE_KEYS = {
     allUsers: '@allUsers',
     loginUser: '@loginUser',
     locations: '@locations',
+    adresses: '@adresses',
 } as const;
 
 export type StorageKeysType = typeof STORAGE_KEYS[keyof typeof STORAGE_KEYS];

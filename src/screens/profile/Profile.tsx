@@ -44,6 +44,10 @@ const Profile = () => {
     }
   }
 
+  const manageAdressPress = () => {
+    navigation.navigate('ManageAdress')
+  }
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -138,7 +142,7 @@ const Profile = () => {
             icon={MapPin}
             title="Manage Addresses"
             value='Add,edit or remove addresses'
-            onpress={() => console.log('open addresses')}
+            onpress={manageAdressPress}
           />
         </View>
 

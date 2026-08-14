@@ -26,6 +26,11 @@ export type AppStackParamList = {
   [appRoutes.mainTabs]: NavigatorScreenParams<BottomTabParamList>;
   [appRoutes.RestaurantDetail]:  {restaurantId: string;};
   [appRoutes.editProfile]:  {profileData: SignupForm};
+  [appRoutes.manageAdress]: undefined;
+  [appRoutes.addAdress]: {screenType: AddAdressType}
 }
 
 
+export type AddAdressType = {
+  screenType : 'edit' | 'add'
+}

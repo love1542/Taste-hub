@@ -6,6 +6,7 @@ import { foods } from "../data/food.data"
 import { RestaurantMenu } from "../screens/restaurantDetail/types/types"
 import { SignupForm } from "../screens/auth/types/auth.types"
 import { STORAGE_KEYS, storageService } from "./storageService"
+import { DeliveryAddress } from "../screens/adresses/types/adress.type"
 
 export type GetRestaurantsRequestParam = {
     page: number,
@@ -145,6 +146,47 @@ export const editProfile = async (user: SignupForm): Promise<ApiResponse<undefin
         console.log("Error to edit profile", error)
         return await mockApi({
             message: 'try again to update',
+            success: false
+        })
+    }
+}
+
+export const getDeliveryAddresses = async (): Promise<ApiResponse<DeliveryAddress[]>> => {
+
+    try {
+        const data = await storageService.get<DeliveryAddress[]>(STORAGE_KEYS.adresses) ?? []
+
+        return await mockApi({
+            data: data,
+            message: 'Dilivery Address get successfully',
+            success: true
+        })
+    } catch (error) {
+        console.log("error to fetch deliveryAdress", error)
+        return await mockApi({
+            message: 'Check your InterNet',
+            success: false
+        })
+    }
+}
+
+export const addDeliveryAddress = async (address: DeliveryAddress): Promise<ApiResponse<undefined>> => {
+
+    try {
+        const alladdresses = await storageService.get<DeliveryAddress[]>(STORAGE_KEYS.adresses) ?? []
+
+        alladdresses.push(address)
+
+        await storageService.set<DeliveryAddress[]>(STORAGE_KEYS.adresses, alladdresses)
+
+        return await mockApi({
+            message: 'deliveryAdress added',
+            success: true
+        })
+    } catch (error) {
+        console.log("error to add deliveryAdress", error)
+        return await mockApi({
+            message: 'Check your InterNet',
             success: false
         })
     }
