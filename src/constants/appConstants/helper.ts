@@ -10,3 +10,28 @@ export const GENDER_SELECTIONS: SelectionItem[] = [
     ]
 
 export const RESEND_TIME = 30;
+
+export const ADDRESS_LABEL = {
+    HOME: 'home',
+    WORK: 'work',
+    OTHER: 'other',
+} as const
+
+export type AddressLabel =
+    (typeof ADDRESS_LABEL)[keyof typeof ADDRESS_LABEL]
+    
+export const ADDRESS_LABELS = [
+    {
+        id: ADDRESS_LABEL.HOME,
+        label: 'Home',
+    },
+    {
+        id: ADDRESS_LABEL.WORK,
+        label: 'Work',
+    },
+    {
+        id: ADDRESS_LABEL.OTHER,
+        label: 'Other',
+    },
+] as const
+

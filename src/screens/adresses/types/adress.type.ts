@@ -24,3 +24,14 @@ export interface DeliveryAddress {
   createdAt: string;
   updatedAt: string;
 }
+
+export type AddAddressForm = {
+    receiverName: string
+    receiverPhone: string
+    addressLine: string
+    area: string
+    landmark: string
+    city: string
+    state: string
+    postalCode: string
+}
