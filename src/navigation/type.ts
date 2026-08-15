@@ -27,10 +27,15 @@ export type AppStackParamList = {
   [appRoutes.RestaurantDetail]:  {restaurantId: string;};
   [appRoutes.editProfile]:  {profileData: SignupForm};
   [appRoutes.manageAdress]: undefined;
-  [appRoutes.addAdress]: {screenType: AddAdressType}
+  [appRoutes.addAdress]: AddAddressParams
 }
 
 
-export type AddAdressType = {
-  screenType : 'edit' | 'add'
+export enum ADD_ADDRESS_TYPE {
+  ADD = 'add',
+  EDIT = 'edit',
 }
+
+export type AddAddressParams = {
+  screenType: ADD_ADDRESS_TYPE;
+};
