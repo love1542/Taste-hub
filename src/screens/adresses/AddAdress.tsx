@@ -15,7 +15,9 @@ import { useAppBottomSheet } from '../../components/bottomSheet/hooks/useAppBott
 import { ADDRESS_LABELS, appRoutes } from '../../constants/appConstants'
 import { LayoutScaleType, palleteColorsType, useTheme, } from '../../constants/theme'
 import { AppStackParamList } from '../../navigation/type'
-import { AddAddressForm } from './types/adress.type'
+import { AddAddressForm, AddressLabel, DeliveryAddress } from './types/adress.type'
+import { useAddAddress } from './hooks/mutationHooks'
+import SearchLocationSheet from '../../components/SearchLocationSheet'
 
 
 type NavigationType = NativeStackNavigationProp<AppStackParamList, typeof appRoutes.addAdress>
@@ -27,22 +29,22 @@ const AddAddress = () => {
   const { scale, palletteColors, typography } = useTheme()
   const styles = addAddressStyles(scale, palletteColors)
 
+  const { mutate } = useAddAddress()
+
   const [search, setSearch] = useState('')
   const [selectedLabel, setSelectedLabel] = useState<string | undefined>('home')
   const [isDefault, setIsDefault] = useState(false)
 
+
+
   const openAddressSearchSheet = () => {
     open({
       content: (
-          <SearchField
-            value={search}
-            placeholder="Search address..."
-            onChange={setSearch}
-            onClear={() => setSearch('')}
-            autoFocus={true}
-          />
+       <SearchLocationSheet 
+        
+       />
       ),
-      snapPoints: ['80%'],
+      snapPoints: ['100%'],
       enablePanDownToClose: true,
     })
   }
@@ -60,13 +62,32 @@ const AddAddress = () => {
     },
   })
 
+  const buildAddressPayload = (data: AddAddressForm): DeliveryAddress => {
+    const now = new Date().toISOString()
+    const label = (selectedLabel as AddressLabel | undefined) ?? 'home'
+
+    return {
+      id: `address-${Date.now()}`,
+      userId: 'user-1',
+      label,
+      receiverName: data.receiverName,
+      receiverPhone: data.receiverPhone,
+      addressLine: data.addressLine,
+      area: data.area,
+      landmark: data.landmark || undefined,
+      city: data.city,
+      state: data.state,
+      postalCode: data.postalCode || undefined,
+      latitude: 0,
+      longitude: 0,
+      isDefault,
+      createdAt: now,
+      updatedAt: now,
+    }
+  }
 
   const savePress = handleSubmit((data) => {
-
-    console.log('Address form:', data)
-    console.log('Label:', selectedLabel)
-    console.log('Default:', isDefault)
-
+    mutate(buildAddressPayload(data))
   })
 
 
@@ -89,15 +110,15 @@ const AddAddress = () => {
           keyboardShouldPersistTaps="handled"
         >
 
-            {/* Search */}
-            <SearchField
-              value={search}
-              placeholder="Search address..."
-              onChange={() => {}}
-              onClear={() => setSearch('')}
-              editable={false}
-              onPress={openAddressSearchSheet}
-            />
+          {/* Search */}
+          <SearchField
+            value={""}
+            placeholder="Search address..."
+            onChange={() => { }}
+            onClear={() => setSearch('')}
+            editable={false}
+            onPress={openAddressSearchSheet}
+          />
 
           {/* Address Details */}
           <View style={styles.addressSection}>
@@ -256,7 +277,7 @@ const AddAddress = () => {
 
 
           {/* Address Label */}
-          <View style={{marginTop: scale.xl_18}}>
+          <View style={{ marginTop: scale.xl_18 }}>
 
             <SingleSelectionChips
               title="Save address as"

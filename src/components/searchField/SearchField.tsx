@@ -40,7 +40,7 @@ const SearchField = ({value,
       <TextInput
         value={value}
         placeholder={placeholder}
-        onChangeText={onChange}
+        onChangeText={(text: string) => onChange(text)}
         onFocus={() => { setIsFocus(true) }}
         onBlur={() => { setIsFocus(false) }}
         style={styles.field}
@@ -48,6 +48,7 @@ const SearchField = ({value,
         autoFocus={autoFocus}
         editable={editable}
         pointerEvents={editable ? 'auto' : 'none'}
+        selectionColor={palletteColors.appPrimary}
       />
       {
         showClear && <TouchableOpacity

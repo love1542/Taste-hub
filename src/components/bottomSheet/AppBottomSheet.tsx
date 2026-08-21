@@ -1,6 +1,7 @@
 import React, { forwardRef, useMemo } from 'react';
 import { Text } from 'react-native';
 import {
+  BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
@@ -33,7 +34,17 @@ const AppBottomSheet = forwardRef<BottomSheetModal, AppBottomSheetProps>(({
         ref={ref}
         index={config.index ?? 0}
         snapPoints={snapPoints}
+        style={{ flex: 1 }}
         enablePanDownToClose={config.enablePanDownToClose ?? true}
+        enableDismissOnClose={config.enablePanDownToClose ?? true}
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            appearsOnIndex={0}
+            disappearsOnIndex={-1}
+            pressBehavior="close"
+          />
+        )}
         onDismiss={onDismiss}
       >
         <BottomSheetView style={{ flex: 1, padding: scale.ml_20 , backgroundColor: color.background}}>

@@ -170,7 +170,7 @@ export const getDeliveryAddresses = async (): Promise<ApiResponse<DeliveryAddres
     }
 }
 
-export const addDeliveryAddress = async (address: DeliveryAddress): Promise<ApiResponse<undefined>> => {
+export const addDeliveryAddress = async (address: DeliveryAddress): Promise<ApiResponse<DeliveryAddress>> => {
 
     try {
         const alladdresses = await storageService.get<DeliveryAddress[]>(STORAGE_KEYS.adresses) ?? []
@@ -180,6 +180,7 @@ export const addDeliveryAddress = async (address: DeliveryAddress): Promise<ApiR
         await storageService.set<DeliveryAddress[]>(STORAGE_KEYS.adresses, alladdresses)
 
         return await mockApi({
+            data: address,
             message: 'deliveryAdress added',
             success: true
         })
