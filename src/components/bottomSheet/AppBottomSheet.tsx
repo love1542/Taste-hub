@@ -34,6 +34,7 @@ const AppBottomSheet = forwardRef<BottomSheetModal, AppBottomSheetProps>(({
         ref={ref}
         index={config.index ?? 0}
         snapPoints={snapPoints}
+        enableDynamicSizing= {false}
         style={{ flex: 1 }}
         enablePanDownToClose={config.enablePanDownToClose ?? true}
         enableDismissOnClose={config.enablePanDownToClose ?? true}
@@ -47,7 +48,7 @@ const AppBottomSheet = forwardRef<BottomSheetModal, AppBottomSheetProps>(({
         )}
         onDismiss={onDismiss}
       >
-        <BottomSheetView style={{ flex: 1, padding: scale.ml_20 , backgroundColor: color.background}}>
+        <BottomSheetView style={{ flex: 1, paddingHorizontal: scale.ml_20, paddingTop: scale.ml_20, backgroundColor: color.background}}>
           {config.title && (
             <Text
               style={[typography.subHeading, {paddingBottom: scale.ms_12, color: palletteColors.appPrimary}]}

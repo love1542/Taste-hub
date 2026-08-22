@@ -44,7 +44,7 @@ const AddAddress = () => {
         
        />
       ),
-      snapPoints: ['100%'],
+      snapPoints: ['80%'],
       enablePanDownToClose: true,
     })
   }

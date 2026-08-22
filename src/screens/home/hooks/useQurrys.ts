@@ -10,8 +10,11 @@ export const useGetRestaurants = ({ page, limit, cuisine }: GetRestaurantsReques
 }
 
 export const useGetLocations = (query: string) => {
-    return useQuery({
-        queryKey: ["search_Locations", query],
-        queryFn: () =>  getLocationsWithQuery(query)
-    })
-}
+  const trimmedQuery = query.trim();
+
+  return useQuery({
+    queryKey: ['search_Locations', trimmedQuery],
+    queryFn: () => getLocationsWithQuery(trimmedQuery),
+    enabled: trimmedQuery.length >= 3,
+  });
+};
