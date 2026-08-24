@@ -23,5 +23,6 @@ export const appRoutes = {
     RestaurantDetail: 'RestaurantDetail',
     editProfile: 'EditProfile',
     manageAdress: 'ManageAdress',
-    addAdress: 'AddAdress'
+    addAdress: 'AddAdress',
+    confirmAdress: 'ConfirmAdress'
 } as const

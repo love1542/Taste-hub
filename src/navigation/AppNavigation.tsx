@@ -7,6 +7,7 @@ import RestaurantDetailPage from '../screens/restaurantDetail/RestaurantDetailPa
 import EditProfile from '../screens/profile/EditProfile'
 import ManageAdresses from '../screens/adresses/ManageAdresses'
 import AddAdress from '../screens/adresses/AddAdress'
+import ConfirmAdress from '../screens/confirmAdress/ConfirmAdress'
 
 
 const stack = createNativeStackNavigator<AppStackParamList>()
@@ -18,6 +19,7 @@ const AppNavigation = () => {
         <stack.Screen name={appRoutes.editProfile} component={EditProfile} />
         <stack.Screen name={appRoutes.manageAdress} component={ManageAdresses} />
         <stack.Screen name={appRoutes.addAdress} component={AddAdress} />
+        <stack.Screen name={appRoutes.confirmAdress} component={ConfirmAdress} />
       </stack.Navigator>
   )
 }

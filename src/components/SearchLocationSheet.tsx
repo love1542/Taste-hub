@@ -5,20 +5,21 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { useGetLocations } from '../screens/home/hooks/useQurrys'
 import { LayoutScaleType, useTheme } from '../constants/theme'
 import { useDebounce } from '../hooks/useDebounce'
+import { NominatimSearchResponseDto } from '../dto/location'
 
 type SheetProps = {
-    
+  locationPress: (location: NominatimSearchResponseDto) => void
 }
 
-const SearchLocationSheet = ({ }: SheetProps) => {
+const SearchLocationSheet = ({ locationPress }: SheetProps) => {
   const [value, setValue] = useState<string>('')
   const debouncedValue = useDebounce(value, 800)
-  const {data, isLoading} = useGetLocations(debouncedValue)
+  const { data, isLoading } = useGetLocations(debouncedValue)
 
-const {typography, scale} = useTheme()
-const styles = sheetStyles(scale)
+  const { typography, scale } = useTheme()
+  const styles = sheetStyles(scale)
 
- return (
+  return (
     <View style={styles.container}>
 
       <SearchField
@@ -30,40 +31,41 @@ const styles = sheetStyles(scale)
         borderColor="black"
       />
 
-        <ScrollView
-          style={styles.scrollView}
-        >
-          {isLoading && <Text>Loading...</Text>}
+      <ScrollView
+        style={styles.scrollView}
+      >
+        {isLoading && <Text>Loading...</Text>}
 
-          {value.length === 0 && (
-            <View style={styles.emptyContainer}>
-              <Text>Please Search</Text>
-            </View>
-          )}
+        {value.length === 0 && (
+          <View style={styles.emptyContainer}>
+            <Text>Please Search</Text>
+          </View>
+        )}
 
-          {data?.map(item => (
-            <TouchableOpacity
-              key={item.place_id}
-              style={styles.locationCellWrapper}
+        {data?.map(item => (
+          <TouchableOpacity
+            key={item.place_id}
+            style={styles.locationCellWrapper}
+            onPress={() => locationPress(item)}
+          >
+            <Text
+              style={typography.title}
+              numberOfLines={2}
             >
-              <Text
-                style={typography.title}
-                numberOfLines={2}
-              >
-                {item.display_name}
-              </Text>
+              {item.display_name}
+            </Text>
 
-              <View style={typography.borderLine} />
-            </TouchableOpacity>
-          ))}
+            <View style={typography.borderLine} />
+          </TouchableOpacity>
+        ))}
 
-          {value.length >= 3 &&
-            !isLoading &&
-            data?.length === 0 && (
-              <Text>Not Found</Text>
-            )}
-        </ScrollView>
-      </View>
+        {value.length >= 3 &&
+          !isLoading &&
+          data?.length === 0 && (
+            <Text>Not Found</Text>
+          )}
+      </ScrollView>
+    </View>
   );
 }
 

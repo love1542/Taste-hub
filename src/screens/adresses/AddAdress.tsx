@@ -3,21 +3,24 @@ import React, { useState } from 'react'
 import { Check } from 'lucide-react-native'
 import { useNavigation } from '@react-navigation/native'
 import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-
 import BorderLineTextField from '../../components/fields/BorderLineTextField'
 import SingleSelectionChips from '../../components/singleSelection/SignleSelectionChips'
 import LeftIconWithTextButton from '../../components/LeftIconWithTextButton'
 import AppHeader from '../../components/AppHeader'
 import SearchField from '../../components/searchField/SearchField'
 import { useAppBottomSheet } from '../../components/bottomSheet/hooks/useAppBottomSheet'
-
+import { NominatimSearchResponseDto } from '../../dto/location'
 import { ADDRESS_LABELS, appRoutes } from '../../constants/appConstants'
 import { LayoutScaleType, palleteColorsType, useTheme, } from '../../constants/theme'
 import { AppStackParamList } from '../../navigation/type'
 import { AddAddressForm, AddressLabel, DeliveryAddress } from './types/adress.type'
+import { addAddressSchema, AddAddressFormSchema } from '../../utilites/validation/addressSchema'
 import { useAddAddress } from './hooks/mutationHooks'
 import SearchLocationSheet from '../../components/SearchLocationSheet'
+import { getLocationsWithQuery } from '../../services/locationService'
+import { useToast } from '../../components/toast'
 
 
 type NavigationType = NativeStackNavigationProp<AppStackParamList, typeof appRoutes.addAdress>
@@ -25,6 +28,7 @@ type NavigationType = NativeStackNavigationProp<AppStackParamList, typeof appRou
 const AddAddress = () => {
   const navigation = useNavigation<NavigationType>()
   const { open, close } = useAppBottomSheet()
+  const { showToast } = useToast()
 
   const { scale, palletteColors, typography } = useTheme()
   const styles = addAddressStyles(scale, palletteColors)
@@ -32,24 +36,13 @@ const AddAddress = () => {
   const { mutate } = useAddAddress()
 
   const [search, setSearch] = useState('')
-  const [selectedLabel, setSelectedLabel] = useState<string | undefined>('home')
+  const [selectedLabel, setSelectedLabel] = useState<AddressLabel | undefined>('home')
   const [isDefault, setIsDefault] = useState(false)
+  const [locationCoords, setLocationCoords] = useState({ lat: 0, lon: 0 })
 
 
-
-  const openAddressSearchSheet = () => {
-    open({
-      content: (
-       <SearchLocationSheet 
-        
-       />
-      ),
-      snapPoints: ['80%'],
-      enablePanDownToClose: true,
-    })
-  }
-
-  const { control, handleSubmit, clearErrors } = useForm<AddAddressForm>({
+  const { control, handleSubmit, clearErrors, setValue, formState } = useForm<AddAddressFormSchema>({
+    resolver: zodResolver(addAddressSchema),
     defaultValues: {
       receiverName: '',
       receiverPhone: '',
@@ -62,9 +55,46 @@ const AddAddress = () => {
     },
   })
 
-  const buildAddressPayload = (data: AddAddressForm): DeliveryAddress => {
+  const fillFormFromLocation = (location: NominatimSearchResponseDto) => {
+    const { address } = location
+
+    const addressLine = location.display_name
+
+    const area = address.county ?? address.hamlet ?? address.town ?? address.municipality ?? ''
+
+    const city = address.state_district ?? ''
+
+    const state = address.state ?? ''
+
+    setValue('addressLine', addressLine)
+    setValue('area', area)
+    setValue('city', city)
+    setValue('state', state)
+    setLocationCoords({ lat: parseFloat(location.lat), lon: parseFloat(location.lon) })
+    setSearch(location.display_name)
+  }
+
+  const openAddressSearchSheet = () => {
+    open({
+      content: (
+        <SearchLocationSheet
+          locationPress={(location) => {
+            fillFormFromLocation(location)
+            close()
+          }}
+        />
+      ),
+      snapPoints: ['80%'],
+      enablePanDownToClose: true,
+    })
+  }
+
+  const buildAddressPayload = (
+    data: AddAddressFormSchema,
+    coords: { lat: number; lon: number } = locationCoords,
+  ): DeliveryAddress => {
     const now = new Date().toISOString()
-    const label = (selectedLabel as AddressLabel | undefined) ?? 'home'
+    const label = selectedLabel  ?? 'home'
 
     return {
       id: `address-${Date.now()}`,
@@ -78,17 +108,54 @@ const AddAddress = () => {
       city: data.city,
       state: data.state,
       postalCode: data.postalCode || undefined,
-      latitude: 0,
-      longitude: 0,
+      latitude: coords.lat,
+      longitude: coords.lon,
       isDefault,
       createdAt: now,
       updatedAt: now,
     }
   }
 
-  const savePress = handleSubmit((data) => {
-    mutate(buildAddressPayload(data))
-  })
+  const savePress = handleSubmit(
+    async (data) => {
+      let coords = locationCoords
+
+      if (coords.lat === 0 && coords.lon === 0) {
+        try {
+          const results = await getLocationsWithQuery(data.addressLine)
+          if (results.length > 0) {
+            coords = {
+              lat: parseFloat(results[0].lat),
+              lon: parseFloat(results[0].lon),
+            }
+          }
+        } catch (_) {
+          showToast({
+            message: 'Try some later',
+            type: 'error'
+          })
+          return
+        }
+      }
+
+      if (coords.lat !== 0 && coords.lon !== 0) {
+        const payload = buildAddressPayload(data, coords)
+        navigation.navigate('ConfirmAdress', { address: payload })
+      } else {
+        showToast({
+          message: 'Please check your location',
+          type: 'error'
+        })
+      }
+    },
+    (errors) => {
+      const firstError = Object.values(errors)[0]
+      showToast({
+        message: firstError?.message ?? 'Please check your inputs',
+        type: 'error',
+      })
+    }
+  )
 
 
   return (
@@ -112,10 +179,18 @@ const AddAddress = () => {
 
           {/* Search */}
           <SearchField
-            value={""}
+            value={search}
             placeholder="Search address..."
             onChange={() => { }}
-            onClear={() => setSearch('')}
+            onClear={() => {
+              setSearch('')
+              setValue('addressLine', '')
+              setValue('area', '')
+              setValue('city', '')
+              setValue('state', '')
+              setValue('postalCode', '')
+              setLocationCoords({ lat: 0, lon: 0 })
+            }}
             editable={false}
             onPress={openAddressSearchSheet}
           />
@@ -138,6 +213,7 @@ const AddAddress = () => {
                   placeholder="Enter receiver name"
                   value={value}
                   onChangeText={onChange}
+                  errorMessage={formState.errors.receiverName?.message}
                   onFocus={() => {
                     clearErrors('receiverName')
                   }}
@@ -157,6 +233,7 @@ const AddAddress = () => {
                   value={value}
                   onChangeText={onChange}
                   keyboardType="phone-pad"
+                  errorMessage={formState.errors.receiverPhone?.message}
                   onFocus={() => {
                     clearErrors('receiverPhone')
                   }}
@@ -175,6 +252,7 @@ const AddAddress = () => {
                   placeholder="House no., street, building"
                   value={value}
                   onChangeText={onChange}
+                  errorMessage={formState.errors.addressLine?.message}
                   onFocus={() => {
                     clearErrors('addressLine')
                   }}
@@ -193,6 +271,7 @@ const AddAddress = () => {
                   placeholder="Enter area"
                   value={value}
                   onChangeText={onChange}
+                  errorMessage={formState.errors.area?.message}
                   onFocus={() => {
                     clearErrors('area')
                   }}
@@ -211,6 +290,7 @@ const AddAddress = () => {
                   placeholder="Enter landmark (optional)"
                   value={value}
                   onChangeText={onChange}
+                  errorMessage={formState.errors.landmark?.message}
                   onFocus={() => {
                     clearErrors('landmark')
                   }}
@@ -229,6 +309,7 @@ const AddAddress = () => {
                   placeholder="Enter city"
                   value={value}
                   onChangeText={onChange}
+                  errorMessage={formState.errors.city?.message}
                   onFocus={() => {
                     clearErrors('city')
                   }}
@@ -247,6 +328,7 @@ const AddAddress = () => {
                   placeholder="Enter state"
                   value={value}
                   onChangeText={onChange}
+                  errorMessage={formState.errors.state?.message}
                   onFocus={() => {
                     clearErrors('state')
                   }}
@@ -266,6 +348,7 @@ const AddAddress = () => {
                   value={value}
                   onChangeText={onChange}
                   keyboardType="number-pad"
+                  errorMessage={formState.errors.postalCode?.message}
                   onFocus={() => {
                     clearErrors('postalCode')
                   }}

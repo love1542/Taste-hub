@@ -1,6 +1,7 @@
 import { NavigatorScreenParams, TabRouter } from '@react-navigation/native';
 import { appRoutes, authRoutes, MainTabRoutes, rootRoutes } from '../constants/appConstants';
 import { SignupForm, SignUpType } from '../screens/auth/types/auth.types';
+import { DeliveryAddress } from '../screens/adresses/types/adress.type';
 
 export type AuthStackParamList = {
   [authRoutes.login]: undefined;
@@ -28,6 +29,7 @@ export type AppStackParamList = {
   [appRoutes.editProfile]:  {profileData: SignupForm};
   [appRoutes.manageAdress]: undefined;
   [appRoutes.addAdress]: AddAddressParams
+  [appRoutes.confirmAdress]: {address: DeliveryAddress}
 }
 
 
