@@ -23,6 +23,7 @@
 		8C038C5CA8FD44BF91BDF2CD /* Inter-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3590F98EB1E14E2A8E0806C8 /* Inter-LightItalic.ttf */; };
 		8C8F2D4B28714F219B65B1EE /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 96769BB407BB4DF2B07527A0 /* Inter-Regular.ttf */; };
 		8F515073012342258B2A2BE1 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 939533FB5D244FA4BA020CC7 /* Inter-Medium.ttf */; };
+		9C51BC51304096090007A211 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 208805D1C19A18715E2ABABB /* MapLibre */; };
 		9F4D57B276D441A4BC88F3BE /* Inter-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BFDF9BD97E144699E9B2617 /* Inter-Italic.ttf */; };
 		BA04B0946A404177B89A3217 /* Inter-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2AE973F27EA24B50A333493F /* Inter-ExtraLightItalic.ttf */; };
 		BA0BCADCD0C144D3965B7923 /* Inter-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 99B635208AB743E68CD231A5 /* Inter-Black.ttf */; };
@@ -68,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C51BC51304096090007A211 /* MapLibre in Frameworks */,
 				0C80B921A6F3F58F76C31292 /* libPods-tasteHub.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -174,12 +176,16 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+				529ACC9B13203D65FB8DCE5B /* [MapLibre React Native] Remove MapLibre.xcframework-ios.signature */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = tasteHub;
+			packageProductDependencies = (
+				208805D1C19A18715E2ABABB /* MapLibre */,
+			);
 			productName = tasteHub;
 			productReference = 13B07F961A680F5B00A75B9A /* tasteHub.app */;
 			productType = "com.apple.product-type.application";
@@ -206,6 +212,9 @@
 				Base,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
+			packageReferences = (
+				87689FE0061659255424CDE6 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
+			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -271,14 +280,37 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		529ACC9B13203D65FB8DCE5B /* [MapLibre React Native] Remove MapLibre.xcframework-ios.signature */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[MapLibre React Native] Remove MapLibre.xcframework-ios.signature";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -rf \"$CONFIGURATION_BUILD_DIR/MapLibre.xcframework-ios.signature\"";
 		};
 		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -310,9 +342,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -573,6 +609,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		87689FE0061659255424CDE6 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/maplibre/maplibre-gl-native-distribution";
+			requirement = {
+				kind = exactVersion;
+				version = 6.26.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		208805D1C19A18715E2ABABB /* MapLibre */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87689FE0061659255424CDE6 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;
+			productName = MapLibre;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
 }
