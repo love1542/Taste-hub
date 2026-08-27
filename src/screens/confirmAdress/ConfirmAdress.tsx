@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MapPin as LocationPin } from 'lucide-react-native';
 import {
@@ -9,17 +9,23 @@ import {
   Marker,
 } from '@maplibre/maplibre-react-native';
 
-import { AppStackParamList } from '../../navigation/type';
+import { ADD_ADDRESS_TYPE, AppStackParamList } from '../../navigation/type';
 import { appRoutes } from '../../constants/appConstants';
-import { useTheme } from '../../constants/theme';
+import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme';
+import AppHeader from '../../components/AppHeader';
+import LeftIconWithTextButton from '../../components/LeftIconWithTextButton';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import AddressCell from '../adresses/components/AddressCell';
 
 type RouteProps = RouteProp<
   AppStackParamList,
   typeof appRoutes.confirmAdress
 >;
 
+type NavigationType = NativeStackNavigationProp<AppStackParamList, typeof appRoutes.confirmAdress>
 const ConfirmAdress = () => {
   const route = useRoute<RouteProps>();
+  const navigation = useNavigation<NavigationType>()
 
   const deliveryAdress = route.params.address;
 
@@ -29,10 +35,23 @@ const ConfirmAdress = () => {
   //   [number, number]
   // >([longitude, latitude]);
 
-  const { palletteColors } = useTheme()
+  const { palletteColors, scale } = useTheme()
+  const styles = screenStyles(scale, palletteColors)
+
+  const onConfirmTap = () => {
+    navigation.popTo('ManageAdress')
+  }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+
+      <AppHeader
+        title='Confirm Address'
+        onBackPress={() => { navigation.goBack() }}
+      />
+
+      {/* Map  */}
+
       <Map
         style={styles.map}
         mapStyle="https://tiles.openfreemap.org/styles/liberty"
@@ -65,23 +84,53 @@ const ConfirmAdress = () => {
           </View>
         </Marker>
       </Map>
-    </SafeAreaView>
+
+
+      <View style={styles.bottomView}>
+        <AddressCell
+          address={deliveryAdress}
+        />
+        <View style={styles.saveWrapper}>
+          <LeftIconWithTextButton
+            colors={[palletteColors.appPrimary, palletteColors.appPrimary2]}
+            text='Confirm'
+            onPress={onConfirmTap}
+          />
+        </View>
+
+      </View>
+
+    </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+const screenStyles = (scale: LayoutScaleType, color: palleteColorsType) => {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: color.background
+    },
 
-  map: {
-    height: '40%'
-  },
+    map: {
+      flex: 1
+    },
 
-  marker: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    marker: {
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    bottomView: {
+      gap: scale.ms_12,
+      backgroundColor: color.white,
+    },
+
+    saveWrapper: {
+      paddingHorizontal: scale.md_16,
+      paddingBottom: scale.md_16,
+      paddingTop: scale.sm_8,
+    },
+  });
+}
 
 export default ConfirmAdress;

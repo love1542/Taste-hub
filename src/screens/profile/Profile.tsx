@@ -206,7 +206,7 @@ const profileStyle = (color: palleteColorsType, scale: LayoutScaleType) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: color.dullwhite,
+      backgroundColor: color.background,
       paddingHorizontal: scale.md_16,
       gap: scale.ml_20,
     },

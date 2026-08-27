@@ -5,7 +5,7 @@ export const loginStyles = (color: palleteColorsType, scale: LayoutScaleType) =>
     return StyleSheet.create({
         loginWrapper: {
             flex: 1,
-            backgroundColor: color.dullwhite,
+            backgroundColor: color.background,
             padding: scale.lg_24,
             gap: scale.lg_24,
         },

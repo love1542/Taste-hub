@@ -169,7 +169,7 @@ const detailStyles = (scale: LayoutScaleType, color: palleteColorsType) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      color: color.dullwhite,
+      color: color.background,
       paddingBottom: scale.md_16
     },
     dataWrapper: {

@@ -8,7 +8,7 @@ export const signupStyles = (colors: palleteColorsType, scale: LayoutScaleType) 
             alignItems: 'flex-start',
             padding: scale.lg_24,
             gap: scale.xl_32,
-            backgroundColor: colors.dullwhite
+            backgroundColor: colors.background
         },
         contentWrapper: {
             flex: 1,

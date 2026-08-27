@@ -21,7 +21,7 @@ const ManageAdresses = () => {
    const navigation = useNavigation<NavigationType>()
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: palletteColors.dullwhite }}>
+    <View style={{ flex: 1, backgroundColor: palletteColors.background }}>
       <AppHeader
         title='Manage Adresses'
         onBackPress={navigation.goBack}
@@ -44,9 +44,7 @@ const ManageAdresses = () => {
         <Text>Not data</Text>
       </View>
       }
-
-      
-    </SafeAreaView>
+    </View>
   )
 }
 
@@ -56,7 +54,7 @@ const pageStyle = (color: palleteColorsType, scale: LayoutScaleType) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: PaletteColors.dullwhite
+      backgroundColor: PaletteColors.background
     }
   })
 }

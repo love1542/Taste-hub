@@ -28,7 +28,7 @@ const RestaurantCell = ({ data, favPress, onCellPress }: RestaurantCellProps) =>
                     />
                     
                     <IconButton
-                        backgroundColor={palletteColors.dullwhite}
+                        backgroundColor={palletteColors.background}
                         iconColor={palletteColors.black}
                         icon={Heart}
                         iconSize={25}

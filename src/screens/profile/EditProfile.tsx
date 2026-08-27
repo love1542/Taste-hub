@@ -105,13 +105,11 @@ const EditProfile = () => {
         // <SafeAreaView style={styles.safeArea}>
         <View style={styles.safeArea}>
             {/* Fixed Header */}
-            <View style={{ paddingTop: scale.huge_48 }}>
-                <AppHeader
-                    title="Edit Profile"
-                    onBackPress={() => { navigation.goBack() }}
-                />
-            </View>
 
+            <AppHeader
+                title="Edit Profile"
+                onBackPress={() => { navigation.goBack() }}
+            />
 
             {/* Editing Area */}
             <View style={{ flex: 1 }}>
@@ -205,7 +203,7 @@ const editprofileStyle = (
             flex: 1,
         },
         contentWrapper: {
-            backgroundColor: color.dullwhite,
+            backgroundColor: color.background,
             flex: 1,
             alignItems: 'center',
             gap: scale.xl_18,

@@ -94,7 +94,7 @@ const PhoneLogin = () => {
       {
         numberVerify ?
           <View style={styles.otpView}>
-            <View style={[styles.changeWrapper, { backgroundColor: palletteColors.dullwhite }]}>
+            <View style={[styles.changeWrapper, { backgroundColor: palletteColors.background }]}>
               <View style={{ flexDirection: 'row' }}>
                 <Check color={palletteColors.green} size={20} strokeWidth={3} />
                 <Text> Otp send to {getValues("phone")} </Text>

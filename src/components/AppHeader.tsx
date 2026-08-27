@@ -33,7 +33,7 @@ const AppHeader = ({
           onpress={onBackPress}
           size={25}
         />
-        <Text style={[typography.mdTitle, { color: forgroundColor }]}>{title}</Text>
+        <Text style={[typography.mdTitle, { color: forgroundColor, marginVertical:8 }]}>{title}</Text>
       </View>
 
       {
@@ -52,12 +52,13 @@ export default AppHeader
 
 const styles = StyleSheet.create({
   container: {
-    height: 56,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingTop: 50,
     paddingHorizontal: 16,
+    marginVertical:5
   },
   leftSide: {
     flexDirection: 'row',

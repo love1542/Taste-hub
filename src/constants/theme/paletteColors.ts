@@ -8,7 +8,7 @@ export const PaletteColors = {
   // Neutrals
   white: '#FFFFFF',
   black: '#000000',
-  dullwhite: '#fcf1ec',
+  background: '#fcf1ec',
 
   appD4D4D4: '#D4D4D4',
   appA3A3A3: '#A3A3A3',

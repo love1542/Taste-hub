@@ -163,12 +163,12 @@ const AddAddress = () => {
       <View style={styles.container}>
 
         {/* Header */}
-        <View style={styles.headerWrapper}>
+        {/* <View style={styles.headerWrapper}> */}
           <AppHeader
             title="Add Address"
             onBackPress={() => navigation.goBack()}
           />
-        </View>
+        {/* </View> */}
 
 
         <ScrollView
@@ -442,7 +442,7 @@ const addAddressStyles = (scale: LayoutScaleType, color: palleteColorsType) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: color.dullwhite,
+      backgroundColor: color.background,
     },
     headerWrapper: {
       paddingTop: scale.huge_48,
@@ -513,7 +513,7 @@ const addAddressStyles = (scale: LayoutScaleType, color: palleteColorsType) => {
       paddingHorizontal: scale.md_16,
       paddingBottom: scale.md_16,
       paddingTop: scale.sm_8,
-      backgroundColor: color.dullwhite,
+      backgroundColor: color.background,
     },
 
   })

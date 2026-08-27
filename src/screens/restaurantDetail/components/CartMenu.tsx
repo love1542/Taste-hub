@@ -40,7 +40,7 @@ const CartMenu = () => {
                             {`${items.length} ${items.length < 1 ? 'item' : 'items'}`}
                         </Text>
                     </View>
-                    <View style={{ width: 1, height: '100%', backgroundColor: palletteColors.dullwhite }} />
+                    <View style={{ width: 1, height: '100%', backgroundColor: palletteColors.background }} />
                     <Text style={[typography.title, styles.activeText]}>
                         {`View Cart - ₹${totalPrice}   >`}
                     </Text>
