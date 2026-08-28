@@ -63,15 +63,19 @@ const AddressCell = ({
                     </View>
                 </View>
 
-                <Pressable
-                    onPress={onMorePress}
-                    hitSlop={10}
-                >
-                    <MoreVertical
-                        size={20}
-                        color={palletteColors.black}
-                    />
-                </Pressable>
+                {
+                    onMorePress &&
+                    <Pressable
+                        onPress={onMorePress}
+                        hitSlop={10}
+                    >
+                        <MoreVertical
+                            size={20}
+                            color={palletteColors.black}
+                        />
+                    </Pressable>
+                }
+
             </View>
 
             {/* Address */}

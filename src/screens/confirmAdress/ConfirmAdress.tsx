@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { MapPin as LocationPin } from 'lucide-react-native';
 import {
   Map,
@@ -9,13 +8,14 @@ import {
   Marker,
 } from '@maplibre/maplibre-react-native';
 
-import { ADD_ADDRESS_TYPE, AppStackParamList } from '../../navigation/type';
+import { AppStackParamList } from '../../navigation/type';
 import { appRoutes } from '../../constants/appConstants';
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme';
 import AppHeader from '../../components/AppHeader';
 import LeftIconWithTextButton from '../../components/LeftIconWithTextButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AddressCell from '../adresses/components/AddressCell';
+import { useAddAddress } from '../adresses/hooks/mutationHooks';
 
 type RouteProps = RouteProp<
   AppStackParamList,
@@ -38,8 +38,14 @@ const ConfirmAdress = () => {
   const { palletteColors, scale } = useTheme()
   const styles = screenStyles(scale, palletteColors)
 
+  const { mutate: saveAddress, isPending } = useAddAddress()
+
   const onConfirmTap = () => {
-    navigation.popTo('ManageAdress')
+    saveAddress(deliveryAdress, {
+      onSuccess: () => {
+        navigation.popTo('ManageAdress')
+      },
+    })
   }
 
   return (
@@ -93,8 +99,9 @@ const ConfirmAdress = () => {
         <View style={styles.saveWrapper}>
           <LeftIconWithTextButton
             colors={[palletteColors.appPrimary, palletteColors.appPrimary2]}
-            text='Confirm'
+            text={isPending ? 'loading' : 'Confirm Address'}
             onPress={onConfirmTap}
+            disabled={isPending}
           />
         </View>
 

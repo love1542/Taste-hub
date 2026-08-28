@@ -192,3 +192,43 @@ export const addDeliveryAddress = async (address: DeliveryAddress): Promise<ApiR
         })
     }
 }
+
+export const deleteDeliveryAddress = async (id: string): Promise<ApiResponse<null>> => {
+    try {
+        const allAddresses = await storageService.get<DeliveryAddress[]>(STORAGE_KEYS.adresses) ?? []
+        const updated = allAddresses.filter(a => a.id !== id)
+        await storageService.set<DeliveryAddress[]>(STORAGE_KEYS.adresses, updated)
+
+        return await mockApi({
+            data: null,
+            message: 'Address deleted',
+            success: true
+        })
+    } catch (error) {
+        console.log('error deleting deliveryAdress', error)
+        return await mockApi({
+            message: 'Check your InterNet',
+            success: false
+        })
+    }
+}
+
+export const setDefaultDeliveryAddress = async (id: string): Promise<ApiResponse<null>> => {
+    try {
+        const allAddresses = await storageService.get<DeliveryAddress[]>(STORAGE_KEYS.adresses) ?? []
+        const updated = allAddresses.map(a => ({ ...a, isDefault: a.id === id }))
+        await storageService.set<DeliveryAddress[]>(STORAGE_KEYS.adresses, updated)
+
+        return await mockApi({
+            data: null,
+            message: 'Default address updated',
+            success: true
+        })
+    } catch (error) {
+        console.log('error setting default deliveryAdress', error)
+        return await mockApi({
+            message: 'Check your InterNet',
+            success: false
+        })
+    }
+}
