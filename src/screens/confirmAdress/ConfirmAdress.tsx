@@ -12,7 +12,7 @@ import { AppStackParamList } from '../../navigation/type';
 import { appRoutes } from '../../constants/appConstants';
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme';
 import AppHeader from '../../components/AppHeader';
-import LeftIconWithTextButton from '../../components/LeftIconWithTextButton';
+import AppButton from '../../components/AppButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AddressCell from '../adresses/components/AddressCell';
 import { useAddAddress } from '../adresses/hooks/mutationHooks';
@@ -97,7 +97,7 @@ const ConfirmAdress = () => {
           address={deliveryAdress}
         />
         <View style={styles.saveWrapper}>
-          <LeftIconWithTextButton
+          <AppButton
             colors={[palletteColors.appPrimary, palletteColors.appPrimary2]}
             text={isPending ? 'loading' : 'Confirm Address'}
             onPress={onConfirmTap}

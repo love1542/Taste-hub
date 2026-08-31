@@ -14,7 +14,7 @@ import { profileStepSchema } from '../../utilites/validation/authSchema'
 import AppDateTimePicker from '../../components/datePicker/AppDateTimePicker'
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
 import { AppStackParamList } from '../../navigation/type'
-import LeftIconWithTextButton from '../../components/LeftIconWithTextButton'
+import AppButton from '../../components/AppButton'
 import AppHeader from '../../components/AppHeader'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useEditProfile } from './hooks/useMutation'
@@ -173,7 +173,7 @@ const EditProfile = () => {
 
                 {/* Fixed Bottom Save Button */}
                 <View style={styles.saveWrapper}>
-                    <LeftIconWithTextButton
+                    <AppButton
                         text={isPending ? 'Loading...' : 'Save'}
                         onPress={savePress}
                         colors={[

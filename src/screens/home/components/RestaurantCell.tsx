@@ -4,7 +4,7 @@ import { Restaurant } from '../../../data/types'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../../constants/theme'
 import IconButton from '../../../components/IconButton'
 import { Heart, Star } from 'lucide-react-native'
-import LeftIconWithTextButton from '../../../components/LeftIconWithTextButton'
+import AppButton from '../../../components/AppButton'
 
 type RestaurantCellProps = {
     data: Restaurant
@@ -22,7 +22,7 @@ const RestaurantCell = ({ data, favPress, onCellPress }: RestaurantCellProps) =>
             <View style={styles.overlay}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     
-                    <LeftIconWithTextButton text={data.isOpen ? 'Open' : 'Closed'} 
+                    <AppButton text={data.isOpen ? 'Open' : 'Closed'} 
                     colors={data.isOpen ? [palletteColors.green, palletteColors.green] : [palletteColors.appPrimary, palletteColors.appPrimary2]} 
                     textStyle={{color: palletteColors.white}}
                     />

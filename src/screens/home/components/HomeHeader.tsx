@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Pressable } from 'react-native'
 import React, { useEffect, useMemo, useState } from 'react'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../../constants/theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -12,28 +12,37 @@ import { useAuth } from '../../../hooks'
 type HomeHeaderProps = {
   query: string
   onOpenSearch: () => void
+  onLocationPress: () => void
+  selectedAddress?: { label: string; addressLine: string } | null
 }
 
-const HomeHeader = ({ query, onOpenSearch }: HomeHeaderProps) => {
+const HomeHeader = ({ query, onOpenSearch, onLocationPress, selectedAddress }: HomeHeaderProps) => {
     const { palletteColors, scale, typography } = useTheme()
     const styles = headerStyle(scale, palletteColors)
-    const {currentLocation} = useLocation()
-    const {userId} = useAuth()
-    const { data: profile } = useGetProfile(userId)     
+    const { currentLocation } = useLocation()
+    const { userId } = useAuth()
+    const { data: profile } = useGetProfile(userId)
+
+    const locationLabel = selectedAddress?.label ?? 'Location'
+    const locationText = selectedAddress?.addressLine ?? currentLocation?.address ?? 'Select Location'
     return (
         <View style={styles.container}>
             <SafeAreaView style={{gap:scale.xl_18}}>
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                    <View style={styles.leftWrapper}>
+                    <Pressable
+                        style={({ pressed }) => [styles.leftWrapper, pressed && { opacity: 0.7 }]}
+                        onPress={onLocationPress}
+                        hitSlop={8}
+                    >
                         <IconButton icon={Navigation} size={40} iconSize={20} borderRadius={50} />
                         <View style={{width: scale.bannerLG_200}}>
-                            <Text style={{ color: 'white' }}>Location</Text>
+                            <Text style={{ color: 'white' }}>{locationLabel}</Text>
                             <Text 
                             style={{ color: 'white' }}
                             numberOfLines={1}
-                            >{currentLocation?.address ?? "Select Location"}</Text>
+                            >{locationText}</Text>
                         </View>
-                    </View>
+                    </Pressable>
                     <View>
                         <IconButton icon={Bell} size={40} iconSize={20} borderRadius={50} />
                     </View>

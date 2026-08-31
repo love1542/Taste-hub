@@ -7,7 +7,7 @@ import { useAppBottomSheet } from '../../../../components/bottomSheet/hooks/useA
 import ImagePickerSheet from '../../../../components/imagePicker/ImagePickerSheet';
 import { ImagePickerSheetItem, PickedImage } from '../../../../components/imagePicker/types/imagePicker.types';
 import { useImagePicker, ImagePickerType } from '../../../../components/imagePicker/useImagePicker';
-import LeftIconWithTextButton from '../../../../components/LeftIconWithTextButton';
+import AppButton from '../../../../components/AppButton';
 import PagingIndicator from '../../../../components/pagingIndicator/PagingIndicator';
 import { useToast } from '../../../../components/toast';
 import { AuthStackParamList, RootStackParamList } from '../../../../navigation/type';
@@ -213,7 +213,7 @@ const Signup = () => {
               <Text style={styles.loginLink}>Log In</Text>
             </TouchableWithoutFeedback>
           </View>}
-          <LeftIconWithTextButton
+          <AppButton
             text={isLoading ? 'Loading...' : "countinue"}
             colors={['#FF6B35', '#FF6B35']}
             onPress={continuePress}

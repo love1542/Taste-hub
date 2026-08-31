@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import BorderLineTextField from '../../components/fields/BorderLineTextField'
 import SingleSelectionChips from '../../components/singleSelection/SignleSelectionChips'
-import LeftIconWithTextButton from '../../components/LeftIconWithTextButton'
+import AppButton from '../../components/AppButton'
 import AppHeader from '../../components/AppHeader'
 import SearchField from '../../components/searchField/SearchField'
 import { useAppBottomSheet } from '../../components/bottomSheet/hooks/useAppBottomSheet'
@@ -414,7 +414,7 @@ const AddAddress = () => {
         {/* Bottom Save */}
         <View style={styles.saveWrapper}>
 
-          <LeftIconWithTextButton
+          <AppButton
             text="Save Address"
             onPress={savePress}
             colors={[

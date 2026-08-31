@@ -7,7 +7,7 @@ import { signupStyles } from '../../../styles'
 import { phoneForm, StepHandle } from '../../../types/auth.types'
 import { phoneStepSchema } from '../../../../../utilites/validation/authSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import LeftIconWithTextButton from '../../../../../components/LeftIconWithTextButton'
+import AppButton from '../../../../../components/AppButton'
 import { Phone } from 'lucide-react-native'
 
 
@@ -36,7 +36,7 @@ const SignupWithPhone = forwardRef<StepHandle<phoneForm>>((
   return (
     <View style={{ width: '100%', gap: scale.xxl_40, }}>
       <View style={{flexDirection: 'row', gap: scale.xs_4}}>
-        <LeftIconWithTextButton
+        <AppButton
           leftIcon={<Phone size={38} color={palletteColors.appPrimary} />}
           colors={[palletteColors.appFFE4D5, 'white']}
           style={{ width: 70, height: 70, margin: 10 }}

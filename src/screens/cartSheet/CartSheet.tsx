@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useMemo } from 'react';
 import { useCart } from '../../hooks';
-import LeftIconWithTextButton from '../../components/LeftIconWithTextButton';
+import AppButton from '../../components/AppButton';
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../constants/theme';
 import { ArrowRight, ShoppingBag } from 'lucide-react-native';
 import FoodCell from '../../components/FoodCell';
@@ -48,7 +48,7 @@ const checkout = () => {
           <Text style={typography.subHeading}>Your Cart</Text>
           <Text style={typography.subtitle}>{`${items.length} ${items.length < 1 ? 'item' : 'items'}`}</Text>
         </View>
-        <LeftIconWithTextButton
+        <AppButton
           text='Clear'
           colors={[palletteColors.appPrimary, palletteColors.appPrimary]}
           textStyle={{ color: palletteColors.white }}

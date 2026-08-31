@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native'
 import React from 'react'
-import LeftIconWithTextButton from '../../../components/LeftIconWithTextButton'
+import AppButton from '../../../components/AppButton'
 import { Apple, Mail } from 'lucide-react-native'
 import { width } from '../../../constants/theme'
 
@@ -12,13 +12,13 @@ type SocialLoginsProps = {
 const SocialLogins = ({ appleOnPress, googleOnPress }: SocialLoginsProps) => {
   return (
     <View style={styles.container}>
-      <LeftIconWithTextButton
+      <AppButton
         leftIcon={<Apple size={20} color="#000" />}
         text="Apple"
         style={styles.button}
         onPress={appleOnPress}
       />
-      <LeftIconWithTextButton
+      <AppButton
         leftIcon={<Mail size={20} color="#000" />}
         text="Google"
         style={styles.button}

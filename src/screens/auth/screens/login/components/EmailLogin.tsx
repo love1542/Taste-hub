@@ -3,7 +3,7 @@ import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { EmailLoginForm } from '../../../types/auth.types'
 import BorderLineTextField from '../../../../../components/fields/BorderLineTextField'
-import LeftIconWithTextButton from '../../../../../components/LeftIconWithTextButton'
+import AppButton from '../../../../../components/AppButton'
 import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { emailLoginSchema } from '../../../../../utilites/validation/authSchema'
@@ -78,7 +78,7 @@ const EmailLogin = () => {
         <Text style={[typography.subtitle, {color: palletteColors.appPrimary}]}>Forget Password</Text>
       </TouchableOpacity>
 
-      <LeftIconWithTextButton
+      <AppButton
         onPress={handleloginPress}
         disabled={isPending}
         text={isPending ? "loading..." : "login"}

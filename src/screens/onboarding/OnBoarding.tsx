@@ -2,7 +2,7 @@ import { View, FlatList } from 'react-native'
 import React, { useRef, useState } from 'react'
 import OnBoardingBackground from './components/OnBoardingBackground'
 import { useOnBoardingStyles } from './onBoarding.styles'
-import LeftIconWithTextButton from '../../components/LeftIconWithTextButton'
+import AppButton from '../../components/AppButton'
 import OnBoardingForground from './components/OnBoardingForground'
 import { onBoardingData } from './onBoardingdata'
 import { width } from '../../constants/theme'
@@ -82,7 +82,7 @@ const OnBoarding = () => {
         />
         
 
-        <LeftIconWithTextButton
+        <AppButton
           leftIcon={<ArrowRight size={20} color={'black'} />}
           onPress={nextTap}
           style={styles.nextButtonStyle}

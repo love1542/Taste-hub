@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native'
 import React from 'react'
-import LeftIconWithTextButton from '../../../components/LeftIconWithTextButton'
+import AppButton from '../../../components/AppButton'
 import { Phone, Mail, ChevronRight } from 'lucide-react-native'
 import { LayoutScaleType, palleteColorsType, TypographyType, useTheme } from '../../../constants/theme'
 
@@ -14,7 +14,7 @@ const EmailPhoneLoginBtn = ({ phoneOnPress, emailOnPress }: EmailPhoneLoginBtnPr
   const styles = emailPhoneLoginBtnStyles(palletteColors, scale, typography)
   return (
     <View style={styles.container}>
-      <LeftIconWithTextButton
+      <AppButton
         leftIcon={<Phone size={20} color={palletteColors.white} />}
         rightIcon={<ChevronRight size={20} color={palletteColors.white} />}
         text="Continue with Phone"
@@ -23,7 +23,7 @@ const EmailPhoneLoginBtn = ({ phoneOnPress, emailOnPress }: EmailPhoneLoginBtnPr
         textStyle={styles.phoneText}
         onPress={phoneOnPress}
       />
-      <LeftIconWithTextButton
+      <AppButton
         leftIcon={<Mail size={20} color={palletteColors.black} />}
         rightIcon={<ChevronRight size={20} color={palletteColors.black} />}
         text="Continue with Email"

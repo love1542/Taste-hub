@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { useOnBoardingStyles } from '../onBoarding.styles'
-import LeftIconWithTextButton from '../../../components/LeftIconWithTextButton'
+import AppButton from '../../../components/AppButton'
 
 type OnBoardingForgroundProps = {
     chipText: string,
@@ -20,7 +20,7 @@ const OnBoardingForground = ({
     return (
         <View style={styles.uperRapper}>
             <View style={styles.topView}>
-                <LeftIconWithTextButton 
+                <AppButton 
                 text={chipText} 
                 textStyle={styles.topChipText} 
                 style={styles.topChip} 

@@ -3,6 +3,7 @@ import { View, StyleSheet, FlatList, Text, ActivityIndicator } from 'react-nativ
 import HomeHeader from './components/HomeHeader';
 import { useAppBottomSheet } from '../../components/bottomSheet/hooks/useAppBottomSheet';
 import SearchField from '../../components/searchField/SearchField';
+import LocationPickerSheet from './components/LocationPickerSheet';
 import SingleSelectionChips, { SelectionItem } from '../../components/singleSelection/SignleSelectionChips';
 import { cuisines } from '../../data/cuisines.data';;
 import RestaurantCell from './components/RestaurantCell';
@@ -11,7 +12,7 @@ import { useGetRestaurants } from './hooks/useQurrys';
 import { useToggleFavourite } from './hooks/useMutation';
 import { useLocation } from '../../hooks/useLocation';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AppStackParamList } from '../../navigation/type';
+import { AppStackParamList, ADD_ADDRESS_TYPE } from '../../navigation/type';
 import { appRoutes } from '../../constants/appConstants';
 import { useNavigation } from '@react-navigation/native';
 
@@ -20,13 +21,14 @@ type NavigationProps = NativeStackNavigationProp<AppStackParamList, typeof appRo
 const Home = () => {
   const navigation = useNavigation<NavigationProps>()
   const [query, setQuery] = useState('')
-  const { open } = useAppBottomSheet()
+  const { open, close } = useAppBottomSheet()
   const [cuisine, setCuisine] = useState<CuisineId | undefined>(undefined);
   const [page, setPage] = useState<number>(0)
   const { data, isLoading, isError } = useGetRestaurants({ page, limit: 5, cuisine: cuisine });
   const { mutateAsync, data: toggleFavouriteRestaurant } = useToggleFavourite()
   const [restaurants, setRestaurants] = useState<Restaurant[]>([])
   const { refreshCurrentLocation } = useLocation()
+  const [selectedAddress, setSelectedAddress] = useState<{ label: string; addressLine: string } | null>(null)
 
   useEffect(() => {
     refreshCurrentLocation();
@@ -80,6 +82,20 @@ const Home = () => {
       enablePanDownToClose: true
     })
   }
+  const openLocationPicker = () => {
+    open({
+      title: '',
+      content: <LocationPickerSheet
+        onClose={close}
+        onAddNew={() => navigation.navigate(appRoutes.addAdress, { screenType: ADD_ADDRESS_TYPE.ADD })}
+        onSelectAddress={(label, addressLine) => setSelectedAddress({ label, addressLine })}
+        onSelectCurrentLocation={() => setSelectedAddress(null)}
+      />,
+      snapPoints: ['60%', '85%', '90%'],
+      enablePanDownToClose: true,
+    })
+  }
+
   return (
     <FlatList
       data={restaurants}
@@ -102,7 +118,7 @@ const Home = () => {
       }
       ListHeaderComponent={
         <View style={styles.headerWrapper}>
-          <HomeHeader query={query} onOpenSearch={openSeachPress} />
+          <HomeHeader query={query} onOpenSearch={openSeachPress} onLocationPress={openLocationPicker} selectedAddress={selectedAddress} />
           <SingleSelectionChips configs={cips} scrolling={true}
             onSelectionChange={(items) => {
               setCuisine(items);

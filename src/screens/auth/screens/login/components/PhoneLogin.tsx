@@ -5,7 +5,7 @@ import BorderLineTextField from '../../../../../components/fields/BorderLineText
 import OtpFields from '../../../../../components/fields/OtpFields'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { phoneOtpSchema } from '../../../../../utilites/validation/authSchema'
-import LeftIconWithTextButton from '../../../../../components/LeftIconWithTextButton'
+import AppButton from '../../../../../components/AppButton'
 import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
 import ResendOtp from '../../../components/ResendOtp'
 import { useloginVerifyOtp, useloginWithPhone } from '../../../hooks'
@@ -124,7 +124,7 @@ const PhoneLogin = () => {
           <Text style={styles.verifyInfoText}>We will send you a 6-digit OTP to verify your number.</Text>
       }
 
-      <LeftIconWithTextButton
+      <AppButton
         onPress={loginPress}
         text={numberVerify ? "Verify Otp" : "Login"}
         colors={[palletteColors.appPrimary, palletteColors.appPrimary]}

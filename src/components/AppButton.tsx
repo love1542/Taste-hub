@@ -13,7 +13,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient'
 import { useTheme } from '../constants/theme'
 
-export type LeftIconWithTextButtonProps = {
+export type AppButtonProps = {
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
 
@@ -28,7 +28,7 @@ export type LeftIconWithTextButtonProps = {
   textStyle?: StyleProp<TextStyle>
 }
 
-const LeftIconWithTextButton = ({
+const AppButton = ({
   leftIcon,
   rightIcon,
   imageIcon,
@@ -38,7 +38,7 @@ const LeftIconWithTextButton = ({
   style,
   textStyle,
   colors = ['#ffffff', '#ffffff'],
-}: LeftIconWithTextButtonProps) => {
+}: AppButtonProps) => {
   const styles = useButtonStyles()
 
   return (
@@ -59,7 +59,6 @@ const LeftIconWithTextButton = ({
         style={[StyleSheet.absoluteFill, styles.gradient]}
       />
 
-      
       {leftIcon && (
         <View style={[styles.iconWrapper, !(text || rightIcon) && styles.iconOnly]}>
           {leftIcon}
@@ -83,13 +82,12 @@ const LeftIconWithTextButton = ({
         <View style={styles.iconWrapper}>
           {rightIcon}
         </View>
-      )
-      }
+      )}
     </TouchableOpacity>
   )
 }
 
-export default LeftIconWithTextButton
+export default AppButton
 
 const useButtonStyles = () => {
   const { color, scale } = useTheme()
@@ -120,7 +118,7 @@ const useButtonStyles = () => {
     },
 
     iconWrapper: {
-      marginRight: scale.sm_8, 
+      marginRight: scale.sm_8,
       zIndex: 1,
     },
 

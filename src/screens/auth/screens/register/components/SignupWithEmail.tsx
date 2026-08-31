@@ -4,7 +4,7 @@ import { Lock, Mail } from 'lucide-react-native'
 import { Controller, useForm, useFormContext } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import BorderLineTextField from '../../../../../components/fields/BorderLineTextField'
-import LeftIconWithTextButton from '../../../../../components/LeftIconWithTextButton'
+import AppButton from '../../../../../components/AppButton'
 import { palleteColorsType, LayoutScaleType, useTheme } from '../../../../../constants/theme'
 import { emailStepSchema } from '../../../../../utilites/validation/authSchema'
 import { StepHandle, EmailStepForm } from '../../../types/auth.types'
@@ -38,7 +38,7 @@ const SignupWithEmail = forwardRef<StepHandle<EmailStepForm>>((
   return (
     <View style={styles.box}>
       <View style={{flexDirection: 'row', gap: scale.xs_4}}>
-        <LeftIconWithTextButton
+        <AppButton
           leftIcon={<Mail size={40} color={palletteColors.appPrimary} />}
           colors={[palletteColors.appFFE4D5, 'white']}
           style={{ width: 70, height: 70, margin: 10 }}
