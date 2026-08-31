@@ -1,144 +1,245 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { Home, MapPin, Phone, Briefcase, MoreVertical, Check } from 'lucide-react-native';
+import {
+    Home,
+    MapPin,
+    Briefcase,
+    MoreVertical,
+    BadgeCheck,
+} from 'lucide-react-native';
 import { DeliveryAddress } from '../types/adress.type';
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../../constants/theme';
-import IconButton from '../../../components/IconButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppStackParamList } from '../../../navigation/type';
 import { appRoutes } from '../../../constants/appConstants';
 import { useNavigation } from '@react-navigation/native';
 
-
 type AddressCellProps = {
     address: DeliveryAddress;
     onPress?: () => void;
     onMorePress?: () => void;
-}
+};
 
-const AddressCell = ({
-    address,
-    onPress,
-    onMorePress,
-}: AddressCellProps) => {
+const AddressCell = ({ address, onPress, onMorePress }: AddressCellProps) => {
     const { palletteColors, scale, typography } = useTheme();
-    const styles = cellStyle(scale, palletteColors)
+    const styles = cellStyle(scale, palletteColors);
 
-    const getLabelIcon = () => {
+    const getLabelConfig = (): { icon: typeof Home; color: string; bg: string } => {
         switch (address.label) {
             case 'home':
-                return Home;
+                return {
+                    icon: Home,
+                    color: palletteColors.appPrimary,
+                    bg: palletteColors.appFFE4D5,
+                };
             case 'work':
-                return Briefcase;
+                return {
+                    icon: Briefcase,
+                    color: '#6366F1',
+                    bg: '#EEF2FF',
+                };
             default:
-                return MapPin;
+                return {
+                    icon: MapPin,
+                    color: palletteColors.app737373,
+                    bg: '#F5F5F5',
+                };
         }
     };
 
-    const LabelIcon = getLabelIcon();
+    const { icon: LabelIcon, color: iconColor, bg: iconBg } = getLabelConfig();
+
+    const fullAddress = [
+        address.addressLine,
+        address.area,
+        address.landmark,
+        `${address.city}, ${address.state}`,
+        address.postalCode ? `- ${address.postalCode}` : undefined,
+    ]
+        .filter(Boolean)
+        .join(', ');
 
     return (
         <Pressable
             onPress={onPress}
-            style={[typography.shadowCard, { borderColor: address.isDefault ? palletteColors.green : palletteColors.appFFE4D5 }]}>
-            {/* Header */}
+            style={({ pressed }) => [
+                styles.card,
+                address.isDefault && styles.cardDefault,
+                pressed && styles.cardPressed,
+            ]}
+        >
+            {/* Header row */}
             <View style={styles.header}>
-
-                <View style={typography.rowCenter}>
-                    <IconButton
-                        backgroundColor={palletteColors.appPrimary}
-                        icon={LabelIcon}
-                        iconSize={20}
-                        size={36}
-                        borderRadius={10}
-                    />
-
-                    <View style={{ gap: 2 }}>
-                        <Text style={[typography.mdTitle, { color: palletteColors.black, textTransform: 'capitalize' }]}>
-                            {address.label}
-                        </Text>
-                        <Text style={[typography.subtitle]}>
-                            {address.receiverName} {address.receiverPhone}
+                {/* Icon + label */}
+                <View style={styles.labelGroup}>
+                    <View style={[styles.iconWrap, { backgroundColor: iconBg }]}>
+                        <LabelIcon size={18} color={iconColor} strokeWidth={2} />
+                    </View>
+                    <View style={styles.labelText}>
+                        <View style={styles.titleRow}>
+                            <Text style={styles.labelTitle} numberOfLines={1}>
+                                {address.label.charAt(0).toUpperCase() + address.label.slice(1)}
+                            </Text>
+                            {address.isDefault && (
+                                <BadgeCheck size={16} color={palletteColors.green} strokeWidth={2} />
+                            )}
+                        </View>
+                        <Text style={styles.receiverInfo} numberOfLines={1}>
+                            {address.receiverName} · {address.receiverPhone}
                         </Text>
                     </View>
                 </View>
 
-                {
-                    onMorePress &&
+                {/* More button */}
+                {onMorePress && (
                     <Pressable
                         onPress={onMorePress}
-                        hitSlop={10}
+                        hitSlop={12}
+                        style={({ pressed }) => [
+                            styles.moreBtn,
+                            pressed && styles.moreBtnPressed,
+                        ]}
                     >
-                        <MoreVertical
-                            size={20}
-                            color={palletteColors.black}
-                        />
+                        <MoreVertical size={18} color={palletteColors.app737373} strokeWidth={2} />
                     </Pressable>
-                }
-
+                )}
             </View>
 
-            {/* Address */}
-            <View style={styles.row}>
-                <MapPin
-                    size={16}
-                    color={palletteColors.appPrimary}
-                    strokeWidth={2}
-                />
+            {/* Divider */}
+            <View style={styles.divider} />
 
-                <Text style={[styles.address, { color: palletteColors.black }]} numberOfLines={2} >
-                    {address.addressLine}
-                    {address.area ? `, ${address.area}` : ''}
-                    {address.landmark ? `, ${address.landmark}` : ''}
-                    {`, ${address.city}, ${address.state}`}
-                    {address.postalCode ? ` - ${address.postalCode}` : ''}
+            {/* Address row */}
+            <View style={styles.addressRow}>
+                <View style={styles.pinWrap}>
+                    <MapPin size={14} color={palletteColors.appPrimary} strokeWidth={2.5} />
+                </View>
+                <Text style={styles.addressText} numberOfLines={2}>
+                    {fullAddress}
                 </Text>
             </View>
-
         </Pressable>
     );
 };
 
 export default AddressCell;
 
-const cellStyle = (scale: LayoutScaleType, color: palleteColorsType) => {
-    return StyleSheet.create({
-        container: {
-            borderWidth: 1,
-            borderRadius: 16,
+const cellStyle = (scale: LayoutScaleType, color: palleteColorsType) =>
+    StyleSheet.create({
+        card: {
+            backgroundColor: color.white,
+            borderRadius: 20,
+            borderWidth: 1.5,
+            borderColor: '#F0F0F0',
             padding: 16,
             marginBottom: 12,
+
+            // iOS
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.06,
+            shadowRadius: 10,
+            // Android
+            elevation: 3,
+        },
+
+        cardDefault: {
+            borderColor: color.green,
+            shadowColor: color.green,
+            shadowOpacity: 0.12,
+        },
+
+        cardPressed: {
+            opacity: 0.92,
+            transform: [{ scale: 0.99 }],
+        },
+
+        defaultBadge: {
+            // removed — badge is now inline with the title
+        },
+
+        defaultBadgeText: {
+            // removed — badge is now inline with the title
         },
 
         header: {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            marginBottom: 14,
         },
 
-        defaultBadge: {
+        labelGroup: {
             flexDirection: 'row',
             alignItems: 'center',
-            gap: 4,
-            paddingHorizontal: 8,
-            paddingVertical: 2,
-            borderRadius: 20,
+            gap: 12,
+            flex: 1,
         },
 
-        row: {
+        iconWrap: {
+            width: 42,
+            height: 42,
+            borderRadius: 13,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+
+        labelText: {
+            flex: 1,
+            gap: 2,
+        },
+
+        titleRow: {
             flexDirection: 'row',
             alignItems: 'center',
+            gap: 5,
+        },
+
+        labelTitle: {
+            fontSize: 15,
+            fontFamily: 'Inter-Bold',
+            color: color.app262626,
+            letterSpacing: 0.1,
+        },
+
+        receiverInfo: {
+            fontSize: 12,
+            fontFamily: 'Inter-Regular',
+            color: color.app737373,
+        },
+
+        moreBtn: {
+            width: 32,
+            height: 32,
+            borderRadius: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginLeft: 8,
+        },
+
+        moreBtnPressed: {
+            backgroundColor: '#F5F5F5',
+        },
+
+        divider: {
+            height: 1,
+            backgroundColor: '#F5F5F5',
+            marginVertical: 14,
+        },
+
+        addressRow: {
+            flexDirection: 'row',
+            alignItems: 'flex-start',
             gap: 8,
-            marginTop: 6,
         },
 
-        address: {
+        pinWrap: {
+            marginTop: 1,
+        },
+
+        addressText: {
             flex: 1,
             fontSize: 13,
-            lineHeight: 19,
-        }
-
+            fontFamily: 'Inter-Regular',
+            color: color.app525252,
+            lineHeight: 20,
+        },
     });
-}
-

@@ -65,7 +65,7 @@ const ManageAdresses = () => {
         data?.data ? <ScrollView style={[styles.container, { flex: 1 }]}>
         {
           data?.data.map((address) => (
-            <View key={address.id} style={{ marginHorizontal: scale.md_16, marginVertical: scale.sm_8 }}>
+            <View key={address.id} style={{ marginHorizontal: scale.md_16, marginVertical: scale.nano_2 }}>
               <AddressCell
                 address={address}
                 onMorePress={() => onMorePress(address)}
