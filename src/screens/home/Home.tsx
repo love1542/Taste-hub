@@ -40,7 +40,11 @@ const Home = () => {
     if (page === 0) {
       setRestaurants(nextRestaurants);
     } else {
-      setRestaurants(prev => [...prev, ...nextRestaurants]);
+      setRestaurants(prev => {
+        const existingIds = new Set(prev.map(r => r.id));
+        const unique = nextRestaurants.filter(r => !existingIds.has(r.id));
+        return [...prev, ...unique];
+      });
     }
 
   }, [data]);

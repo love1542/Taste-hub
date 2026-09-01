@@ -65,6 +65,18 @@ export const toggleFavourite = async (id: string) => {
     });
 }
 
+export const getFavourites = async (): Promise<ApiResponse<Restaurant[]>> => {
+    console.log('getFavourites called')
+    const favourites = restaurants.filter((item) => item.isFavourite)
+
+    return mockApi({
+        data: favourites,
+        success: true,
+        message: 'Favourites fetched successfully',
+        delay: 1000,
+    })
+}
+
 export const getRestaurantById = async (id: string): Promise<ApiResponse<Restaurant>> => {
     const restaurant = restaurants.find((item) => item.id === id)
 

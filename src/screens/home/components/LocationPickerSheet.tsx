@@ -99,7 +99,7 @@ const LocationPickerSheet = ({ onClose, onAddNew, onSelectAddress, onSelectCurre
                 {/* Divider with label */}
                 <View style={styles.dividerRow}>
                     <View style={styles.dividerLine} />
-                    <Text style={[typography.subtitle, styles.dividerLabel]}>Saved addresses</Text>
+                    <Text style={[typography.subtitle, styles.dividerLabel, {fontSize: 12}]}>Saved addresses</Text>
                     <View style={styles.dividerLine} />
                 </View>
 
@@ -193,7 +193,7 @@ const sheetStyles = (color: palleteColorsType, scale: LayoutScaleType, typograph
         dividerRow: {
             flexDirection: 'row',
             alignItems: 'center',
-            gap: scale.ms_12 - 2,
+            gap: scale.ms_12,
             marginBottom: scale.md_16,
         },
 
