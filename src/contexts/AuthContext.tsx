@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native'
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
 import { loginUserStorage } from '../screens/auth/types/auth.types'
 import { STORAGE_KEYS, storageService } from '../services/storageService'
@@ -7,6 +6,7 @@ type AuthContextType = {
     isLoading: boolean
     isLogin: boolean
     showOnboarding: boolean
+    completeOnboarding: () => Promise<void>
     login: (user: loginUserStorage) => void
     logout: () => void
     userId: string
@@ -74,8 +74,15 @@ export const AuthProvider = ({ children }: AuthPropiderProps) => {
         }
     }
     
+    const completeOnboarding = async () => {
+        const saved = await storageService.set(STORAGE_KEYS.showOnboarding, false)
+        if (saved) {
+            setshowOnboarding(false)
+        }
+    }
+    
     return (
-        <AuthContext.Provider value={{ isLoading, isLogin, showOnboarding, login, logout, userId }}>
+        <AuthContext.Provider value={{ isLoading, isLogin, showOnboarding, completeOnboarding, login, logout, userId }}>
             {children}
         </AuthContext.Provider>
     )

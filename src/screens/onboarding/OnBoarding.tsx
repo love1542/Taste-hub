@@ -7,22 +7,14 @@ import OnBoardingForground from './components/OnBoardingForground'
 import { onBoardingData } from './onBoardingdata'
 import { width } from '../../constants/theme'
 import PagingIndicator from '../../components/pagingIndicator/PagingIndicator'
-import { useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { RootStackParamList } from '../../navigation/type'
-import { STORAGE_KEYS, storageService } from '../../services/storageService'
-import { authRoutes } from '../../constants/appConstants'
 import { ArrowRight } from 'lucide-react-native'
+import { useAuth } from '../../hooks'
 
-type OnBoardingNavagationProps = NativeStackNavigationProp<
-  RootStackParamList,
-  'onBoarding'
->
 
 const OnBoarding = () => {
-  const navigation = useNavigation<OnBoardingNavagationProps>()
   const [currentIndex, setCurrentIndex] = useState(0);
   const styles = useOnBoardingStyles()
+  const { completeOnboarding } = useAuth()
 
   const flatListRef = useRef<FlatList<any> | null>(null);
 
@@ -36,11 +28,7 @@ const OnBoarding = () => {
         animated: true
       })
     } else {
-      storageService.set(STORAGE_KEYS.showOnboarding, false)
-
-      navigation.replace('auth', {
-        screen: authRoutes.login
-      })
+      await completeOnboarding()
     }
   }
 
