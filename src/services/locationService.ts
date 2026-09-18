@@ -1,4 +1,4 @@
-import { NominatimReverseResponseDto, NominatimSearchResponseDto } from "../dto/location"
+import { NominatimReverseResponseDto, NominatimSearchResponseDto } from "../api/dto/location"
 import Geolocation from 'react-native-geolocation-service';
 
 export const getLocationsWithQuery = async (query: string): Promise<NominatimSearchResponseDto[]> => {

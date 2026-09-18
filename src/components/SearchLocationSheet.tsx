@@ -5,7 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { useGetLocations } from '../screens/home/hooks/useQurrys'
 import { LayoutScaleType, useTheme } from '../constants/theme'
 import { useDebounce } from '../hooks/useDebounce'
-import { NominatimSearchResponseDto } from '../dto/location'
+import { NominatimSearchResponseDto } from '../api/dto/location'
 
 type SheetProps = {
   locationPress: (location: NominatimSearchResponseDto) => void

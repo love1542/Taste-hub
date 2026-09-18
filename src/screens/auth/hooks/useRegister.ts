@@ -1,10 +1,11 @@
 import { useMutation } from "@tanstack/react-query"
 import { registerCredentials, verifyOtp, createAccount } from "../services"
 import { useAuth } from "../../../hooks"
+import { authManager } from "../../../api/managers/authManager"
 
-export const useSignupCredentials = () => {
+export const useRegiserUser = () => {
     return useMutation({
-        mutationFn: registerCredentials
+        mutationFn: authManager.register
     })
 }
 

@@ -45,5 +45,15 @@ target 'tasteHub' do
     )
 
     $MLRN.post_install(installer)
+
+    # Fix deployment target warnings — raise any pod below 15.0 to 15.0
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        current = config.build_settings['IPHONEOS_DEPLOYMENT_TARGET']
+        if current && current.to_f < 15.0
+          config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+        end
+      end
+    end
   end
 end

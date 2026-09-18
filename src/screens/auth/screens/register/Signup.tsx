@@ -13,7 +13,7 @@ import { useToast } from '../../../../components/toast';
 import { AuthStackParamList, RootStackParamList } from '../../../../navigation/type';
 import SignupProfile from './components/SignupProfile';
 import VerifyOtp from './components/VerifyOtp';
-import { useSignupCredentials, useVerifyOtp, useCreateAccount } from '../../hooks';
+import { useVerifyOtp, useCreateAccount, useRegiserUser } from '../../hooks';
 import { signupStyles } from '../../styles';
 import { SignupForm, StepHandle } from '../../types/auth.types';
 import { useTheme } from '../../../../constants/theme';
@@ -24,6 +24,7 @@ import uuid from 'react-native-uuid'
 import SegmentControler from '../../../../components/segmentControler/SegmentControler';
 import { SIGNUP_SCREENS, SignupStep } from '../../constants/signupConstants';
 import { authRoutes, } from '../../../../constants/appConstants';
+import { RegisterRequest } from '../../../../api/dto/auth.dto';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, typeof authRoutes.signup>;
 
@@ -58,7 +59,7 @@ const Signup = () => {
   const {
     mutateAsync: registerMutation,
     isPending: isRegisterLoading,
-  } = useSignupCredentials();
+  } = useRegiserUser();
 
   const {
     mutateAsync: verifyOtpMutation,
@@ -108,13 +109,13 @@ const Signup = () => {
 
       switch (currentStep) {
         case SignupStep.Credential:
-          response = await registerMutation(result);
+          const request: RegisterRequest = {
+            type: "phone",
+            identifier: result.phone
+          }
+          response = await registerMutation(request);
+
           if (response.success) {
-            const updated: SignupForm = {
-              id: uuid.v4(),
-              ...result,
-            };
-            setSignupData(updated)
             setStep(step + 1);
           }
           break
