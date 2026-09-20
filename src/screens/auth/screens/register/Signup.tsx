@@ -25,6 +25,7 @@ import { SIGNUP_SCREENS, SignupStep } from '../../constants/signupConstants';
 import { authRoutes, } from '../../../../constants/appConstants';
 import { OtpVerifyRequest, RegisterRequest } from '../../../../api/dto/auth.dto';
 import { TokenManager } from '../../../../services/tokenManager/tokenManager';
+import { useGetDefaultImages } from '../../../../hooks';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, typeof authRoutes.signup>;
 

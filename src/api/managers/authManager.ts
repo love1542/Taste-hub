@@ -1,6 +1,6 @@
 import { ApiResponse } from "../../utilites/apis/mockApi"
 import { ApiClient } from "../apiClient"
-import { OtpVerifyRequest, OtpVerifyResponse, RegisterRequest, RegisterResponse } from "../dto/auth.dto"
+import { CompleteRegistrationRequest, CompleteRegistrationResponse, OtpVerifyRequest, OtpVerifyResponse, RegisterRequest, RegisterResponse } from "../dto/auth.dto"
 import { END_POINT } from "../endPoint"
 
 
@@ -19,5 +19,4 @@ export const authManager: AuthManagerType = {
         let response = await ApiClient.post(END_POINT.auth.otpVerify, req)
         return response.data    
     }
-
 }

@@ -1,7 +1,7 @@
 export interface RegisterRequest {
     type: "phone" | "email"
     identifier: string
-    password?: string 
+    password?: string
 }
 
 export interface RegisterResponse {
@@ -19,4 +19,22 @@ export type OtpPurpose = "login_phone" | "login_email" | "reset_password" | "reg
 
 export interface OtpVerifyResponse {
     access_token: string
+}
+
+export interface CompleteRegistrationRequest {
+    fullName: string;
+    gender: "male" | "female" | "other";
+    dateOfBirth: string;
+    deviceId: string;
+    imageType: "default" | "uploaded";
+    imageId?: string
+    profileImage?: {
+        uri: string;
+        type: string;
+        name: string;
+    }
+}
+
+export interface CompleteRegistrationResponse {
+
 }
