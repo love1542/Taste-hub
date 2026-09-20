@@ -9,15 +9,17 @@
 /* Begin PBXBuildFile section */
 		05FDC655D9BE40AD8F530D3C /* Inter-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18E2728244C84A53A9DEADC5 /* Inter-ExtraLight.ttf */; };
 		097A04EBB7214F7BAB52DBE9 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F01355B23F44586B430BD25 /* Inter-ExtraBold.ttf */; };
-		0C80B921A6F3F58F76C31292 /* libPods-tasteHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-tasteHub.a */; };
 		0E23010A7845424498CE578A /* Inter-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DEF259B4E8C4456DAA6C9C88 /* Inter-BoldItalic.ttf */; };
 		0F1BD55D08F64F81BD9F45B9 /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 50908AAED06C40D2A4C83266 /* Inter-Thin.ttf */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		154712FDB06843A4A473AEAC /* Inter-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DB1622B790D44815BF3325A0 /* Inter-ThinItalic.ttf */; };
 		3C0219B75EB2436589B15ED3 /* Inter-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85C6A4A464F8434D9A76FF26 /* Inter-ExtraBoldItalic.ttf */; };
 		4EB01DE42DD84CDFBED35C4A /* Inter-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 446D007EF6E145E1A6E790CF /* Inter-MediumItalic.ttf */; };
+		6BA72F2F77DCB2E15B90CFD3 /* libPods-TasteHubPods-tasteHub-test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC0FA6F03D0A7C6D4F4221A /* libPods-TasteHubPods-tasteHub-test.a */; };
+		6BCABC39CE62338E75E6221F /* libPods-TasteHubPods-tasteHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA2B2ABC051AE36DD2DF61E /* libPods-TasteHubPods-tasteHub.a */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		77D35BA1DFCCD997938E0294 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
+		7F6219A393073B9AB0181767 /* libPods-TasteHubPods-tasteHub-dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7D664EE17CA1D18B6865072 /* libPods-TasteHubPods-tasteHub-dev.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8698732375A148E780F2DE0F /* Inter-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 335829AFD4C34504B4EC0EBC /* Inter-Light.ttf */; };
 		8C038C5CA8FD44BF91BDF2CD /* Inter-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3590F98EB1E14E2A8E0806C8 /* Inter-LightItalic.ttf */; };
@@ -26,7 +28,6 @@
 		9C51BC51304096090007A211 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 208805D1C19A18715E2ABABB /* MapLibre */; };
 		9C7D004D305EE0E80035105B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		9C7D004F305EE0E80035105B /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7D0049305EE0E80035105B /* MapLibre */; };
-		9C7D0050305EE0E80035105B /* libPods-tasteHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-tasteHub.a */; };
 		9C7D0052305EE0E80035105B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9C7D0053305EE0E80035105B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		9C7D0054305EE0E80035105B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
@@ -50,7 +51,6 @@
 		9C7D0066305EE0E80035105B /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 953D116716B3411DA9E2D272 /* Inter-SemiBold.ttf */; };
 		9C7D0075305EE10C0035105B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		9C7D0077305EE10C0035105B /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 9C7D0071305EE10C0035105B /* MapLibre */; };
-		9C7D0078305EE10C0035105B /* libPods-tasteHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-tasteHub.a */; };
 		9C7D007A305EE10C0035105B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9C7D007B305EE10C0035105B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		9C7D007C305EE10C0035105B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
@@ -87,19 +87,20 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = tasteHub/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = tasteHub/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		18E2728244C84A53A9DEADC5 /* Inter-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-ExtraLight.ttf"; path = "../assets/fonts/Inter-ExtraLight.ttf"; sourceTree = "<group>"; };
+		2878BB4F043E6DCE94A2EACA /* Pods-TasteHubPods-tasteHub-test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasteHubPods-tasteHub-test.release.xcconfig"; path = "Target Support Files/Pods-TasteHubPods-tasteHub-test/Pods-TasteHubPods-tasteHub-test.release.xcconfig"; sourceTree = "<group>"; };
 		2AE973F27EA24B50A333493F /* Inter-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-ExtraLightItalic.ttf"; path = "../assets/fonts/Inter-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		335829AFD4C34504B4EC0EBC /* Inter-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Light.ttf"; path = "../assets/fonts/Inter-Light.ttf"; sourceTree = "<group>"; };
 		3590F98EB1E14E2A8E0806C8 /* Inter-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-LightItalic.ttf"; path = "../assets/fonts/Inter-LightItalic.ttf"; sourceTree = "<group>"; };
-		3B4392A12AC88292D35C810B /* Pods-tasteHub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tasteHub.debug.xcconfig"; path = "Target Support Files/Pods-tasteHub/Pods-tasteHub.debug.xcconfig"; sourceTree = "<group>"; };
 		446D007EF6E145E1A6E790CF /* Inter-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-MediumItalic.ttf"; path = "../assets/fonts/Inter-MediumItalic.ttf"; sourceTree = "<group>"; };
 		50908AAED06C40D2A4C83266 /* Inter-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Thin.ttf"; path = "../assets/fonts/Inter-Thin.ttf"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-tasteHub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tasteHub.release.xcconfig"; path = "Target Support Files/Pods-tasteHub/Pods-tasteHub.release.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-tasteHub.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tasteHub.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6218D7941059464C87A618EA /* Inter-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-SemiBoldItalic.ttf"; path = "../assets/fonts/Inter-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		64E7DE53EBF24D93A68546F7 /* Inter-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold.ttf"; path = "../assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
+		75557D077ED9077E95D84BD9 /* Pods-TasteHubPods-tasteHub-test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasteHubPods-tasteHub-test.debug.xcconfig"; path = "Target Support Files/Pods-TasteHubPods-tasteHub-test/Pods-TasteHubPods-tasteHub-test.debug.xcconfig"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = tasteHub/AppDelegate.swift; sourceTree = "<group>"; };
+		7E514E8DC02131AB79AF551C /* Pods-TasteHubPods-tasteHub-dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasteHubPods-tasteHub-dev.debug.xcconfig"; path = "Target Support Files/Pods-TasteHubPods-tasteHub-dev/Pods-TasteHubPods-tasteHub-dev.debug.xcconfig"; sourceTree = "<group>"; };
 		7F01355B23F44586B430BD25 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-ExtraBold.ttf"; path = "../assets/fonts/Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = tasteHub/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		850582AAEF964F7DF0E97FCC /* Pods-TasteHubPods-tasteHub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasteHubPods-tasteHub.release.xcconfig"; path = "Target Support Files/Pods-TasteHubPods-tasteHub/Pods-TasteHubPods-tasteHub.release.xcconfig"; sourceTree = "<group>"; };
 		85C6A4A464F8434D9A76FF26 /* Inter-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-ExtraBoldItalic.ttf"; path = "../assets/fonts/Inter-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		8BFDF9BD97E144699E9B2617 /* Inter-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Italic.ttf"; path = "../assets/fonts/Inter-Italic.ttf"; sourceTree = "<group>"; };
 		939533FB5D244FA4BA020CC7 /* Inter-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.ttf"; path = "../assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
@@ -110,10 +111,17 @@
 		9C7D006F305EE0E80035105B /* tasteHub dev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "tasteHub dev-Info.plist"; path = "/Users/love/Documents/our Projects/tasteHub/ios/tasteHub dev-Info.plist"; sourceTree = "<absolute>"; };
 		9C7D0096305EE10C0035105B /* tasteHub-test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tasteHub-test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C7D0097305EE10C0035105B /* tasteHub test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "tasteHub test-Info.plist"; path = "/Users/love/Documents/our Projects/tasteHub/ios/tasteHub test-Info.plist"; sourceTree = "<absolute>"; };
+		AB17A87CC92E780986ADEEF3 /* Pods-tasteHub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tasteHub.debug.xcconfig"; path = "Target Support Files/Pods-tasteHub/Pods-tasteHub.debug.xcconfig"; sourceTree = "<group>"; };
+		B5EDE582C1CB2D359A1EFA0A /* Pods-TasteHubPods-tasteHub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasteHubPods-tasteHub.debug.xcconfig"; path = "Target Support Files/Pods-TasteHubPods-tasteHub/Pods-TasteHubPods-tasteHub.debug.xcconfig"; sourceTree = "<group>"; };
+		BCC0FA6F03D0A7C6D4F4221A /* libPods-TasteHubPods-tasteHub-test.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TasteHubPods-tasteHub-test.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C7D664EE17CA1D18B6865072 /* libPods-TasteHubPods-tasteHub-dev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TasteHubPods-tasteHub-dev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8E1E3C4CA9D881C80AACB14 /* Pods-TasteHubPods-tasteHub-dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasteHubPods-tasteHub-dev.release.xcconfig"; path = "Target Support Files/Pods-TasteHubPods-tasteHub-dev/Pods-TasteHubPods-tasteHub-dev.release.xcconfig"; sourceTree = "<group>"; };
 		DB1622B790D44815BF3325A0 /* Inter-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-ThinItalic.ttf"; path = "../assets/fonts/Inter-ThinItalic.ttf"; sourceTree = "<group>"; };
 		DB1E06C3AF8E4142A65C03A1 /* Inter-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-BlackItalic.ttf"; path = "../assets/fonts/Inter-BlackItalic.ttf"; sourceTree = "<group>"; };
+		DCA2B2ABC051AE36DD2DF61E /* libPods-TasteHubPods-tasteHub.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TasteHubPods-tasteHub.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF259B4E8C4456DAA6C9C88 /* Inter-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-BoldItalic.ttf"; path = "../assets/fonts/Inter-BoldItalic.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F91BFBA2DC3E3CA8E1287BCF /* Pods-tasteHub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tasteHub.release.xcconfig"; path = "Target Support Files/Pods-tasteHub/Pods-tasteHub.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +130,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C51BC51304096090007A211 /* MapLibre in Frameworks */,
-				0C80B921A6F3F58F76C31292 /* libPods-tasteHub.a in Frameworks */,
+				6BCABC39CE62338E75E6221F /* libPods-TasteHubPods-tasteHub.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,7 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C7D004F305EE0E80035105B /* MapLibre in Frameworks */,
-				9C7D0050305EE0E80035105B /* libPods-tasteHub.a in Frameworks */,
+				7F6219A393073B9AB0181767 /* libPods-TasteHubPods-tasteHub-dev.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,7 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C7D0077305EE10C0035105B /* MapLibre in Frameworks */,
-				9C7D0078305EE10C0035105B /* libPods-tasteHub.a in Frameworks */,
+				6BA72F2F77DCB2E15B90CFD3 /* libPods-TasteHubPods-tasteHub-test.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +171,9 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-tasteHub.a */,
+				DCA2B2ABC051AE36DD2DF61E /* libPods-TasteHubPods-tasteHub.a */,
+				C7D664EE17CA1D18B6865072 /* libPods-TasteHubPods-tasteHub-dev.a */,
+				BCC0FA6F03D0A7C6D4F4221A /* libPods-TasteHubPods-tasteHub-test.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -205,8 +215,14 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-tasteHub.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-tasteHub.release.xcconfig */,
+				AB17A87CC92E780986ADEEF3 /* Pods-tasteHub.debug.xcconfig */,
+				F91BFBA2DC3E3CA8E1287BCF /* Pods-tasteHub.release.xcconfig */,
+				B5EDE582C1CB2D359A1EFA0A /* Pods-TasteHubPods-tasteHub.debug.xcconfig */,
+				850582AAEF964F7DF0E97FCC /* Pods-TasteHubPods-tasteHub.release.xcconfig */,
+				7E514E8DC02131AB79AF551C /* Pods-TasteHubPods-tasteHub-dev.debug.xcconfig */,
+				C8E1E3C4CA9D881C80AACB14 /* Pods-TasteHubPods-tasteHub-dev.release.xcconfig */,
+				75557D077ED9077E95D84BD9 /* Pods-TasteHubPods-tasteHub-test.debug.xcconfig */,
+				2878BB4F043E6DCE94A2EACA /* Pods-TasteHubPods-tasteHub-test.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -268,14 +284,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9C7D006B305EE0E80035105B /* Build configuration list for PBXNativeTarget "tasteHub-dev" */;
 			buildPhases = (
-				9C7D004B305EE0E80035105B /* [CP] Check Pods Manifest.lock */,
+				04792116686F557C9323CC00 /* [CP] Check Pods Manifest.lock */,
 				9C7D004C305EE0E80035105B /* Sources */,
 				9C7D004E305EE0E80035105B /* Frameworks */,
 				9C7D0051305EE0E80035105B /* Resources */,
 				9C7D0067305EE0E80035105B /* Bundle React Native code and images */,
-				9C7D0068305EE0E80035105B /* [CP] Embed Pods Frameworks */,
-				9C7D0069305EE0E80035105B /* [CP] Copy Pods Resources */,
 				9C7D006A305EE0E80035105B /* [MapLibre React Native] Remove MapLibre.xcframework-ios.signature */,
+				62A985069B7B26E207D46794 /* [CP] Embed Pods Frameworks */,
+				DC17A7E80B573742015FA3CF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -284,6 +300,7 @@
 			name = "tasteHub-dev";
 			packageProductDependencies = (
 				9C7D0049305EE0E80035105B /* MapLibre */,
+				F396792A3D82FFE1A4DBEA6D /* MapLibre */,
 			);
 			productName = tasteHub;
 			productReference = 9C7D006E305EE0E80035105B /* tasteHub-dev.app */;
@@ -293,14 +310,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9C7D0093305EE10C0035105B /* Build configuration list for PBXNativeTarget "tasteHub-test" */;
 			buildPhases = (
-				9C7D0073305EE10C0035105B /* [CP] Check Pods Manifest.lock */,
+				DA3B061A93DEC3F466448E65 /* [CP] Check Pods Manifest.lock */,
 				9C7D0074305EE10C0035105B /* Sources */,
 				9C7D0076305EE10C0035105B /* Frameworks */,
 				9C7D0079305EE10C0035105B /* Resources */,
 				9C7D008F305EE10C0035105B /* Bundle React Native code and images */,
-				9C7D0090305EE10C0035105B /* [CP] Embed Pods Frameworks */,
-				9C7D0091305EE10C0035105B /* [CP] Copy Pods Resources */,
 				9C7D0092305EE10C0035105B /* [MapLibre React Native] Remove MapLibre.xcframework-ios.signature */,
+				8AF5028BFA3DA74EE12AC335 /* [CP] Embed Pods Frameworks */,
+				D15FB0A86809C95987EED9F7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -309,6 +326,7 @@
 			name = "tasteHub-test";
 			packageProductDependencies = (
 				9C7D0071305EE10C0035105B /* MapLibre */,
+				1A56E1C2E098F92DCAFE28BC /* MapLibre */,
 			);
 			productName = tasteHub;
 			productReference = 9C7D0096305EE10C0035105B /* tasteHub-test.app */;
@@ -460,19 +478,37 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub/Pods-TasteHubPods-tasteHub-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub/Pods-TasteHubPods-tasteHub-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub/Pods-TasteHubPods-tasteHub-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		04792116686F557C9323CC00 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TasteHubPods-tasteHub-dev-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		529ACC9B13203D65FB8DCE5B /* [MapLibre React Native] Remove MapLibre.xcframework-ios.signature */ = {
@@ -494,26 +530,38 @@
 			shellPath = /bin/sh;
 			shellScript = "rm -rf \"$CONFIGURATION_BUILD_DIR/MapLibre.xcframework-ios.signature\"";
 		};
-		9C7D004B305EE0E80035105B /* [CP] Check Pods Manifest.lock */ = {
+		62A985069B7B26E207D46794 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub-dev/Pods-TasteHubPods-tasteHub-dev-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-tasteHub-checkManifestLockResult.txt",
+				"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub-dev/Pods-TasteHubPods-tasteHub-dev-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub-dev/Pods-TasteHubPods-tasteHub-dev-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8AF5028BFA3DA74EE12AC335 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub-test/Pods-TasteHubPods-tasteHub-test-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub-test/Pods-TasteHubPods-tasteHub-test-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub-test/Pods-TasteHubPods-tasteHub-test-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9C7D0067305EE0E80035105B /* Bundle React Native code and images */ = {
@@ -531,48 +579,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"\\\"$WITH_ENVIRONMENT\\\" \\\"$REACT_NATIVE_XCODE\\\"\"\n";
-		};
-		9C7D0068305EE0E80035105B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9C7D0069305EE0E80035105B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		9C7D006A305EE0E80035105B /* [MapLibre React Native] Remove MapLibre.xcframework-ios.signature */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -593,28 +599,6 @@
 			shellPath = /bin/sh;
 			shellScript = "rm -rf \"$CONFIGURATION_BUILD_DIR/MapLibre.xcframework-ios.signature\"";
 		};
-		9C7D0073305EE10C0035105B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-tasteHub-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		9C7D008F305EE10C0035105B /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -630,48 +614,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"\\\"$WITH_ENVIRONMENT\\\" \\\"$REACT_NATIVE_XCODE\\\"\"\n";
-		};
-		9C7D0090305EE10C0035105B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9C7D0091305EE10C0035105B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		9C7D0092305EE10C0035105B /* [MapLibre React Native] Remove MapLibre.xcframework-ios.signature */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -707,11 +649,67 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-tasteHub-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-TasteHubPods-tasteHub-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D15FB0A86809C95987EED9F7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub-test/Pods-TasteHubPods-tasteHub-test-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub-test/Pods-TasteHubPods-tasteHub-test-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub-test/Pods-TasteHubPods-tasteHub-test-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DA3B061A93DEC3F466448E65 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TasteHubPods-tasteHub-test-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DC17A7E80B573742015FA3CF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub-dev/Pods-TasteHubPods-tasteHub-dev-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub-dev/Pods-TasteHubPods-tasteHub-dev-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub-dev/Pods-TasteHubPods-tasteHub-dev-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
@@ -720,19 +718,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub/Pods-TasteHubPods-tasteHub-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub/Pods-TasteHubPods-tasteHub-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tasteHub/Pods-tasteHub-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TasteHubPods-tasteHub/Pods-TasteHubPods-tasteHub-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -767,7 +761,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-tasteHub.debug.xcconfig */;
+			baseConfigurationReference = B5EDE582C1CB2D359A1EFA0A /* Pods-TasteHubPods-tasteHub.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -798,7 +792,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-tasteHub.release.xcconfig */;
+			baseConfigurationReference = 850582AAEF964F7DF0E97FCC /* Pods-TasteHubPods-tasteHub.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -985,7 +979,7 @@
 		};
 		9C7D006C305EE0E80035105B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-tasteHub.debug.xcconfig */;
+			baseConfigurationReference = 7E514E8DC02131AB79AF551C /* Pods-TasteHubPods-tasteHub-dev.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1016,7 +1010,7 @@
 		};
 		9C7D006D305EE0E80035105B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-tasteHub.release.xcconfig */;
+			baseConfigurationReference = C8E1E3C4CA9D881C80AACB14 /* Pods-TasteHubPods-tasteHub-dev.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1045,7 +1039,7 @@
 		};
 		9C7D0094305EE10C0035105B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-tasteHub.debug.xcconfig */;
+			baseConfigurationReference = 75557D077ED9077E95D84BD9 /* Pods-TasteHubPods-tasteHub-test.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1076,7 +1070,7 @@
 		};
 		9C7D0095305EE10C0035105B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-tasteHub.release.xcconfig */;
+			baseConfigurationReference = 2878BB4F043E6DCE94A2EACA /* Pods-TasteHubPods-tasteHub-test.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1172,6 +1166,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1A56E1C2E098F92DCAFE28BC /* MapLibre */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87689FE0061659255424CDE6 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;
+			productName = MapLibre;
+		};
 		208805D1C19A18715E2ABABB /* MapLibre */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 87689FE0061659255424CDE6 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;
@@ -1185,6 +1184,11 @@
 		9C7D0071305EE10C0035105B /* MapLibre */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9C7D0072305EE10C0035105B /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;
+			productName = MapLibre;
+		};
+		F396792A3D82FFE1A4DBEA6D /* MapLibre */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87689FE0061659255424CDE6 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;
 			productName = MapLibre;
 		};
 /* End XCSwiftPackageProductDependency section */

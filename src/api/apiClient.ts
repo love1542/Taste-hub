@@ -48,6 +48,10 @@ ApiClient.interceptors.response.use(
     console.log('STATUS:', error.response?.status);
     console.log('DATA:', error.response?.data);
 
+    if (error.response?.data) {
+      return Promise.resolve({ data: error.response.data });
+    }
+
     return Promise.reject(error);
   },
 );

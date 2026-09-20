@@ -11,7 +11,7 @@ export const useRegiserUser = () => {
 
 export const useVerifyOtp = () => {
     return useMutation({
-        mutationFn: verifyOtp
+        mutationFn: authManager.verifyOtp
     })
 }
 

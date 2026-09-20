@@ -10,7 +10,7 @@ import { useImagePicker, ImagePickerType } from '../../../../components/imagePic
 import AppButton from '../../../../components/AppButton';
 import PagingIndicator from '../../../../components/pagingIndicator/PagingIndicator';
 import { useToast } from '../../../../components/toast';
-import { AuthStackParamList, RootStackParamList } from '../../../../navigation/type';
+import { AuthStackParamList } from '../../../../navigation/type';
 import SignupProfile from './components/SignupProfile';
 import VerifyOtp from './components/VerifyOtp';
 import { useVerifyOtp, useCreateAccount, useRegiserUser } from '../../hooks';
@@ -20,11 +20,11 @@ import { useTheme } from '../../../../constants/theme';
 import SignupWithEmail from './components/SignupWithEmail';
 import SignupWithPhone from './components/SignupWithPhone';
 import { IMAGE_PICKER_SHEET_BTNS } from '../../../../components/imagePicker/data/imagePickerSheet.data';
-import uuid from 'react-native-uuid'
 import SegmentControler from '../../../../components/segmentControler/SegmentControler';
 import { SIGNUP_SCREENS, SignupStep } from '../../constants/signupConstants';
 import { authRoutes, } from '../../../../constants/appConstants';
-import { RegisterRequest } from '../../../../api/dto/auth.dto';
+import { OtpVerifyRequest, RegisterRequest } from '../../../../api/dto/auth.dto';
+import { TokenManager } from '../../../../services/tokenManager/tokenManager';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, typeof authRoutes.signup>;
 
@@ -37,6 +37,7 @@ const Signup = () => {
   const { palletteColors, scale } = useTheme()
   const [step, setStep] = useState<number>(0)
   const [tab, setTab] = useState<number>(0)
+  const [userId, setUserId] = useState<string>("")
   const styles = signupStyles(palletteColors, scale)
   const { open, close } = useAppBottomSheet()
   const { pickImage } = useImagePicker()
@@ -110,19 +111,28 @@ const Signup = () => {
       switch (currentStep) {
         case SignupStep.Credential:
           const request: RegisterRequest = {
-            type: "phone",
-            identifier: result.phone
+            type: tab===0 ? "email" : "phone",
+            identifier: tab===0 ? result.email : result.phone,
+            password: tab===0 ? result.password : undefined
           }
           response = await registerMutation(request);
 
           if (response.success) {
+            setUserId(response.data.user_id ?? "")
             setStep(step + 1);
           }
           break
 
         case SignupStep.Verification:
-          response = await verifyOtpMutation(result)
+
+          let verifyOtpRequest: OtpVerifyRequest = {
+            otpCode: result.otp,
+            purpose: tab === 0 ? "register_email" : "register_phone",
+            userId: userId
+          }
+          response = await verifyOtpMutation(verifyOtpRequest)
           if (response.success) {
+            TokenManager.saveAccessToken(response.data.access_token)
             setStep(step + 1);
           }
           break
@@ -137,20 +147,24 @@ const Signup = () => {
           break
       }
 
-      if (response?.success) {
+      if (response.success) {
         showToast({
           message: response.message,
           type: "success"
         })
       } else {
         showToast({
-          message: response?.message,
+          message: response.message,
           type: "error"
         })
       }
 
-    } catch {
-      console.log("signup error")
+    } catch (error) {
+      console.log(error)
+      showToast({
+          message: "someting went wrong",
+          type: "error"
+        })
     }
 
   };

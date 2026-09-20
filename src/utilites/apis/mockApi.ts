@@ -1,6 +1,6 @@
 export type ApiResponse<T> = {
   success: boolean;
-  data?: T;
+  data: T;
   message: string;
 };
 
@@ -24,7 +24,7 @@ export async function mockApi<T>({
   message = 'Success',
   delay = 1500,
 }: {
-  data?: T;
+  data: T;
   success?: boolean;
   message?: string;
   delay?: number;

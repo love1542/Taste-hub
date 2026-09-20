@@ -5,7 +5,7 @@ def node_require(script)
       '#{script}',
        {paths: [process.argv[1]]},
     )", __dir__]).strip
- end
+end
 
 # Use it to require both react-native's and this package's scripts:
 node_require('react-native/scripts/react_native_pods.rb')
@@ -27,21 +27,29 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'tasteHub' do
+abstract_target 'TasteHubPods' do
+
   config = use_native_modules!
 
   use_react_native!(
     :path => config[:reactNativePath],
-    # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
+
+  target 'tasteHub' do
+  end
+
+  target 'tasteHub-dev' do
+  end
+
+  target 'tasteHub-test' do
+  end
 
   post_install do |installer|
     react_native_post_install(
       installer,
       config[:reactNativePath],
       :mac_catalyst_enabled => false,
-      # :ccache_enabled => true
     )
 
     $MLRN.post_install(installer)
