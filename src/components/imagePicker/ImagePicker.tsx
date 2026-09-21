@@ -1,9 +1,9 @@
 import { View, Image, StyleSheet, TouchableOpacity, ImageSourcePropType, DimensionValue } from 'react-native'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { LayoutScaleType, ThemeColors, useTheme } from '../../constants/theme'
 import { Camera } from 'lucide-react-native'
-import { getPickedImage, IMAGE_PICKER_SHEET_BTNS } from './data/imagePickerSheet.data'
 import { PickedImage } from './types/imagePicker.types'
+import { useGetDefaultImages } from '../../hooks'
 
 type ImagePickerProps = {
     image?: PickedImage | undefined,
@@ -20,13 +20,33 @@ const ImagePicker = ({
 }: ImagePickerProps) => {
     const { scale, color, palletteColors } = useTheme()
     const styles = ImagePickerStyles(scale, color)
+    const {data: defaultImages} = useGetDefaultImages()
+    
+    const imageUrl = useMemo(() => {
 
-    const img = getPickedImage(image)
-   
+        if (!image) {
+            return "";
+        }
+
+        if (image.type === "uri") {
+            return image.uri;
+        }
+
+        if (image.type === "default") {
+            return (
+                defaultImages?.data.find(
+                    item => item.id === image.id
+                )?.imageUrl ?? ""
+            );
+        }
+
+        return "";
+
+    }, [image, defaultImages]);
 
     return (
         <View style={[styles.conatiner, {height: height, width: width}]}>
-            <Image source={img} style={[styles.image,{height: height, width: width}]} />
+            <Image source={{uri: imageUrl}} style={[styles.image,{height: height, width: width}]} />
             {onCameraPress &&
                 <TouchableOpacity style={styles.cameraWrapper} onPress={onCameraPress}>
                     <Camera size={20} color={palletteColors.appPrimary} />

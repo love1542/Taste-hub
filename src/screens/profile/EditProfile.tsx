@@ -19,7 +19,7 @@ import AppHeader from '../../components/AppHeader'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useEditProfile } from './hooks/useMutation'
 import ImagePickerSheet from '../../components/imagePicker/ImagePickerSheet'
-import { ImagePickerSheetItem, PickedImage } from '../../components/imagePicker/types/imagePicker.types'
+import { PickedImage } from '../../components/imagePicker/types/imagePicker.types'
 import { ImagePickerType, useImagePicker } from '../../components/imagePicker/useImagePicker'
 
 
@@ -62,12 +62,6 @@ const EditProfile = () => {
         }
     });
 
-    const handleDefaultImagePress = (item: ImagePickerSheetItem) => {
-        if (item.type === 'default') {
-            setImage({ type: 'default', id: item.id })
-        }
-        close()
-    }
     const { pickImage } = useImagePicker()
 
     const oncamerapress = () => {
@@ -84,7 +78,10 @@ const EditProfile = () => {
                     setImage({ type: 'uri', uri: image?.path })
                     close()
                 }}
-                defaultIconPress={handleDefaultImagePress}
+                defaultIconPress={(id: string) => {
+                    setImage({ type: 'default', id: id });
+                    close()
+                }}
             />
         })
     }

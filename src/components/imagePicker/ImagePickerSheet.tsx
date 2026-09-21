@@ -1,13 +1,13 @@
-import { TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
+import { TouchableOpacity, Image, StyleSheet, View } from 'react-native'
 import React from 'react'
-import { IMAGE_PICKER_SHEET_BTNS } from './data/imagePickerSheet.data'
 import { LayoutScale, LayoutScaleType, useTheme } from '../../constants/theme'
-import { ImagePickerSheetItem } from './types/imagePicker.types'
+import { useGetDefaultImages } from '../../hooks'
+import { Camera, Images } from 'lucide-react-native'
 
 type ImagePickerSheetProps = {
     onCameraPress: () => void
     onGalleryPress: () => void
-    defaultIconPress: (item: ImagePickerSheetItem) => void
+    defaultIconPress: (id: string) => void
 }
 
 const ImagePickerSheet = ({
@@ -19,33 +19,38 @@ const ImagePickerSheet = ({
     const { scale } = useTheme()
     const styles = imagePickerSheetStyles(scale ?? LayoutScale)
 
-    const onIconPress = (item: ImagePickerSheetItem) => {
-        if (item.id === 'camera') {
-            onCameraPress()
-        } else if (item.id === 'gallery') {
-            onGalleryPress()
-        } else if (item.type === 'default') {
-            defaultIconPress(item)
-        } else {
-            defaultIconPress(item)
-        }
-    }
+    const { data: defaultImages } = useGetDefaultImages()
+
+    const defaultItems = defaultImages?.data ?? []
 
     return (
-        <FlatList
-            data={IMAGE_PICKER_SHEET_BTNS}
-            numColumns={4}
-            renderItem={({ item, index }) => (
+        <View style={styles.container}>
+            <View style={styles.actionsRow}>
                 <TouchableOpacity
-                    key={index}
-                    onPress={() => onIconPress(item)}
-                    style={styles.button}>
-                    {item.type === 'action' && <item.icon size={40} />}
-                    {item.type === 'default' && <Image source={item.image}
-                        style={styles.image} />}
+                    style={styles.button}
+                    onPress={onCameraPress}
+                >
+                    <Camera size={40} />
                 </TouchableOpacity>
 
-            )} />
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={onGalleryPress}
+                >
+                    <Images size={40} />
+                </TouchableOpacity>
+
+                {defaultItems.map((item, index) => (
+                    <TouchableOpacity
+                        key={item.id ?? index}
+                        onPress={() => defaultIconPress(item.id)}
+                        style={styles.button}>
+                        <Image source={{ uri: item.imageUrl }}
+                            style={styles.image} />
+                    </TouchableOpacity>
+                ))}
+            </View>
+        </View>
     )
 }
 
@@ -53,6 +58,16 @@ export default ImagePickerSheet
 
 const imagePickerSheetStyles = (scale: LayoutScaleType) => {
     return StyleSheet.create({
+        container: {
+            width: '100%',
+        },
+        actionsRow: {
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            gap: scale.ms_12,
+        },
         button: {
             height: scale.avtarBorder_60,
             width: scale.avtarBorder_60,
@@ -61,11 +76,10 @@ const imagePickerSheetStyles = (scale: LayoutScaleType) => {
             borderRadius: 50,
             borderWidth: 2,
             borderColor: 'black',
-            margin: scale.sm_8
         },
         image: {
-            width: scale.avatarMD_56,
-            height: scale.avatarMD_56,
+            width: scale.controlLG_56,
+            height: scale.controlLG_56,
             borderRadius: 50
         }
     })

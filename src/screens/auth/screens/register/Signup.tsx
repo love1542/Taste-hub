@@ -1,11 +1,11 @@
 import { View, Keyboard, TouchableWithoutFeedback, ScrollView, Text, Image } from 'react-native';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAppBottomSheet } from '../../../../components/bottomSheet/hooks/useAppBottomSheet';
 import ImagePickerSheet from '../../../../components/imagePicker/ImagePickerSheet';
-import { ImagePickerSheetItem, PickedImage } from '../../../../components/imagePicker/types/imagePicker.types';
+import { PickedImage } from '../../../../components/imagePicker/types/imagePicker.types';
 import { useImagePicker, ImagePickerType } from '../../../../components/imagePicker/useImagePicker';
 import AppButton from '../../../../components/AppButton';
 import PagingIndicator from '../../../../components/pagingIndicator/PagingIndicator';
@@ -19,7 +19,6 @@ import { SignupForm, StepHandle } from '../../types/auth.types';
 import { useTheme } from '../../../../constants/theme';
 import SignupWithEmail from './components/SignupWithEmail';
 import SignupWithPhone from './components/SignupWithPhone';
-import { IMAGE_PICKER_SHEET_BTNS } from '../../../../components/imagePicker/data/imagePickerSheet.data';
 import SegmentControler from '../../../../components/segmentControler/SegmentControler';
 import { SIGNUP_SCREENS, SignupStep } from '../../constants/signupConstants';
 import { authRoutes, } from '../../../../constants/appConstants';
@@ -43,15 +42,8 @@ const Signup = () => {
   const { open, close } = useAppBottomSheet()
   const { pickImage } = useImagePicker()
   const { showToast } = useToast()
-
-  const randomImage = useMemo(() => {
-    let defaultImages = IMAGE_PICKER_SHEET_BTNS.filter((item) => item.type === 'default')
-    return defaultImages[
-      Math.floor(Math.random() * defaultImages.length)
-    ];
-  }, []);
   
-  const [image, setImage] = useState<PickedImage | undefined>(randomImage)
+  const [pickedImage, setPickedImage] = useState<PickedImage | undefined>(undefined)
 
   const [signupData, setSignupData] = useState<SignupForm | undefined>()
   const stepRef = useRef<StepHandle<any>>(null)
@@ -73,12 +65,12 @@ const Signup = () => {
     isPending: isCreateAccountLoading,
   } = useCreateAccount();
 
+  const {data: defaultImages} = useGetDefaultImages()
+
   const isLoading = isRegisterLoading || isVerifyOtpLoading || isCreateAccountLoading
 
-  const handleDefaultImagePress = (item: ImagePickerSheetItem) => {
-    if (item.type === 'default') {
-      setImage({ type: 'default', id: item.id })
-    }
+  const handleDefaultImagePress = (id:string) => {
+      setPickedImage({ type: 'default', id: id })
     close()
   }
 
@@ -89,12 +81,12 @@ const Signup = () => {
       content: <ImagePickerSheet
         onCameraPress={async () => {
           let image = await pickImage(ImagePickerType.Camera)
-          setImage({ type: 'uri', uri: image?.path })
+          setPickedImage({ type: 'uri', uri: image?.path })
           close()
         }}
         onGalleryPress={async () => {
           let image = await pickImage(ImagePickerType.Gallery)
-          setImage({ type: 'uri', uri: image?.path })
+          setPickedImage({ type: 'uri', uri: image?.path })
           close()
         }}
         defaultIconPress={handleDefaultImagePress}
@@ -142,7 +134,7 @@ const Signup = () => {
           const finalData: SignupForm = {
             ...signupData!,
             ...result,
-            image,
+            pickedImage,
           };
           response = await createAccountMutation(finalData)
           break
@@ -174,6 +166,13 @@ const Signup = () => {
     navigation.replace("login")
   }
 
+  useEffect(()=>{
+    if (!pickedImage && ((defaultImages?.data?.length ?? 0) > 0)){
+      let randomImage = defaultImages?.data[Math.floor(Math.random() * defaultImages?.data.length)]
+      setPickedImage( {id:randomImage?.id ?? "", type:"default" })
+    }
+  },[defaultImages, pickImage])
+
   const renderScreen = () => {
     switch (currentStep) {
       case SignupStep.Credential:
@@ -183,7 +182,7 @@ const Signup = () => {
         return <VerifyOtp ref={stepRef} destination={step === 0 ? signupData?.email ?? "" : signupData?.phone ?? ""} resendPress={() => { }} />
 
       case SignupStep.UserInfo:
-        return <SignupProfile ref={stepRef} img={image} onCameraPress={onCameraPress} />
+        return <SignupProfile ref={stepRef} img={pickedImage} onCameraPress={onCameraPress} />
     }
   }
 
