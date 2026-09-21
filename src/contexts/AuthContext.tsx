@@ -9,7 +9,6 @@ type AuthContextType = {
     completeOnboarding: () => Promise<void>
     login: (user: loginUserStorage) => void
     logout: () => void
-    userId: string
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null)
@@ -22,7 +21,6 @@ export const AuthProvider = ({ children }: AuthPropiderProps) => {
     const [isLoading, setIsloading] = useState<boolean>(true)
     const [isLogin, setIsLogin] = useState<boolean>(false)
     const [showOnboarding, setshowOnboarding] = useState<boolean>(false)
-    const [userId, setUserId] = useState<string>('')
 
     useEffect(() => {
         const bootstrap = async () => {
@@ -37,8 +35,7 @@ export const AuthProvider = ({ children }: AuthPropiderProps) => {
                     (await storageService.get<boolean>(
                         STORAGE_KEYS.showOnboarding
                     )) ?? true;
-
-                setUserId(token?.userId ?? "")  
+ 
                 setIsLogin(!!token);
                 setshowOnboarding(onboarding);
             } catch (error) {
@@ -82,7 +79,7 @@ export const AuthProvider = ({ children }: AuthPropiderProps) => {
     }
     
     return (
-        <AuthContext.Provider value={{ isLoading, isLogin, showOnboarding, completeOnboarding, login, logout, userId }}>
+        <AuthContext.Provider value={{ isLoading, isLogin, showOnboarding, completeOnboarding, login, logout }}>
             {children}
         </AuthContext.Provider>
     )

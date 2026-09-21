@@ -50,5 +50,4 @@ export type phoneformOtp = {
 
 export type loginUserStorage = {
   token: string;
-  userId: string;
 }

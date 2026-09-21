@@ -28,13 +28,9 @@ export interface CompleteRegistrationRequest {
     deviceId: string;
     imageType: "default" | "uploaded";
     imageId?: string
-    profileImage?: {
-        uri: string;
-        type: string;
-        name: string;
-    }
+    profileImage?: string
 }
 
 export interface CompleteRegistrationResponse {
-
+    accessToken: string
 }

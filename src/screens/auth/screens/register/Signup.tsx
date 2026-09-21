@@ -13,7 +13,7 @@ import { useToast } from '../../../../components/toast';
 import { AuthStackParamList } from '../../../../navigation/type';
 import SignupProfile from './components/SignupProfile';
 import VerifyOtp from './components/VerifyOtp';
-import { useVerifyOtp, useCreateAccount, useRegiserUser } from '../../hooks';
+import { useVerifyOtp, useRegiserUser, useCompleteRegistration } from '../../hooks';
 import { signupStyles } from '../../styles';
 import { SignupForm, StepHandle } from '../../types/auth.types';
 import { useTheme } from '../../../../constants/theme';
@@ -22,9 +22,10 @@ import SignupWithPhone from './components/SignupWithPhone';
 import SegmentControler from '../../../../components/segmentControler/SegmentControler';
 import { SIGNUP_SCREENS, SignupStep } from '../../constants/signupConstants';
 import { authRoutes, } from '../../../../constants/appConstants';
-import { OtpVerifyRequest, RegisterRequest } from '../../../../api/dto/auth.dto';
+import { CompleteRegistrationRequest, OtpVerifyRequest, RegisterRequest } from '../../../../api/dto/auth.dto';
 import { TokenManager } from '../../../../services/tokenManager/tokenManager';
 import { useGetDefaultImages } from '../../../../hooks';
+import { getDeviceId } from '../../../../utilites/helper/deviceInfo';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, typeof authRoutes.signup>;
 
@@ -61,9 +62,9 @@ const Signup = () => {
   } = useVerifyOtp();
 
   const {
-    mutateAsync: createAccountMutation,
+    mutateAsync: completeRegistrationMutation,
     isPending: isCreateAccountLoading,
-  } = useCreateAccount();
+  } = useCompleteRegistration();
 
   const {data: defaultImages} = useGetDefaultImages()
 
@@ -131,12 +132,24 @@ const Signup = () => {
           break
 
         case SignupStep.UserInfo:
-          const finalData: SignupForm = {
-            ...signupData!,
-            ...result,
-            pickedImage,
-          };
-          response = await createAccountMutation(finalData)
+          // const finalData: SignupForm = {
+          //   ...signupData!,
+          //   ...result,
+          //   pickedImage,
+          // };
+          const deviceId = await getDeviceId()
+
+          const completeRequest: CompleteRegistrationRequest = {
+            dateOfBirth: result.dateOfBirth,
+             deviceId: deviceId,
+            fullName: result.fullName,
+            gender: result.gender,
+            imageType: "default",
+            imageId: "id",
+            profileImage: "image"
+          }
+
+          response = await completeRegistrationMutation(completeRequest)
           break
       }
 

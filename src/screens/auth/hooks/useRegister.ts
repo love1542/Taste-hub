@@ -15,20 +15,20 @@ export const useVerifyOtp = () => {
     })
 }
 
-export const useCreateAccount = () => {
+export const useCompleteRegistration = () => {
     const {login} = useAuth()
     return useMutation({
-        mutationFn: createAccount,
+        mutationFn: authManager.completeRegistration,
         onSuccess: (response)=>{
-            const token = response.data?.token
-            const userId = response.data?.userId
+            const token = response.data?.accessToken
+            
 
-            if (!token || !userId) {
+            if (!token) {
                 console.log("unable to login due to missing", response)
                 return
             }
 
-            login({token, userId})
+            login({token})
         }
     })
 }
