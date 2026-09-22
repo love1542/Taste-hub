@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query"
 import { registerCredentials, verifyOtp, createAccount } from "../services"
 import { useAuth } from "../../../hooks"
 import { authManager } from "../../../api/managers/authManager"
+import { TokenManager } from "../../../services/tokenManager/tokenManager"
 
 export const useRegiserUser = () => {
     return useMutation({
@@ -11,7 +12,10 @@ export const useRegiserUser = () => {
 
 export const useVerifyOtp = () => {
     return useMutation({
-        mutationFn: authManager.verifyOtp
+        mutationFn: authManager.verifyOtp,
+        onSuccess(data) {
+            TokenManager.saveAccessToken(data.data.access_token)
+        },
     })
 }
 

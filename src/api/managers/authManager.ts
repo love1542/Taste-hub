@@ -18,7 +18,8 @@ export const authManager: AuthManagerType = {
 
     verifyOtp: async (req: OtpVerifyRequest) => {
         const response = await ApiClient.post(END_POINT.auth.otpVerify, req)
-        return response.data
+
+        return response.data 
     },
 
     completeRegistration: async (req: CompleteRegistrationRequest) => {
@@ -28,16 +29,17 @@ export const authManager: AuthManagerType = {
         form.append("dateOfBirth", req.dateOfBirth)
         form.append("gender", req.gender)
         form.append("deviceId", req.deviceId)
+        form.append("imageType", req.imageType)
 
         if (req.imageType === "default") {
             form.append("imageId", req.imageId)
+        } else {
+            form.append("profileImage", {
+                uri: req.profileImage,
+                type: "image/jpeg",
+                name: "profile.jpg",
+            });
         }
-
-        form.append("profileImage", {
-            uri: req.profileImage,
-            type: "image/jpeg",
-            name: "profile.jpg",
-        });
 
         const response = await ApiClient.post(END_POINT.auth.completeRegistration, form)
         return response.data

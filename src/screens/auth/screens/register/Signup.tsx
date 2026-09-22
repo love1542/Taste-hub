@@ -15,7 +15,7 @@ import SignupProfile from './components/SignupProfile';
 import VerifyOtp from './components/VerifyOtp';
 import { useVerifyOtp, useRegiserUser, useCompleteRegistration } from '../../hooks';
 import { signupStyles } from '../../styles';
-import { SignupForm, StepHandle } from '../../types/auth.types';
+import { StepHandle } from '../../types/auth.types';
 import { useTheme } from '../../../../constants/theme';
 import SignupWithEmail from './components/SignupWithEmail';
 import SignupWithPhone from './components/SignupWithPhone';
@@ -46,7 +46,7 @@ const Signup = () => {
   
   const [pickedImage, setPickedImage] = useState<PickedImage | undefined>(undefined)
 
-  const [signupData, setSignupData] = useState<SignupForm | undefined>()
+  const [otpMethod, setOtpMethod] = useState<string>("")
   const stepRef = useRef<StepHandle<any>>(null)
   const flow = SIGNUP_SCREENS[signupType]
   const currentStep = flow[step]
@@ -104,9 +104,14 @@ const Signup = () => {
 
       switch (currentStep) {
         case SignupStep.Credential:
+
+        let identifier = tab===0 ? result.email : result.phone
+
+        setOtpMethod(identifier)
+
           const request: RegisterRequest = {
             type: tab===0 ? "email" : "phone",
-            identifier: tab===0 ? result.email : result.phone,
+            identifier: identifier,
             password: tab===0 ? result.password : undefined
           }
           response = await registerMutation(request);
@@ -132,21 +137,46 @@ const Signup = () => {
           break
 
         case SignupStep.UserInfo:
-          // const finalData: SignupForm = {
-          //   ...signupData!,
-          //   ...result,
-          //   pickedImage,
-          // };
+
           const deviceId = await getDeviceId()
+
+          if (!pickedImage || (pickedImage.type === "uri" && !pickedImage.uri)) {
+            showToast({
+              message: "Please select a profile image",
+              type: "error"
+            })
+            return
+          }
+
+          let gender: CompleteRegistrationRequest['gender']
+
+          switch (String(result.gender)) {
+            case '1':
+              gender = 'male'
+              break
+            case '2':
+              gender = 'female'
+              break
+            case '3':
+              gender = 'other'
+              break
+            default:
+              showToast({
+                message: "Please select a valid gender",
+                type: "error"
+              })
+              return
+          }
 
           const completeRequest: CompleteRegistrationRequest = {
             dateOfBirth: result.dateOfBirth,
-             deviceId: deviceId,
+            deviceId,
             fullName: result.fullName,
-            gender: result.gender,
-            imageType: "default",
-            imageId: "id",
-            profileImage: "image"
+            gender,
+            imageType: pickedImage.type === "default" ? "default" : "uploaded",
+            ...(pickedImage.type === "default"
+              ? { imageId: pickedImage.id }
+              : { profileImage: pickedImage.uri })
           }
 
           response = await completeRegistrationMutation(completeRequest)
@@ -184,7 +214,7 @@ const Signup = () => {
       let randomImage = defaultImages?.data[Math.floor(Math.random() * defaultImages?.data.length)]
       setPickedImage( {id:randomImage?.id ?? "", type:"default" })
     }
-  },[defaultImages, pickImage])
+  }, [defaultImages, pickedImage])
 
   const renderScreen = () => {
     switch (currentStep) {
@@ -192,7 +222,7 @@ const Signup = () => {
         return cerdentialStep()
 
       case SignupStep.Verification:
-        return <VerifyOtp ref={stepRef} destination={step === 0 ? signupData?.email ?? "" : signupData?.phone ?? ""} resendPress={() => { }} />
+        return <VerifyOtp ref={stepRef} destination={otpMethod} resendPress={() => { }} />
 
       case SignupStep.UserInfo:
         return <SignupProfile ref={stepRef} img={pickedImage} onCameraPress={onCameraPress} />
