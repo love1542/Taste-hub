@@ -4,9 +4,9 @@ import { SelectionItem } from "../../components/singleSelection/SignleSelectionC
 export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const GENDER_SELECTIONS: SelectionItem[] = [
-        {id: '1', label: 'Male', icon: Mars},
-        {id: '2', label: 'Female', icon: Venus},
-        {id: '3', label: 'Others', icon: VenusAndMars}
+    {id: 'male', label: 'Male', icon: Mars},
+    {id: 'female', label: 'Female', icon: Venus},
+    {id: 'other', label: 'Other', icon: VenusAndMars}
     ]
 
 export const RESEND_TIME = 30;
