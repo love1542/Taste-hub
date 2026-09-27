@@ -8,10 +8,11 @@ import { phoneOtpSchema } from '../../../../../utilites/validation/authSchema'
 import AppButton from '../../../../../components/AppButton'
 import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
 import ResendOtp from '../../../components/ResendOtp'
-import { useloginVerifyOtp, useloginWithPhone } from '../../../hooks'
+import { uselogin, useloginVerifyOtp } from '../../../hooks'
 import { useToast } from '../../../../../components/toast'
 import { phoneformOtp } from '../../../types/auth.types'
 import { Check } from 'lucide-react-native'
+import { RegisterRequest } from '../../../../../api/dto/auth.dto'
 
 
 const PhoneLogin = () => {
@@ -19,7 +20,7 @@ const PhoneLogin = () => {
   const { palletteColors, scale, typography } = useTheme()
   const styles = phoneloginStyles(scale)
   const { showToast } = useToast()
-  const verifyNumber = useloginWithPhone()
+  const login = uselogin()
   const verifyotp = useloginVerifyOtp()
 
   const { control, getValues, formState, trigger } = useForm<phoneformOtp>({
@@ -31,7 +32,12 @@ const PhoneLogin = () => {
     if (!numberVerify) {
       let verify = await trigger('phone')
       if (verify) {
-        let response = await verifyNumber.mutateAsync(getValues("phone"))
+        const request: RegisterRequest = {
+          identifier: getValues("phone"),
+          type: "phone",
+        }
+        let response = await login.mutateAsync(request)
+
         if (response.success) {
           setNumberVerify(true)
           showToast({

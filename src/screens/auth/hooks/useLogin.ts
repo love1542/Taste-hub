@@ -1,30 +1,27 @@
 import { useMutation } from "@tanstack/react-query"
 import { loginWithEmail, loginWithPhone, loginAccountPhone } from "../services"
 import { useAuth } from "../../../hooks";
+import { authManager } from "../../../api/managers/authManager";
+import { TokenManager } from "../../../services/tokenManager/tokenManager";
 
-export const useEmailLogin = () => {
+export const uselogin = () => {
   const {login} = useAuth()
   return useMutation({
-    mutationFn: loginWithEmail,
+    mutationFn: authManager.login,
     onSuccess: (response) => {
-      const token = response.data?.token
-      const userId = response.data?.userId
+      const token = response.data.accessToken
+      TokenManager.saveAccessToken(token)
 
-      if (!token || !userId) {
-        console.log('Login response missing token/userId', response)
-        return 
-      }
-
-      login({ token, userId })
+      login({ token })
     }
   });
 };
 
-export const useloginWithPhone = () => {
-  return useMutation({
-    mutationFn: loginWithPhone
-  });
-};
+// export const useloginWithPhone = () => {
+//   return useMutation({
+//     mutationFn: loginWithPhone
+//   });
+// };
 
 export const useloginVerifyOtp = () => {
   const {login} = useAuth()
@@ -32,14 +29,13 @@ export const useloginVerifyOtp = () => {
     mutationFn: loginAccountPhone,
     onSuccess: (response) => {
       const token = response.data?.token
-      const userId = response.data?.userId
 
-      if (!token || !userId) {
+      if (!token ) {
         console.log('Login response missing token/userId', response)
         return 
       }
 
-      login({ token, userId })
+      login({ token })
     }
   });
 };

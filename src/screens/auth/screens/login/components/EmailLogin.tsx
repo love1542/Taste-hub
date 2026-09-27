@@ -8,24 +8,30 @@ import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { emailLoginSchema } from '../../../../../utilites/validation/authSchema'
 import { useToast } from '../../../../../components/toast'
-import { useEmailLogin } from '../../../hooks'
+import { uselogin } from '../../../hooks'
+import { RegisterRequest } from '../../../../../api/dto/auth.dto'
 
 
 const EmailLogin = () => {
   const { palletteColors, scale, typography } = useTheme()
   const styles = emailLoginStyles(scale)
-  const {showToast} = useToast()
+  const { showToast } = useToast()
 
   const { control, formState, handleSubmit } = useForm<EmailLoginForm>({
     resolver: zodResolver(emailLoginSchema),
     defaultValues: { email: "", password: "" }
   })
 
-  const {mutateAsync, isPending} = useEmailLogin()
+  const { mutateAsync, isPending } = uselogin()
 
   const handleloginPress = () => {
     handleSubmit(async (data) => {
-      const response = await mutateAsync(data)
+      const request: RegisterRequest = {
+        identifier: data.email,
+        type: "phone",
+        password: data.password
+      }
+      let response = await mutateAsync(request)
       if (response.success === true) {
         showToast({
           message: response.message,
@@ -37,7 +43,7 @@ const EmailLogin = () => {
           type: 'error'
         })
       }
-      })
+    })
   }
 
   return (
@@ -75,7 +81,7 @@ const EmailLogin = () => {
       <TouchableOpacity
         style={styles.resetPass}
       >
-        <Text style={[typography.subtitle, {color: palletteColors.appPrimary}]}>Forget Password</Text>
+        <Text style={[typography.subtitle, { color: palletteColors.appPrimary }]}>Forget Password</Text>
       </TouchableOpacity>
 
       <AppButton
@@ -83,7 +89,7 @@ const EmailLogin = () => {
         disabled={isPending}
         text={isPending ? "loading..." : "login"}
         colors={[palletteColors.appPrimary, palletteColors.appPrimary]}
-        textStyle={{color: palletteColors.white}}
+        textStyle={{ color: palletteColors.white }}
       />
     </View>
   )
@@ -92,16 +98,16 @@ const EmailLogin = () => {
 export default EmailLogin
 
 
-export const emailLoginStyles = (scale: LayoutScaleType) =>{
+export const emailLoginStyles = (scale: LayoutScaleType) => {
   return StyleSheet.create({
-    emailFieldsWrapper:{
+    emailFieldsWrapper: {
       backgroundColor: "white",
       padding: scale.ml_20,
       gap: scale.ml_20,
       borderRadius: 15
     },
-    resetPass:{
-      alignSelf:"flex-end"
+    resetPass: {
+      alignSelf: "flex-end"
     }
   })
 }

@@ -8,6 +8,7 @@ type AuthManagerType = {
     register: (data: RegisterRequest) => Promise<ApiResponse<RegisterResponse>>
     verifyOtp: (req: OtpVerifyRequest) => Promise<ApiResponse<OtpVerifyResponse>>
     completeRegistration: (req: CompleteRegistrationRequest) => Promise<ApiResponse<CompleteRegistrationResponse>>
+    login: (req: RegisterRequest) => Promise<ApiResponse<CompleteRegistrationResponse>>
 }
 
 export const authManager: AuthManagerType = {
@@ -42,6 +43,11 @@ export const authManager: AuthManagerType = {
         }
 
         const response = await ApiClient.post(END_POINT.auth.completeRegistration, form)
+        return response.data
+    },
+
+    login: async (req: RegisterRequest)=> {
+        const response = await ApiClient.post(END_POINT.auth.login, req)
         return response.data
     }
 }
