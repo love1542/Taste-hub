@@ -8,6 +8,20 @@ export interface RegisterResponse {
     user_id: string
 }
 
+export interface ForgotPasswordRequest {
+    type: "email"
+    identifier: string
+}
+
+export interface ResetPasswordRequest {
+    userId: string
+    newPassword: string
+}
+
+export interface ResetPasswordResponse {
+    message?: string
+}
+
 export interface OtpVerifyRequest {
     type: "phone" | "email";
     identifier: string;

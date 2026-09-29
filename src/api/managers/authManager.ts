@@ -1,6 +1,6 @@
 import { ApiResponse } from "../../utilites/apis/mockApi"
 import { ApiClient } from "../apiClient"
-import { CompleteRegistrationRequest, CompleteRegistrationResponse, OtpVerifyRequest, OtpVerifyResponse, RegisterRequest, RegisterResponse } from "../dto/auth.dto"
+import { CompleteRegistrationRequest, CompleteRegistrationResponse, ForgotPasswordRequest, OtpVerifyRequest, OtpVerifyResponse, RegisterRequest, RegisterResponse, ResetPasswordRequest, ResetPasswordResponse } from "../dto/auth.dto"
 import { END_POINT } from "../endPoint"
 
 
@@ -9,6 +9,8 @@ type AuthManagerType = {
     verifyOtp: (req: OtpVerifyRequest) => Promise<ApiResponse<OtpVerifyResponse>>
     completeRegistration: (req: CompleteRegistrationRequest) => Promise<ApiResponse<CompleteRegistrationResponse>>
     login: (req: RegisterRequest) => Promise<ApiResponse<CompleteRegistrationResponse>>
+    forgotPassword: (req: ForgotPasswordRequest) => Promise<ApiResponse<RegisterResponse>>
+    resetPassword: (req: ResetPasswordRequest & { accessToken: string }) => Promise<ApiResponse<ResetPasswordResponse>>
 }
 
 export const authManager: AuthManagerType = {
@@ -48,6 +50,18 @@ export const authManager: AuthManagerType = {
 
     login: async (req: RegisterRequest)=> {
         const response = await ApiClient.post(END_POINT.auth.login, req)
+        return response.data
+    },
+
+    forgotPassword: async (req: ForgotPasswordRequest) => {
+        const response = await ApiClient.post(END_POINT.auth.forgotPassword, req)
+        return response.data
+    },
+
+    resetPassword: async ({ accessToken, ...req }) => {
+        const response = await ApiClient.post(END_POINT.auth.resetPassword, req, {
+            headers: { Authorization: `Bearer ${accessToken}` }
+        })
         return response.data
     }
 }

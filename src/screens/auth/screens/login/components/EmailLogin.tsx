@@ -10,9 +10,14 @@ import { emailLoginSchema } from '../../../../../utilites/validation/authSchema'
 import { useToast } from '../../../../../components/toast'
 import { uselogin } from '../../../hooks'
 import { RegisterRequest } from '../../../../../api/dto/auth.dto'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { AuthStackParamList } from '../../../../../navigation/type'
+import { authRoutes } from '../../../../../constants/appConstants'
 
 
 const EmailLogin = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>()
   const { palletteColors, scale, typography } = useTheme()
   const styles = emailLoginStyles(scale)
   const { showToast } = useToast()
@@ -80,6 +85,7 @@ const EmailLogin = () => {
 
       <TouchableOpacity
         style={styles.resetPass}
+        onPress={() => navigation.navigate(authRoutes.forgotPassword)}
       >
         <Text style={[typography.subtitle, { color: palletteColors.appPrimary }]}>Forget Password</Text>
       </TouchableOpacity>

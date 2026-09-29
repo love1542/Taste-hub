@@ -53,6 +53,14 @@ export const emailLoginSchema = z.object({
     password: passwordSchema
 })
 
+export const resetPasswordSchema = z.object({
+  newPassword: passwordSchema,
+  confirmPassword: z.string().min(1, "Confirm password is required")
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+})
+
 export const phoneOtpSchema = z.object({
   phone: z.string()
     .min(10, "Enter valid number")
