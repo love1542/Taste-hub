@@ -25,7 +25,6 @@ export const useSignupFlow = () => {
 
   const [step, setStep] = useState<number>(0);
   const [tab, setTab] = useState<number>(0);
-  const [userId, setUserId] = useState<string>('');
   const [pickedImage, setPickedImage] = useState<PickedImage | undefined>(undefined);
   const [otpMethod, setOtpMethod] = useState<string>('');
 
@@ -95,8 +94,7 @@ export const useSignupFlow = () => {
     const response = await registerMutation(request);
 
     if (response.success) {
-      setUserId(response.data.user_id ?? '');
-      setStep(step + 2);
+      setStep((prev) => prev + 1);
     }
 
     return response;
@@ -104,16 +102,20 @@ export const useSignupFlow = () => {
 
   const handleOtpVerification = async (result: any) => {
     const verifyOtpRequest: OtpVerifyRequest = {
+      type: tab === 0 ? 'email' : 'phone',
+      identifier: otpMethod,
       otpCode: result.otp,
       purpose: tab === 0 ? 'register_email' : 'register_phone',
-      userId: userId,
     };
 
     const response = await verifyOtpMutation(verifyOtpRequest);
 
     if (response.success) {
-      TokenManager.saveAccessToken(response.data.access_token);
-      setStep(step + 1);
+      const accessToken = response.data?.access_token;
+      if (accessToken) {
+        TokenManager.saveAccessToken(accessToken);
+      }
+      setStep((prev) => prev + 1);
     }
 
     return response;

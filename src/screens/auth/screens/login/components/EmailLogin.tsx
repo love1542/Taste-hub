@@ -32,7 +32,7 @@ const EmailLogin = () => {
         password: data.password
       }
       let response = await mutateAsync(request)
-      if (response.success === true) {
+      if (response.success) {
         showToast({
           message: response.message,
           type: 'success'

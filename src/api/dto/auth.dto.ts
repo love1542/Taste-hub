@@ -9,7 +9,8 @@ export interface RegisterResponse {
 }
 
 export interface OtpVerifyRequest {
-    userId: string;
+    type: "phone" | "email";
+    identifier: string;
     otpCode: string;
     purpose: OtpPurpose;
     deviceId?: string;
@@ -18,7 +19,10 @@ export interface OtpVerifyRequest {
 export type OtpPurpose = "login_phone" | "login_email" | "reset_password" | "register_email" | "register_phone";
 
 export interface OtpVerifyResponse {
-    access_token: string
+    access_token?: string;
+    refresh_token?: string;
+    verified?: boolean;
+    message?: string;
 }
 
 export interface CompleteRegistrationRequest {

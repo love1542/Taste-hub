@@ -14,7 +14,7 @@ export const useVerifyOtp = () => {
     return useMutation({
         mutationFn: authManager.verifyOtp,
         onSuccess(data) {
-            TokenManager.saveAccessToken(data.data.access_token)
+            TokenManager.saveAccessToken(data.data.access_token ?? "")
         },
     })
 }

@@ -5,23 +5,10 @@ import { authManager } from "../../../api/managers/authManager";
 import { TokenManager } from "../../../services/tokenManager/tokenManager";
 
 export const uselogin = () => {
-  const {login} = useAuth()
   return useMutation({
     mutationFn: authManager.login,
-    onSuccess: (response) => {
-      const token = response.data.accessToken
-      TokenManager.saveAccessToken(token)
-
-      login({ token })
-    }
   });
 };
-
-// export const useloginWithPhone = () => {
-//   return useMutation({
-//     mutationFn: loginWithPhone
-//   });
-// };
 
 export const useloginVerifyOtp = () => {
   const {login} = useAuth()

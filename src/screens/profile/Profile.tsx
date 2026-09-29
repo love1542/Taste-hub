@@ -13,6 +13,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { AppStackParamList } from '../../navigation/type'
 import { useNavigation } from '@react-navigation/native'
 import { appRoutes } from '../../constants/appConstants'
+import AppButton from '../../components/AppButton'
 
 type NavigationType = NativeStackNavigationProp<AppStackParamList, 'EditProfile'>
 
@@ -21,15 +22,23 @@ const Profile = () => {
   const navigation = useNavigation<NavigationType>()
   const { palletteColors, scale, typography } = useTheme()
   const styles = profileStyle(palletteColors, scale)
-  const {userId} = useAuth()
-  const { data, isLoading } = useGetProfile(userId)
+  const { data, isLoading } = useGetProfile("")
 
   if (isLoading) {
     return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}> <ActivityIndicator /></View>
   }
 
   if (!data?.data) {
-    return <Text>Not PRofile fount</Text>
+    return (
+      <View style={styles.emptyStateContainer}>
+        <Text style={typography.title}>Profile not found</Text>
+        <AppButton
+          text="Logout"
+          onPress={logout}
+          style={styles.logoutButton}
+        />
+      </View>
+    )
   }
 
   const getGenderLabel = (gender?: string) => {
@@ -38,9 +47,9 @@ const Profile = () => {
     return found ? found.label : gender
   }
 
-  const editProfilePress = () =>{
+  const editProfilePress = () => {
     {
-      data.data && navigation.navigate(appRoutes.editProfile, {profileData: data.data})
+      data.data && navigation.navigate(appRoutes.editProfile, { profileData: data.data })
     }
   }
 
@@ -76,9 +85,9 @@ const Profile = () => {
             iconSize={20}
             iconColor={palletteColors.white}
             size={45}
-            borderRadius={20} 
+            borderRadius={20}
             onpress={editProfilePress}
-            />
+          />
 
         </View>
 
@@ -228,6 +237,17 @@ const profileStyle = (color: palleteColorsType, scale: LayoutScaleType) => {
     },
     borderColor: {
       backgroundColor: color.appD4D4D4
+    },
+    emptyStateContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: scale.md_16,
+      gap: scale.sm_8,
+    },
+    logoutButton: {
+      width: '100%',
+      marginTop: scale.sm_8,
     }
   })
 }
