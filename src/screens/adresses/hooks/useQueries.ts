@@ -2,9 +2,10 @@ import { useQuery } from "@tanstack/react-query"
 import { userManager } from "../../../api/managers/userManager"
 import { QUERY_KEYS } from "../../../constants/appConstants/qurryKeys"
 
-export const useGetProfile = (userID: string) => {
-return useQuery({
-    queryKey: QUERY_KEYS.profile(userID),
-    queryFn: () => userManager.getProfile(userID)
-})
+export const useGetAddress = () => {
+
+    return useQuery({
+        queryKey: QUERY_KEYS.allAddress,
+        queryFn: () => userManager.getDeliveryAddresses()
+    })
 }

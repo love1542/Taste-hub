@@ -9,8 +9,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useNavigation } from '@react-navigation/native'
 import { ADD_ADDRESS_TYPE, AppStackParamList } from '../../navigation/type'
 import { appRoutes } from '../../constants/appConstants'
-import { useGetAddress } from './hooks/querryHooks'
-import { useDeleteAddress, useSetDefaultAddress } from './hooks/mutationHooks'
+import { useGetAddress } from './hooks/useQueries'
+import { useDeleteAddress, useSetDefaultAddress } from './hooks/useMutations'
 
 
 type NavigationType = NativeStackNavigationProp<AppStackParamList , typeof appRoutes.manageAdress>

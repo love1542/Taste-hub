@@ -40,3 +40,8 @@ export interface CompleteRegistrationResponse {
     accessToken: string
     refreshToken: string
 }
+
+export interface RefreshTokenRequest {
+    refreshToken: string
+    deviceId: string
+}

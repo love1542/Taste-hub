@@ -1,6 +1,6 @@
 import { ApiResponse } from "../../utilites/apis/mockApi"
 import { ApiClient } from "../apiClient"
-import { CompleteRegistrationRequest, CompleteRegistrationResponse, OtpVerifyRequest, OtpVerifyResponse, RegisterRequest, RegisterResponse } from "../dto/auth.dto"
+import { CompleteRegistrationRequest, CompleteRegistrationResponse, OtpVerifyRequest, OtpVerifyResponse, RefreshTokenRequest, RegisterRequest, RegisterResponse } from "../dto/auth.dto"
 import { END_POINT } from "../endPoint"
 
 
@@ -9,6 +9,7 @@ type AuthManagerType = {
     verifyOtp: (req: OtpVerifyRequest) => Promise<ApiResponse<OtpVerifyResponse>>
     completeRegistration: (req: CompleteRegistrationRequest) => Promise<ApiResponse<CompleteRegistrationResponse>>
     login: (req: RegisterRequest) => Promise<ApiResponse<CompleteRegistrationResponse>>
+    refreshToken: (req: RefreshTokenRequest) => Promise<ApiResponse<CompleteRegistrationResponse>>
 }
 
 export const authManager: AuthManagerType = {
@@ -48,6 +49,11 @@ export const authManager: AuthManagerType = {
 
     login: async (req: RegisterRequest)=> {
         const response = await ApiClient.post(END_POINT.auth.login, req)
+        return response.data
+    },
+
+    refreshToken: async (req: RefreshTokenRequest) => {
+        const response = await ApiClient.post(END_POINT.auth.refreshToken, req)
         return response.data
     }
 }

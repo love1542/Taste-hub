@@ -15,7 +15,7 @@ import AppHeader from '../../components/AppHeader';
 import AppButton from '../../components/AppButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AddressCell from '../adresses/components/AddressCell';
-import { useAddAddress } from '../adresses/hooks/mutationHooks';
+import { useAddAddress } from '../adresses/hooks/useMutations';
 
 type RouteProps = RouteProp<
   AppStackParamList,

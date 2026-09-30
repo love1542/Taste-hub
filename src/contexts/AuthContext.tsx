@@ -1,7 +1,8 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
-import { loginUserStorage } from '../screens/auth/types/auth.types'
 import { STORAGE_KEYS, storageService } from '../services/storageService'
 import { TokenManager } from '../services/tokenManager/tokenManager'
+import { authManager } from '../api/managers/authManager'
+import { getDeviceId } from '../utilites/helper/deviceInfo'
 
 type AuthContextType = {
     isLoading: boolean
@@ -28,14 +29,31 @@ export const AuthProvider = ({ children }: AuthPropiderProps) => {
             setIsloading(true);
 
             try {
-                const token = await TokenManager.getRefreshToken()
+                const refreshToken = await TokenManager.getRefreshToken()
+
+                if (refreshToken) {
+                    setIsLogin(true)
+                    const deviceId = await getDeviceId()
+                    const response = await authManager.refreshToken({ refreshToken, deviceId })
+                    const tokens = response.data
+
+                    if (response.success && tokens?.accessToken && tokens?.refreshToken) {
+                        TokenManager.saveAccessToken(tokens.accessToken)
+                        await TokenManager.saveRefreshToken(tokens.refreshToken)
+                        setIsLogin(true)
+                    } else {
+                        await TokenManager.clearTokens()
+                        setIsLogin(false)
+                    }
+                } else {
+                    setIsLogin(false)
+                }
 
                 const onboarding =
                     (await storageService.get<boolean>(
                         STORAGE_KEYS.showOnboarding
                     )) ?? true;
  
-                setIsLogin(!!token);
                 setshowOnboarding(onboarding);
             } catch (error) {
                 console.log(error);
@@ -48,14 +66,11 @@ export const AuthProvider = ({ children }: AuthPropiderProps) => {
     }, []);
 
     const login = async (refreshToken: string) => {
-        setIsloading(true)
         try {
             await TokenManager.saveRefreshToken(refreshToken)
             setIsLogin(true)
         } catch (error) {
             console.log(error)
-        } finally {
-            setIsloading(false)
         }
     }
 

@@ -17,7 +17,7 @@ import { LayoutScaleType, palleteColorsType, useTheme, } from '../../constants/t
 import { AppStackParamList } from '../../navigation/type'
 import { AddAddressForm, AddressLabel, DeliveryAddress } from './types/adress.type'
 import { addAddressSchema, AddAddressFormSchema } from '../../utilites/validation/addressSchema'
-import { useAddAddress } from './hooks/mutationHooks'
+import { useAddAddress } from './hooks/useMutations'
 import SearchLocationSheet from '../../components/SearchLocationSheet'
 import { getLocationsWithQuery } from '../../services/locationService'
 import { useToast } from '../../components/toast'

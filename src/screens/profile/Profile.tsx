@@ -14,6 +14,7 @@ import { AppStackParamList } from '../../navigation/type'
 import { useNavigation } from '@react-navigation/native'
 import { appRoutes } from '../../constants/appConstants'
 import AppButton from '../../components/AppButton'
+import { useGetAddress } from '../adresses/hooks/useQueries'
 
 type NavigationType = NativeStackNavigationProp<AppStackParamList, 'EditProfile'>
 
@@ -23,6 +24,8 @@ const Profile = () => {
   const { palletteColors, scale, typography } = useTheme()
   const styles = profileStyle(palletteColors, scale)
   const { data, isLoading } = useGetProfile("")
+  const { data: addressResponse } = useGetAddress()
+  const defaultAddress = addressResponse?.data?.find(address => address.isDefault)
 
   if (isLoading) {
     return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}> <ActivityIndicator /></View>
@@ -49,7 +52,17 @@ const Profile = () => {
 
   const editProfilePress = () => {
     {
-      data.data && navigation.navigate(appRoutes.editProfile, { profileData: data.data })
+      data.data && navigation.navigate(appRoutes.editProfile, {
+        profileData: {
+          id: data.data.userId,
+          email: data.data.email ?? undefined,
+          phone: data.data.phone ?? undefined,
+          image: data.data.imageUrl ? { type: 'uri', uri: data.data.imageUrl } : undefined,
+          fullName: data.data.fullName,
+          dateOfBirth: data.data.dateOfBirth ?? '',
+          gender: data.data.gender ?? '',
+        },
+      })
     }
   }
 
@@ -71,7 +84,7 @@ const Profile = () => {
 
           <View style={styles.headerLeft}>
             <ImagePicker
-              image={data.data.image}
+              image={data.data.imageUrl ? { type: 'uri', uri: data.data.imageUrl } : undefined}
               height={scale.avatarMD_70}
               width={scale.avatarMD_70}
             />
@@ -150,7 +163,9 @@ const Profile = () => {
           <AccountInfoCell
             icon={MapPin}
             title="Manage Addresses"
-            value='Add,edit or remove addresses'
+            value={defaultAddress
+              ? `${defaultAddress.addressLine}, ${defaultAddress.city}`
+              : 'Add, edit or remove addresses'}
             onpress={manageAdressPress}
           />
         </View>
