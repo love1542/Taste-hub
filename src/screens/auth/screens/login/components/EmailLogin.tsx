@@ -10,12 +10,16 @@ import { emailLoginSchema } from '../../../../../utilites/validation/authSchema'
 import { useToast } from '../../../../../components/toast'
 import { uselogin } from '../../../hooks'
 import { RegisterRequest } from '../../../../../api/dto/auth.dto'
+import { useAuth } from '../../../../../hooks'
+import { TokenManager } from '../../../../../services/tokenManager/tokenManager'
+import { getDeviceId } from '../../../../../utilites/helper/deviceInfo'
 
 
 const EmailLogin = () => {
   const { palletteColors, scale, typography } = useTheme()
   const styles = emailLoginStyles(scale)
   const { showToast } = useToast()
+  const { login: authLogin } = useAuth()
 
   const { control, formState, handleSubmit } = useForm<EmailLoginForm>({
     resolver: zodResolver(emailLoginSchema),
@@ -24,27 +28,32 @@ const EmailLogin = () => {
 
   const { mutateAsync, isPending } = uselogin()
 
-  const handleloginPress = () => {
-    handleSubmit(async (data) => {
+  const handleloginPress = handleSubmit(async (data) => {
+      const deviceId = await getDeviceId()
       const request: RegisterRequest = {
         identifier: data.email,
-        type: "phone",
-        password: data.password
+        type: "email",
+        password: data.password,
+        deviceId
       }
-      let response = await mutateAsync(request)
-      if (response.success) {
+      const response = await mutateAsync(request)
+      const accessToken = response.data?.accessToken
+      const refreshToken = response.data?.refreshToken
+
+      if (response.success && accessToken && refreshToken) {
+        TokenManager.saveAccessToken(accessToken)
+        await authLogin(refreshToken)
         showToast({
           message: response.message,
           type: 'success'
         })
       } else {
         showToast({
-          message: response.message,
+          message: response.success ? 'server response error' : response.message,
           type: 'error'
         })
       }
     })
-  }
 
   return (
     <View style={styles.emailFieldsWrapper}>

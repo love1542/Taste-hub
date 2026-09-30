@@ -3,7 +3,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const STORAGE_KEYS = {
     showOnboarding: '@onboarding',
     allUsers: '@allUsers',
-    loginUser: '@loginUser',
     locations: '@locations',
     adresses: '@adresses',
 } as const;

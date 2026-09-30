@@ -1,13 +1,14 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
 import { loginUserStorage } from '../screens/auth/types/auth.types'
 import { STORAGE_KEYS, storageService } from '../services/storageService'
+import { TokenManager } from '../services/tokenManager/tokenManager'
 
 type AuthContextType = {
     isLoading: boolean
     isLogin: boolean
     showOnboarding: boolean
     completeOnboarding: () => Promise<void>
-    login: (user: loginUserStorage) => void
+    login: (refreshToken: string) => Promise<void>
     logout: () => void
 }
 
@@ -27,9 +28,7 @@ export const AuthProvider = ({ children }: AuthPropiderProps) => {
             setIsloading(true);
 
             try {
-                const token = await storageService.get<loginUserStorage>(
-                    STORAGE_KEYS.loginUser
-                );
+                const token = await TokenManager.getRefreshToken()
 
                 const onboarding =
                     (await storageService.get<boolean>(
@@ -48,10 +47,10 @@ export const AuthProvider = ({ children }: AuthPropiderProps) => {
         bootstrap();
     }, []);
 
-    const login = async (user: loginUserStorage) => {
+    const login = async (refreshToken: string) => {
         setIsloading(true)
         try {
-            await storageService.set<loginUserStorage>(STORAGE_KEYS.loginUser, user)
+            await TokenManager.saveRefreshToken(refreshToken)
             setIsLogin(true)
         } catch (error) {
             console.log(error)
@@ -62,7 +61,7 @@ export const AuthProvider = ({ children }: AuthPropiderProps) => {
 
     const logout = async () => {
         try {
-            await storageService.remove(STORAGE_KEYS.loginUser)
+            await TokenManager.clearTokens()
             setIsLogin(false)
         } catch (error) {
             console.log(error)

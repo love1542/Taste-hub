@@ -4,7 +4,7 @@ import { TokenManager } from '../services/tokenManager/tokenManager'
 
 export const ApiClient: AxiosInstance = axios.create({
     baseURL: Config.API_BASE_URL,
-    timeout: 1500,
+    timeout: 3000,
 })
 
 ApiClient.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {

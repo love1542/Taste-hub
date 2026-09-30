@@ -5,7 +5,7 @@ import { PickedImage } from '../../../components/imagePicker/types/imagePicker.t
 import { useImagePicker, ImagePickerType } from '../../../components/imagePicker/useImagePicker';
 import { useAppBottomSheet } from '../../../components/bottomSheet/hooks/useAppBottomSheet';
 import { useToast } from '../../../components/toast';
-import { useVerifyOtp, useRegiserUser, useCompleteRegistration } from './index';
+import { useRegiserUser, useCompleteRegistration } from './index';
 import { useGetDefaultImages } from '../../../hooks';
 import { AuthStackParamList } from '../../../navigation/type';
 import { StepHandle } from '../types/auth.types';
@@ -14,6 +14,7 @@ import { authRoutes } from '../../../constants/appConstants';
 import { CompleteRegistrationRequest, OtpVerifyRequest, RegisterRequest} from '../../../api/dto/auth.dto';
 import { TokenManager } from '../../../services/tokenManager/tokenManager';
 import { getDeviceId } from '../../../utilites/helper/deviceInfo';
+import { useVerifyOtp } from '../../../hooks/useMutation';
 
 type SignupRouteProp = RouteProp<AuthStackParamList, typeof authRoutes.signup>;
 type SignupNavigationProp = NativeStackNavigationProp<AuthStackParamList, typeof authRoutes.signup>;

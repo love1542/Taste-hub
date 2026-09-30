@@ -8,11 +8,14 @@ import { phoneOtpSchema } from '../../../../../utilites/validation/authSchema'
 import AppButton from '../../../../../components/AppButton'
 import { LayoutScaleType, useTheme } from '../../../../../constants/theme'
 import ResendOtp from '../../../components/ResendOtp'
-import { uselogin, useloginVerifyOtp } from '../../../hooks'
+import { uselogin } from '../../../hooks'
 import { useToast } from '../../../../../components/toast'
 import { phoneformOtp } from '../../../types/auth.types'
 import { Check } from 'lucide-react-native'
-import { RegisterRequest } from '../../../../../api/dto/auth.dto'
+import { OtpVerifyRequest, RegisterRequest } from '../../../../../api/dto/auth.dto'
+import { useVerifyOtp } from '../../../../../hooks/useMutation'
+import { getDeviceId } from '../../../../../utilites/helper/deviceInfo'
+import { useAuth } from '../../../../../hooks'
 
 
 const PhoneLogin = () => {
@@ -21,7 +24,8 @@ const PhoneLogin = () => {
   const styles = phoneloginStyles(scale)
   const { showToast } = useToast()
   const login = uselogin()
-  const verifyotp = useloginVerifyOtp()
+  const {login: authLoin} = useAuth()
+  const verifyotp = useVerifyOtp()
 
   const { control, getValues, formState, trigger } = useForm<phoneformOtp>({
     resolver: zodResolver(phoneOtpSchema),
@@ -55,11 +59,18 @@ const PhoneLogin = () => {
     } else {
       let verify = await trigger('otp')
       if (verify) {
-        let response = await verifyotp.mutateAsync({
-          otp: getValues('otp'),
-          phone: getValues("phone")
-        })
-        if (response.success) {
+        const deviceId = await getDeviceId()
+        const otpRequst: OtpVerifyRequest = {
+          identifier: getValues("phone"),
+          otpCode: getValues('otp'),
+          purpose: 'login_phone',
+          type: 'phone',
+          deviceId: deviceId
+        }
+        let response = await verifyotp.mutateAsync(otpRequst)
+        
+        if (response.success && response.data.refresh_token) {
+          authLoin(response.data.refresh_token)
           showToast({
             message: response.message,
             type: 'success'

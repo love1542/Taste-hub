@@ -2,6 +2,7 @@ export interface RegisterRequest {
     type: "phone" | "email"
     identifier: string
     password?: string
+    deviceId?: string
 }
 
 export interface RegisterResponse {
@@ -37,4 +38,5 @@ export interface CompleteRegistrationRequest {
 
 export interface CompleteRegistrationResponse {
     accessToken: string
+    refreshToken: string
 }

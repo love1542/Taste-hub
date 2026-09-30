@@ -10,20 +10,20 @@ export const uselogin = () => {
   });
 };
 
-export const useloginVerifyOtp = () => {
-  const {login} = useAuth()
-  return useMutation({
-    mutationFn: loginAccountPhone,
-    onSuccess: (response) => {
-      const token = response.data?.token
+// export const useloginVerifyOtp = () => {
+//   const {login} = useAuth()
+//   return useMutation({
+//     mutationFn: loginAccountPhone,
+//     onSuccess: (response) => {
+//       const token = response.data?.token
 
-      if (!token ) {
-        console.log('Login response missing token/userId', response)
-        return 
-      }
+//       if (!token ) {
+//         console.log('Login response missing token/userId', response)
+//         return 
+//       }
 
-      login({ token })
-    }
-  });
-};
+//       login({ token })
+//     }
+//   });
+// };
 
