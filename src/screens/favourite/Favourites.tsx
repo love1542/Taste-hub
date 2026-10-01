@@ -9,6 +9,7 @@ import { AppStackParamList } from '../../navigation/type'
 import { appRoutes } from '../../constants/appConstants'
 import { Restaurant } from '../../data/types'
 import RestaurantCell from '../home/components/RestaurantCell'
+import { RestaurantCellModel } from '../home/components/RestaurantCell'
 import { useGetFavourites } from './hooks/useFavouriteQueries'
 import { useToggleFavourite } from './hooks/useFavouriteMutations'
 
@@ -24,6 +25,16 @@ const Favourites = () => {
 
     const [localFavourites, setLocalFavourites] = useState<Restaurant[] | null>(null)
     const restaurants: Restaurant[] = localFavourites ?? data?.data ?? []
+    const restaurantCards: RestaurantCellModel[] = restaurants.map(restaurant => ({
+        restaurantId: restaurant.id,
+        name: restaurant.name,
+        coverImage: restaurant.coverImage ?? restaurant.logo,
+        isOpen: restaurant.isOpen,
+        isFavourite: restaurant.isFavourite,
+        rating: restaurant.rating,
+        address: restaurant.address,
+        deliveryEstimate: `Delivery ${restaurant.estimatedDeliveryTime} mins`,
+    }))
 
     const handleToggle = async (id: string) => {
         setLocalFavourites(restaurants.filter(r => r.id !== id))
@@ -82,8 +93,8 @@ const Favourites = () => {
             </SafeAreaView>
 
             <FlatList
-                data={isLoading ? [] : restaurants}
-                keyExtractor={item => item.id}
+                data={isLoading ? [] : restaurantCards}
+                keyExtractor={item => item.restaurantId}
                 contentContainerStyle={styles.list}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (

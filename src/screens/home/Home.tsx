@@ -6,10 +6,13 @@ import SearchField from '../../components/searchField/SearchField';
 import LocationPickerSheet from './components/LocationPickerSheet';
 import SingleSelectionChips, { SelectionItem } from '../../components/singleSelection/SignleSelectionChips';
 import { cuisines } from '../../data/cuisines.data';;
+import { RestaurantModel } from '../../api/dto/restaurants.dto';
 import RestaurantCell from './components/RestaurantCell';
-import { CuisineId, Restaurant } from '../../data/types';
+import { RestaurantCellModel } from './components/RestaurantCell';
+import { CuisineId } from '../../data/types';
 import { useGetRestaurants } from './hooks/useQurrys';
 import { useToggleFavourite } from './hooks/useMutation';
+import { useDebounce } from '../../hooks/useDebounce';
 import { useLocation } from '../../hooks/useLocation';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppStackParamList, ADD_ADDRESS_TYPE } from '../../navigation/type';
@@ -21,51 +24,58 @@ type NavigationProps = NativeStackNavigationProp<AppStackParamList, typeof appRo
 const Home = () => {
   const navigation = useNavigation<NavigationProps>()
   const [query, setQuery] = useState('')
+  const search = useDebounce(query.trim(), 500)
   const { open, close } = useAppBottomSheet()
   const [cuisine, setCuisine] = useState<CuisineId | undefined>(undefined);
-  const [page, setPage] = useState<number>(0)
-  const { data, isLoading, isError } = useGetRestaurants({ page, limit: 5, cuisine: cuisine });
+  const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } = useGetRestaurants({
+    limit: 10,
+    search: search || undefined,
+    sortBy: 'name',
+    sortOrder: 'ASC',
+  });
   const { mutateAsync, data: toggleFavouriteRestaurant } = useToggleFavourite()
-  const [restaurants, setRestaurants] = useState<Restaurant[]>([])
+  const restaurants: RestaurantModel[] = data?.pages.flatMap(page => page.data.items) ?? []
+  const [favouriteOverrides, setFavouriteOverrides] = useState<Record<string, boolean>>({})
   const { refreshCurrentLocation } = useLocation()
   const [selectedAddress, setSelectedAddress] = useState<{ label: string; addressLine: string } | null>(null)
 
   useEffect(() => {
     refreshCurrentLocation();
-  }, []);
-
-  useEffect(() => {
-    const nextRestaurants = data?.data ?? [];
-
-    if (page === 0) {
-      setRestaurants(nextRestaurants);
-    } else {
-      setRestaurants(prev => {
-        const existingIds = new Set(prev.map(r => r.id));
-        const unique = nextRestaurants.filter(r => !existingIds.has(r.id));
-        return [...prev, ...unique];
-      });
-    }
-
-  }, [data]);
-
-
+  }, [refreshCurrentLocation]);
 
   const cips: SelectionItem<CuisineId>[] = cuisines.map((value) => ({
     id: value.id as CuisineId,
     label: value.name,
   }));
 
+  const visibleRestaurants = cuisine
+    ? restaurants.filter(restaurant => restaurant.cuisines.some(item => item.id === cuisine))
+    : restaurants;
+  const restaurantsWithFavouriteOverrides: RestaurantCellModel[] = visibleRestaurants.map(restaurant => ({
+    restaurantId: restaurant.restaurantId,
+    name: restaurant.name,
+    coverImage: restaurant.coverImage,
+    isOpen: restaurant.isOpen,
+    isFavourite: favouriteOverrides[restaurant.restaurantId] ?? restaurant.isFavourite,
+    rating: restaurant.rating,
+    address: [restaurant.location?.area, restaurant.location?.city, restaurant.location?.state].filter(Boolean).join(', ') || 'Location unavailable',
+    deliveryEstimate: restaurant.minDeliveryMinutes != null && restaurant.maxDeliveryMinutes != null
+      ? `Delivery ${restaurant.minDeliveryMinutes}-${restaurant.maxDeliveryMinutes} mins`
+      : 'Delivery time unavailable',
+  }))
+
   const handleToggleFavourite = async (id: string) => {
     console.log('toggle favourite pressed', id);
     console.log('response ', toggleFavouriteRestaurant)
     try {
       await mutateAsync(id);
-      setRestaurants(prevRestaurants =>
-        prevRestaurants.map(restaurant =>
-          restaurant.id === id ? { ...restaurant, isFavourite: !restaurant.isFavourite } : restaurant
-        )
-      );
+      const restaurant = restaurants.find(item => item.restaurantId === id)
+      if (restaurant) {
+        setFavouriteOverrides(previous => ({
+          ...previous,
+          [id]: !(previous[id] ?? restaurant.isFavourite ?? false),
+        }))
+      }
     } catch (error) {
       console.error('Error toggling favourite:', error);
     }
@@ -102,22 +112,22 @@ const Home = () => {
 
   return (
     <FlatList
-      data={restaurants}
-      keyExtractor={(item) => item.id}
+      data={restaurantsWithFavouriteOverrides}
+      keyExtractor={(item) => item.restaurantId}
       initialNumToRender={8}
       maxToRenderPerBatch={8}
       onEndReached={
         () => {
-          if (data?.pagination.hasNextPage) {
-            setPage(prev => prev + 1)
+          if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage()
           }
         }
       }
       renderItem={({ item, index }) =>
         <View style={{ marginBottom: 16 }}>
-          <RestaurantCell key={index} data={item}
+            <RestaurantCell key={index} data={item}
             favPress={handleToggleFavourite}
-            onCellPress={() => { navigation.navigate(appRoutes.RestaurantDetail, { restaurantId: item.id }) }} />
+            onCellPress={() => { navigation.navigate(appRoutes.RestaurantDetail, { restaurantId: item.restaurantId }) }} />
         </View>
       }
       ListHeaderComponent={
@@ -126,7 +136,6 @@ const Home = () => {
           <SingleSelectionChips configs={cips} scrolling={true}
             onSelectionChange={(items) => {
               setCuisine(items);
-              setPage(0)
             }} />
         </View>
       }
@@ -143,7 +152,7 @@ const Home = () => {
       }
 
       ListFooterComponent={
-        (isLoading && restaurants.length > 1) ? <ActivityIndicator style={{ paddingTop: 20 }} /> : null
+        isFetchingNextPage ? <ActivityIndicator style={{ paddingTop: 20 }} /> : null
       }
     />
 

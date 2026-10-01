@@ -15,5 +15,8 @@ export const END_POINT = {
     },
     addresses: {
         get: "addresses"
+    },
+    restaurants: {
+        get: "restaurants"
     }
 }

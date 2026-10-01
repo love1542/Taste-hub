@@ -1,13 +1,23 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { Restaurant } from '../../../data/types'
 import { LayoutScaleType, palleteColorsType, useTheme } from '../../../constants/theme'
 import IconButton from '../../../components/IconButton'
 import { Heart, Star } from 'lucide-react-native'
 import AppButton from '../../../components/AppButton'
 
+export type RestaurantCellModel = {
+    restaurantId: string;
+    name: string;
+    coverImage: string | null;
+    isOpen: boolean;
+    isFavourite: boolean;
+    rating: number;
+    address: string;
+    deliveryEstimate: string;
+}
+
 type RestaurantCellProps = {
-    data: Restaurant
+    data: RestaurantCellModel
     favPress: (id: string) => void
     onCellPress: (id: string) => void
 }
@@ -17,8 +27,8 @@ const RestaurantCell = ({ data, favPress, onCellPress }: RestaurantCellProps) =>
     const styles = cellStyles(palletteColors, scale)
 
     return (
-        <TouchableOpacity style={styles.container} onPress={() => onCellPress(data.id)}>
-            <Image source={{ uri: data.logo }} style={styles.image} resizeMode="stretch" />
+        <TouchableOpacity style={styles.container} onPress={() => onCellPress(data.restaurantId)}>
+            <Image source={{ uri: data.coverImage ?? undefined }} style={styles.image} resizeMode="stretch" />
             <View style={styles.overlay}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     
@@ -35,7 +45,7 @@ const RestaurantCell = ({ data, favPress, onCellPress }: RestaurantCellProps) =>
                         size={40}
                         borderRadius={scale.ms_12}
                         iconFillColor={data.isFavourite ? palletteColors.appPrimary : 'none'}
-                        onpress={() => favPress(data.id)}
+                        onpress={() => favPress(data.restaurantId)}
                     />
                 </View>
             </View>
@@ -43,7 +53,7 @@ const RestaurantCell = ({ data, favPress, onCellPress }: RestaurantCellProps) =>
                 <View>
                     <Text style={styles.nameText}>{data.name}</Text>
                     <Text style={styles.metaText}>{data.address}</Text>
-                    <Text style={styles.metaText}>Delivery {data.estimatedDeliveryTime} mins</Text>
+                    <Text style={styles.metaText}>{data.deliveryEstimate}</Text>
                 </View>
 
                 <View style={styles.rattingWrapper}>
